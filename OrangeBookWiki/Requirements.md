@@ -18,6 +18,7 @@ following endpoints.
 ### Create transaction
 This endpoint will receive the transaction information and store it into the system.
 It is IMPORTANT to note that a transaction that leaves the total account balance bellow 0 is not allowed.
+<pre>
 Payload:
 {
 "reference":"12345A"
@@ -27,6 +28,7 @@ Payload:
 "fee":3.18,
 "description":"Restaurant payment"
 }
+</pre>
 - reference (optional): The transaction unique reference number in our system. If not present, the system
 will generate one.
 - account_iban (mandatory): The IBAN number of the account where the transaction has happened.
