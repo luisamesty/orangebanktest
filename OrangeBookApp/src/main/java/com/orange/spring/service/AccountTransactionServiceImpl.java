@@ -3,11 +3,14 @@ package com.orange.spring.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.orange.spring.dao.AccountTransactionDao;
 import com.orange.spring.model.AccountTransaction;
 
+@Service
+@Transactional(readOnly = true)
 public class AccountTransactionServiceImpl implements AccountTransactionService  {
 
 	@Autowired

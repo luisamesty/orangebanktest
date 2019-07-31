@@ -1,6 +1,5 @@
 package com.orange.spring.dao;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;

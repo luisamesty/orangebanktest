@@ -13,7 +13,7 @@ public class AccountTransaction {
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		Long id;
-		Account account_id;
+		Long account_id;
 		String reference;
 		String account_iban;
 		Timestamp date;
@@ -22,7 +22,7 @@ public class AccountTransaction {
 		String description;
 		
 		/* Constructor */
-		public AccountTransaction(Long id, Account account_id, String reference, String account_iban, Timestamp date,
+		public AccountTransaction(Long id, Long account_id, String reference, String account_iban, Timestamp date,
 				BigDecimal amount, BigDecimal fee, String description) {
 			super();
 			this.id = id;
@@ -41,10 +41,10 @@ public class AccountTransaction {
 		public void setId(Long id) {
 			this.id = id;
 		}
-		public Account getAccount_ID() {
+		public Long getAccount_ID() {
 			return account_id;
 		}
-		public void setAccount_ID(Account account_id) {
+		public void setAccount_ID(Long account_id) {
 			this.account_id = account_id;
 		}
 		public String getReference() {
@@ -90,6 +90,4 @@ public class AccountTransaction {
 					+ ", account_iban=" + account_iban + ", date=" + date + ", amount=" + amount + ", fee=" + fee
 					+ ", description=" + description + "]";
 		}
-
-
 }

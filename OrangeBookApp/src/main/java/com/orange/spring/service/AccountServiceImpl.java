@@ -13,7 +13,6 @@ import com.orange.spring.model.Account;
 @Transactional(readOnly = true)
 public class AccountServiceImpl implements AccountService  {
 
-		
 	@Autowired
 	private AccountDao accountDao;
 	

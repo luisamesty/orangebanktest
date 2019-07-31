@@ -1,7 +1,5 @@
 package com.orange.spring.dao;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -12,10 +10,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-import com.orange.spring.model.Account;
 import com.orange.spring.model.AccountTransaction;
 
+@Repository
 public class AccountTransactionDaoImpl implements AccountTransactionDao {
 
 	@Autowired
