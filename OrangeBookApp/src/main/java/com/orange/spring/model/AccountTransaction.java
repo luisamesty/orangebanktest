@@ -12,7 +12,7 @@ import javax.persistence.Id;
 public class AccountTransaction {
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
-		int id;
+		Long id;
 		Account account_id;
 		String reference;
 		String account_iban;
@@ -22,11 +22,11 @@ public class AccountTransaction {
 		String description;
 		
 		/* Constructor */
-		public AccountTransaction(int id, Account account_id, String reference, String account_iban, Timestamp date,
+		public AccountTransaction(Long id, Account account_id, String reference, String account_iban, Timestamp date,
 				BigDecimal amount, BigDecimal fee, String description) {
 			super();
 			this.id = id;
-			account_id = account_id;
+			this.account_id = account_id;
 			this.reference = reference;
 			this.account_iban = account_iban;
 			this.date = date;
@@ -35,17 +35,17 @@ public class AccountTransaction {
 			this.description = description;
 		}
 
-		public int getId() {
+		public Long getId() {
 			return id;
 		}
-		public void setId(int id) {
+		public void setId(Long id) {
 			this.id = id;
 		}
 		public Account getAccount_ID() {
 			return account_id;
 		}
 		public void setAccount_ID(Account account_id) {
-			account_id = account_id;
+			this.account_id = account_id;
 		}
 		public String getReference() {
 			return reference;

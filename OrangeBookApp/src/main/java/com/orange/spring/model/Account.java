@@ -12,13 +12,13 @@ public class Account {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int id;
+	Long id;
 	String name;
 	String account_iban;
 	BigDecimal balance;
 	
 	/* Constructor */
-	public Account(int id, String name, String account_iban, BigDecimal balance) {
+	public Account(Long id, String name, String account_iban, BigDecimal balance) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -26,10 +26,10 @@ public class Account {
 		this.balance = balance;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getName() {
