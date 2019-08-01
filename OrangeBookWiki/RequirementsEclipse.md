@@ -1,6 +1,5 @@
 ## Code Challenge (ECLIPSE DEVELOPMENT IDE)
-The goal of this code challenge is to create a microservice using Java and any framework that you think it is
-appropriate.
+The goal of this code challenge is to create a microserviceTest APP using Java and Docker Containers using a PostgreSQL Database.
 ## Return to Main
 - [Home] (https://github.com/luisamesty/orangebanktest/blob/master/README.md)
 ## ECLIPSE DEVELOPMENT IDE
