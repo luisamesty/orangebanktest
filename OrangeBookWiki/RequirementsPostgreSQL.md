@@ -5,9 +5,17 @@ appropriate.
 - [Home] (https://github.com/luisamesty/orangebanktest/blob/master/README.md)
 ## PostgreSQL Database Requirements
 <pre>
-Local Postgresql must be installed and service running.
-Local IP configuration must be available on pg_hba.con file.
-(See d.properties sample   on src/main/resouces directory) 
+Local or Remote Postgresql Database Instance, must be installed and service running.
+Local IP configuration must be available on pg_hba.con file, in order to accept request from the IP address of the Test PC.
+Database must be created:
+name:  orangeapi
+owner: postgres
+Tables will be created on first runnig of the APP.
+Tables used by App:
+    account
+    accounttransaction
+
+(See d.properties sample   on src/main/resources project's directory) 
 </pre>
 ### File:  db.properties
 <pre>

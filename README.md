@@ -14,7 +14,9 @@ needed, use an in-memory data storage)
 comment
 ## Content
 - [Home] (https://github.com/luisamesty/orangebanktest/blob/master/README.md)
-- [Requirements|How-to-get-started](https://github.com/luisamesty/orangebanktest/blob/master/OrangeBookWiki/Requirements.md)
+- [Requirements|App to be Developed and Tested](https://github.com/luisamesty/orangebanktest/blob/master/OrangeBookWiki/Requirements.md)
+- [Apps and projects](https://github.com/luisamesty/orangebanktest/blob/master/OrangeBookWiki/RequirementsProjects.md) 
+- [Eclipse environment](https://github.com/luisamesty/orangebanktest/blob/master/OrangeBookWiki/RequirementsEclipse.md)
 - [Apache Tomcat on Docker](https://github.com/luisamesty/orangebanktest/blob/master/OrangeBookWiki/RequirementsDockerImages.md)
 - [PostgreSQL Database 9.6](https://github.com/luisamesty/orangebanktest/blob/master/OrangeBookWiki/RequirementsPostgreSQL.md)
 ***
