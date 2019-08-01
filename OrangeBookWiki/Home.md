@@ -12,12 +12,8 @@ big application
 needed, use an in-memory data storage)
 - Some requirements have been left ambiguous on purpose so, if you make any assumption, please add a
 comment
-## Content
-
-- [[Requirements|How-to-get-started](https://github.com/luisamesty/orangebanktest/README.md)
-- [Official project site ](http://www.libreplan.org)
-- [LibrePlan Enterprise Commercial Services](https://www.libreplan-enterprise.com/)
-- [Archived contents of original LibrePlan Twiki site (in Twiki2GitHub repo)](https://github.com/LibrePlan/twiki2github/wiki/All_Twiki_Pages)
+## Return to Main
+- [Home] (https://github.com/luisamesty/orangebanktest/blob/master/README.md)
 
 ***
 Technologies stack: Java, Spring, Maven, Hibernate, PostgreSQL, JUnit, Log4j, Jetty, Tomcat, HTML, CSS.

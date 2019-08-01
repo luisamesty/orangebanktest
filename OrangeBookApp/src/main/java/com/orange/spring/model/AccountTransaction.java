@@ -20,20 +20,6 @@ public class AccountTransaction {
 		BigDecimal amount;
 		BigDecimal fee;
 		String description;
-		
-		/* Constructor */
-		public AccountTransaction(Long id, Long account_id, String reference, String account_iban, Timestamp date,
-				BigDecimal amount, BigDecimal fee, String description) {
-			super();
-			this.id = id;
-			this.account_id = account_id;
-			this.reference = reference;
-			this.account_iban = account_iban;
-			this.date = date;
-			this.amount = amount;
-			this.fee = fee;
-			this.description = description;
-		}
 
 		public Long getId() {
 			return id;

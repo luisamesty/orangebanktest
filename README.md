@@ -15,7 +15,7 @@ comment
 ## Content
 - [Home] (https://github.com/luisamesty/orangebanktest/blob/master/README.md)
 - [Requirements|How-to-get-started](https://github.com/luisamesty/orangebanktest/blob/master/OrangeBookWiki/Requirements.md)
-- [Orange Book Test App]
-- [Orange Book App]
+- [Apache Tomcat on Docker]
+- [PostgreSQL Database 9.6]
 ***
 Technologies stack: Java, Spring, Maven, Hibernate, PostgreSQL, JUnit, Log4j, Jetty, Tomcat, HTML, CSS.

@@ -17,15 +17,6 @@ public class Account {
 	String account_iban;
 	BigDecimal balance;
 	
-	/* Constructor */
-	public Account(Long id, String name, String account_iban, BigDecimal balance) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.account_iban = account_iban;
-		this.balance = balance;
-	}
-
 	public Long getId() {
 		return id;
 	}
