@@ -9,17 +9,24 @@ import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 
 import com.orange.spring.model.Account;
-
+@Configuration
+@PropertySource("classpath:db.properties")
 public class HibernateUtil {
 
-	  private static StandardServiceRegistry registry;
-	  private static SessionFactory sessionFactory;
-
-	  public static SessionFactory getSessionFactory() {
+	private static StandardServiceRegistry registry;
+	private static SessionFactory sessionFactory;
+	@Autowired
+	private static Environment env;
+	
+	public static SessionFactory getSessionFactory() {
 	    if (sessionFactory == null) {
-    	  System.out.println("Sesion nula.. creando sesion");
+    	  System.out.println("Sesion nueva.. creando sesion "+ "Env:"+env.getProperty("postgresql.driver"));
 	      try {
 	        StandardServiceRegistryBuilder registryBuilder = 
 	            new StandardServiceRegistryBuilder();
@@ -50,9 +57,9 @@ public class HibernateUtil {
 	      }
 	    }
 	    return sessionFactory;
-	  }
+	}
 
-	  public static void shutdown() {
+	public static void shutdown() {
     	System.out.println("Hibernate Util Shutdown ....");
 	    if (registry != null) {
 	      StandardServiceRegistryBuilder.destroy(registry);

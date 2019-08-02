@@ -8,12 +8,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.engine.jdbc.LobCreator;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -21,23 +17,11 @@ import org.json.simple.parser.ParseException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.orange.spring.config.AppConfig;
 import com.orange.spring.model.Account;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 
 @CrossOrigin(origins = "*")
 @RestController
-@PropertySource("classpath:db.properties")
 public class CreateAccounts {
-
-	//static AppConfig appConfig = new AppConfig();
-	@Autowired
-	private static Environment env;
-	@Autowired
-	private static EntityManagerFactory emf;
 	
     public static Session session = null;
     public static Transaction transaction = null;
@@ -82,7 +66,11 @@ public class CreateAccounts {
     	}
     	// HIBERNATE 
         try {
-        	session = HibernateUtil.getSessionFactory().openSession();
+        	//session = HibernateUtil.getSessionFactory().openSession();
+        	UtilConfig uconf = new UtilConfig();
+        	Properties props = uconf.getProperties();
+        	//System.out.println( "postgresql.driver:"+props.getProperty("postgresql.driver"));
+        	session = uconf.getSessionFactory().openSession();
             // GRABA ARREGLO
         	System.out.println("GRABA ARREGLO .....");
         	for (int i=0 ; i < accounts.size(); i++) {
