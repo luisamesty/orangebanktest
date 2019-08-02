@@ -1,13 +1,5 @@
 package com.orange.spring.utils;
 
-import static org.hibernate.cfg.AvailableSettings.HBM2DDL_AUTO;
-import static org.hibernate.cfg.AvailableSettings.PASS;
-import static org.hibernate.cfg.AvailableSettings.SHOW_SQL;
-import static org.hibernate.cfg.AvailableSettings.URL;
-import static org.hibernate.cfg.AvailableSettings.USER;
-
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;

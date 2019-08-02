@@ -1,18 +1,42 @@
 [
+    {
+	    "account": {
+	        "id": 1,
+	        "name": "Luis Amesty Linares",
+	        "account_iban": "ES9820385778983000760236",
+	        "balance": 1000.00
+	        }
+    },
+    {
+	    "account": {
+	        "id": 2,
+	        "name": "Maria Auxiliadora Amesty",
+	        "account_iban": "ES9820385778983000760234",
+	        "balance": 12000.00
+	        }
+    },
+    {
+	    "account": {
+	        "id": 3,
+	        "name": "Maria Alejandra Amesty",
+	        "account_iban": "ES9820385778983000760230",
+	        "balance": 10000.00
+	        }
+    },
 	{
 		"account": {
 			"id" : 4,
-			"name":"Luis Amesty Morello"
+			"name":"Luis Amesty Morello",
 			"account_iban":"ES9820385778983000760236",
-			"balance":3.18,
+			"balance":8000.00
 		}
 	},
 	{
 		"account": {
 			"id" : 5,
-			"name":"Maria Virginia Amesty"
+			"name":"Maria Virginia Amesty",
 			"account_iban":"ES9820385778983000760238",
-			"balance":5.19,
+			"balance":7000.00
 		}
 	}
 ]

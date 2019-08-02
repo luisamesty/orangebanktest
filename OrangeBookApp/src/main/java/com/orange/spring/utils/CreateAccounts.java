@@ -25,7 +25,6 @@ public class CreateAccounts {
 	
     public static Session session = null;
     public static Transaction transaction = null;
-
     public static ArrayList<Account> accounts = null;
     
     @SuppressWarnings("unchecked")
@@ -66,7 +65,7 @@ public class CreateAccounts {
     	}
     	// HIBERNATE 
         try {
-        	//session = HibernateUtil.getSessionFactory().openSession();
+        	// UtilConfig - Hibernate Conexion 
         	UtilConfig uconf = new UtilConfig();
         	Properties props = uconf.getProperties();
         	//System.out.println( "postgresql.driver:"+props.getProperty("postgresql.driver"));
@@ -83,6 +82,7 @@ public class CreateAccounts {
                 session.save(account);
                 transaction.commit();
         	}
+        	uconf.shutdown();
 			// Account 
         } catch (Exception e) {
             if (transaction != null) {
@@ -94,8 +94,6 @@ public class CreateAccounts {
               session.close();
             }
         }
-        HibernateUtil.shutdown();
-    	
 	}
 	
 	private static void parseAccountObject(JSONObject acct) 
