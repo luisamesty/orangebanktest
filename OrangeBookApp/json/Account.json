@@ -1,0 +1,18 @@
+[
+	{
+		"account": {
+			"id" : 1,
+			"name":"Luis Amesty"
+			"account_iban":"ES9820385778983000760236",
+			"balance":3.18,
+		}
+	},
+	{
+		"account": {
+			"id" : 2,
+			"name":"Maria Amesty"
+			"account_iban":"ES9820385778983000760238",
+			"balance":5.19,
+		}
+	}
+]
