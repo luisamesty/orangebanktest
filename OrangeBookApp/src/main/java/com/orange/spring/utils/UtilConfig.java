@@ -35,7 +35,7 @@ public class UtilConfig {
 	
 	public SessionFactory getSessionFactory() throws IOException {
 	    if (sessionFactory == null) {
-    	  System.out.println("Sesion nueva.. creando sesion "); 
+    	  //System.out.println("Sesion nueva.. creando sesion "); 
     	  Properties props = getProperties();
     	  
 	      try {
@@ -62,7 +62,7 @@ public class UtilConfig {
 
 	        sessionFactory = metadata.getSessionFactoryBuilder().build();
 	      } catch (Exception e) {
-	        System.out.println("SessionFactory creation failed");
+	        //System.out.println("SessionFactory creation failed");
 	        if (registry != null) {
 	          StandardServiceRegistryBuilder.destroy(registry);
 	        }
@@ -83,8 +83,7 @@ public class UtilConfig {
 		
 		Properties retProp = new Properties();
 		String dbpropFile = "db.properties";
-		System.out.println(dbpropFile);
-		
+		// System.out.println(dbpropFile);
 		InputStream inputStream = getClass().getClassLoader().getResourceAsStream(dbpropFile);
 		if (inputStream != null) {
 			retProp.load(inputStream);

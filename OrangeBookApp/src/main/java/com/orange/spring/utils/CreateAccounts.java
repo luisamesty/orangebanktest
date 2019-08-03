@@ -65,7 +65,7 @@ public class CreateAccounts {
     	}
     	// HIBERNATE 
         try {
-        	// UtilConfig - Hibernate Conexion 
+        	// UtilConfig - Hibernate Conection 
         	UtilConfig uconf = new UtilConfig();
         	Properties props = uconf.getProperties();
         	//System.out.println( "postgresql.driver:"+props.getProperty("postgresql.driver"));
