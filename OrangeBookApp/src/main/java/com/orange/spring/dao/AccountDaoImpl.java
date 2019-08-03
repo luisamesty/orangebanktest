@@ -2,6 +2,8 @@ package com.orange.spring.dao;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -14,12 +16,16 @@ import org.springframework.stereotype.Repository;
 
 import com.orange.spring.model.Account;
 
+
 @Repository
 public class AccountDaoImpl implements AccountDao {
 
 	@Autowired
 	private SessionFactory sessionFactory;
-	
+	// OJO
+	@PersistenceContext 
+	EntityManager em;
+	// OJO
 	@Override
 	public long save(Account account) {
 		sessionFactory.getCurrentSession().save(account);
@@ -32,12 +38,34 @@ public class AccountDaoImpl implements AccountDao {
 	}
 
 	@Override
+	public Account getByIBAN(String account_iban) {
+		List<Account> accts = null;
+		Account retAccount = null;
+		Session session = sessionFactory.getCurrentSession();
+	      CriteriaBuilder cb = session.getCriteriaBuilder();
+	      CriteriaQuery<Account> cq = cb.createQuery(Account.class);
+	      Root<Account> root = cq.from(Account.class);
+	      cq.select(root);
+	      //  OJO WHERE Clause
+	      cq.where(em.getCriteriaBuilder().equal(root.get("account_iban"), account_iban ));
+	      //  OJO WHERE Clause
+	      Query<Account> query = session.createQuery(cq);
+	      accts = query.getResultList();
+	      if (accts.size() > 0)
+	    	  retAccount = accts.get(0) ;
+	      return retAccount;
+	}
+	
+	@Override
 	public List<Account> list() {
 		 Session session = sessionFactory.getCurrentSession();
 	      CriteriaBuilder cb = session.getCriteriaBuilder();
 	      CriteriaQuery<Account> cq = cb.createQuery(Account.class);
 	      Root<Account> root = cq.from(Account.class);
 	      cq.select(root);
+	      //  OJO Order By id
+	      cq.orderBy(cb.asc(root.get("id")));
+	      //  OJO Order By id
 	      Query<Account> query = session.createQuery(cq);
 	      return query.getResultList();
 	}
@@ -58,4 +86,6 @@ public class AccountDaoImpl implements AccountDao {
 	      Account account = session.byId(Account.class).load(id);
 	      session.delete(account);
 	}
+
+
 }

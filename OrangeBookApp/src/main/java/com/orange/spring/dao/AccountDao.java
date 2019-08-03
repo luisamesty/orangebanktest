@@ -21,4 +21,6 @@ public interface AccountDao {
     // Delete a record
     void delete(long id);
  
+    // Get a single record where account_iban
+    Account getByIBAN(String account_iban);
 }

@@ -5,14 +5,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
+
 
 import java.math.BigDecimal;
 
 @Entity(name = "Account")
 @Table(name = "account")
-public class Account {
 
+public class Account {
+	@OrderBy 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;

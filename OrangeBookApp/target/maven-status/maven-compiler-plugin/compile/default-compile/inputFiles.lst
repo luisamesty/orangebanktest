@@ -1,10 +1,10 @@
 /Volumes/Datos/Orange/OrangeCodeChallenge/OrangeBookApp/src/main/java/com/orange/spring/controller/AccountController.java
-/Volumes/Datos/Orange/OrangeCodeChallenge/OrangeBookApp/src/main/java/com/orange/spring/utils/InitAccounts.java
-/Volumes/Datos/Orange/OrangeCodeChallenge/OrangeBookApp/src/main/java/com/orange/spring/utils/ParseJSON.java
+/Volumes/Datos/Orange/OrangeCodeChallenge/OrangeBookApp/src/main/java/com/orange/spring/utils/InitDBTables.java
 /Volumes/Datos/Orange/OrangeCodeChallenge/OrangeBookApp/src/main/java/com/orange/spring/dao/AccountDaoImpl.java
 /Volumes/Datos/Orange/OrangeCodeChallenge/OrangeBookApp/src/main/java/com/orange/spring/service/AccountTransactionServiceImpl.java
 /Volumes/Datos/Orange/OrangeCodeChallenge/OrangeBookApp/src/main/java/com/orange/spring/service/AccountServiceImpl.java
 /Volumes/Datos/Orange/OrangeCodeChallenge/OrangeBookApp/src/main/java/com/orange/spring/dao/AccountTransactionDao.java
+/Volumes/Datos/Orange/OrangeCodeChallenge/OrangeBookApp/src/main/java/com/orange/spring/utils/UtilConfig.java
 /Volumes/Datos/Orange/OrangeCodeChallenge/OrangeBookApp/src/main/java/com/orange/spring/model/AccountTransaction.java
 /Volumes/Datos/Orange/OrangeCodeChallenge/OrangeBookApp/src/main/java/com/orange/spring/config/AppConfig.java
 /Volumes/Datos/Orange/OrangeCodeChallenge/OrangeBookApp/src/main/java/com/orange/spring/transactions/SearchTransactions.java
@@ -18,4 +18,3 @@
 /Volumes/Datos/Orange/OrangeCodeChallenge/OrangeBookApp/src/main/java/com/orange/spring/controller/AccountTransactionController.java
 /Volumes/Datos/Orange/OrangeCodeChallenge/OrangeBookApp/src/main/java/com/orange/spring/transactions/CreateTransaction.java
 /Volumes/Datos/Orange/OrangeCodeChallenge/OrangeBookApp/src/main/java/com/orange/spring/dao/AccountDao.java
-/Volumes/Datos/Orange/OrangeCodeChallenge/OrangeBookApp/src/main/java/com/orange/spring/utils/CreateAccounts.java

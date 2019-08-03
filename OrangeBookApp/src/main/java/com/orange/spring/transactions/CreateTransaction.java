@@ -38,7 +38,7 @@ public class CreateTransaction {
 		// Display Transaction Array to Console
 		displayTransactionArray();
 		// Saves Account Array
-		saveTransactionArray();
+		//saveTransactionArray();
 	}
 	
     /**
@@ -91,7 +91,7 @@ public class CreateTransaction {
 		System.out.println("id="+id);
 		//Get account_id (Actually added for Test in JSON File)
 		Long account_id = (Long) trObject.get("account_id");	
-		System.out.println("id="+id);
+		System.out.println("account_id="+account_id);
 		//Get reference 
 		String reference = (String) trObject.get("reference");	
 		System.out.println("reference="+reference);

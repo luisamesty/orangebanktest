@@ -6,8 +6,16 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -15,19 +23,27 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.orange.spring.model.Account;
+import com.orange.spring.service.AccountServiceImpl;
 
 @CrossOrigin(origins = "*")
 @RestController
 public class InitDBTables {
 	
     public static Session session = null;
+    
     public static Transaction transaction = null;
     public static ArrayList<Account> accounts = new ArrayList(); 
-    
+
+    @Autowired
+	public static AccountServiceImpl accountService;
+	@PersistenceContext
+	static EntityManager em;
+	
     @SuppressWarnings("unchecked")
 	public static void main(String[] args) {
 		
@@ -129,6 +145,86 @@ public class InitDBTables {
     	}
 	}
 
+	/**
+	 * saveAccountArray2
+	 * Saves to DB Account Array (FUTURE INCLUDE VALIDATIONS by IBAN AND ID)
+	 */
+	private static void saveAccountArray2() {
+		
+		Account account= null;
+		Account account2 = null;
+		boolean isError = false;
+		String account_iban = "";
+		String account_iban2 = "";
+		long account_id = 0;
+		List<Account> accts = null;
+		// HIBERNATE 
+        try {
+        	// UtilConfig - Hibernate Conection 
+        	UtilConfig uconf = new UtilConfig();
+        	Properties props = uconf.getProperties();
+        	session = uconf.getSessionFactory().openSession();
+        	// RECORDS Account Array
+        	System.out.println("GRABANDO ARREGLO DE CUENTAS .....");
+        	for (int i=0 ; i < accounts.size(); i++) {
+        		// Get i Account
+        		account = accounts.get(i);
+                // Verify IF exists 
+                isError = false;
+  			  	// Verify if ID exists
+            	System.out.println(account.toString());
+        		transaction = session.beginTransaction();
+        		// Account Verify account id
+                if (account.getAccount_iban() != null || !account.getAccount_iban().isEmpty()) {
+                	account_iban  = account.getAccount_iban();
+                	System.out.println("account_iban="+account_iban);
+            		CriteriaBuilder cb = session.getCriteriaBuilder();
+            		CriteriaQuery<Account> cq = cb.createQuery(Account.class);
+          	      	Root<Account> root = cq.from(Account.class);
+          	      	cq.select(root);
+          	      	//  OJO WHERE Clause
+          	      	cq.where(em.getCriteriaBuilder().equal(root.get("account_iban"), account_iban ));
+          	      	//  OJO WHERE Clause
+          	      	Query<Account> query = session.createQuery(cq);
+          	      	accts = query.getResultList();
+          	      	if (accts.size() > 0)
+          	      		isError = true ;
+                }
+        		// Account Verify account_iban
+                if (account.getAccount_iban() != null || !account.getAccount_iban().isEmpty()) {
+                	account_id  = account.getId();
+            		CriteriaBuilder cb = session.getCriteriaBuilder();
+            		CriteriaQuery<Account> cq = cb.createQuery(Account.class);
+          	      	Root<Account> root = cq.from(Account.class);
+          	      	cq.select(root);
+          	      	//  OJO WHERE Clause
+          	      	cq.where(em.getCriteriaBuilder().equal(root.get("id"), account_id ));
+          	      	//  OJO WHERE Clause
+          	      	Query<Account> query = session.createQuery(cq);
+          	      	accts = query.getResultList();
+          	      	if (accts.size() > 0)
+          	      		isError = true ;
+                }
+                if (!isError) {
+	        		//transaction.begin();
+	                session.save(account);
+	            	transaction.commit();
+                }
+        	}
+        	//uconf.shutdown();
+			// Account 
+        } catch (Exception e) {
+            if (transaction != null) {
+              transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+              session.close();
+            }
+        }
+		
+	}
 	/**
 	 * saveAccountArray
 	 * Saves to DB Account Array

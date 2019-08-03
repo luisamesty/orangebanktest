@@ -44,4 +44,9 @@ public class AccountServiceImpl implements AccountService  {
 		accountDao.delete(id);
 	}
 
+	@Override
+	public Account getByIBAN(String account_iban) {
+		return accountDao.getByIBAN(account_iban);
+	}
+
 }

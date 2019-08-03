@@ -21,8 +21,8 @@ public class AccountTransaction {
 		Timestamp date;
 		BigDecimal amount;
 		BigDecimal fee;
-		String description;
-		String status;
+		String trdescription;
+		String trstatus;
 
 		public Long getId() {
 			return id;
@@ -67,22 +67,22 @@ public class AccountTransaction {
 			this.fee = fee;
 		}
 		public String getDescription() {
-			return description;
+			return trdescription;
 		}
-		public void setDescription(String description) {
-			this.description = description;
+		public void setDescription(String trdescription) {
+			this.trdescription = trdescription;
 		}
 		public String getStatus() {
-			return status;
+			return trstatus;
 		}
-		public void setStatus(String status) {
-			this.status = status;
+		public void setStatus(String trstatus) {
+			this.trstatus = trstatus;
 		}
 		@Override
 		public String toString() {
 			return "AccountTransaction [id=" + id + ", account_id=" + account_id + ", reference=" + reference
 					+ ", account_iban=" + account_iban + ", date=" + date + ", amount=" + amount + ", fee=" + fee
-					+ ", description=" + description + ", status=" + status + "]";
+					+ ", trdescription=" + trdescription + ", trstatus=" + trstatus + "]";
 		}
 
 }

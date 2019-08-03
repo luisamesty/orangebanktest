@@ -38,6 +38,9 @@ public class AccountTransactionDaoImpl implements AccountTransactionDao {
 	      CriteriaQuery<AccountTransaction> cq = cb.createQuery(AccountTransaction.class);
 	      Root<AccountTransaction> root = cq.from(AccountTransaction.class);
 	      cq.select(root);
+	      //  OJO Order By id
+	      cq.orderBy(cb.asc(root.get("id")));
+	      //
 	      Query<AccountTransaction> query = session.createQuery(cq);
 	      return query.getResultList();
 	}
