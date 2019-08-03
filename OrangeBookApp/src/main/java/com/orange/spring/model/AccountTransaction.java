@@ -22,6 +22,7 @@ public class AccountTransaction {
 		BigDecimal amount;
 		BigDecimal fee;
 		String description;
+		String status;
 
 		public Long getId() {
 			return id;
@@ -29,10 +30,10 @@ public class AccountTransaction {
 		public void setId(Long id) {
 			this.id = id;
 		}
-		public Long getAccount_ID() {
+		public Long getAccount_id() {
 			return account_id;
 		}
-		public void setAccount_ID(Long account_id) {
+		public void setAccount_id(Long account_id) {
 			this.account_id = account_id;
 		}
 		public String getReference() {
@@ -71,11 +72,17 @@ public class AccountTransaction {
 		public void setDescription(String description) {
 			this.description = description;
 		}
-
+		public String getStatus() {
+			return status;
+		}
+		public void setStatus(String status) {
+			this.status = status;
+		}
 		@Override
 		public String toString() {
 			return "AccountTransaction [id=" + id + ", account_id=" + account_id + ", reference=" + reference
 					+ ", account_iban=" + account_iban + ", date=" + date + ", amount=" + amount + ", fee=" + fee
-					+ ", description=" + description + "]";
+					+ ", description=" + description + ", status=" + status + "]";
 		}
+
 }

@@ -1,0 +1,26 @@
+[
+    {
+	    "transaction": {
+		    "id" : 1,
+			"account_id" : 1,
+			"reference":"12345A"
+			"account_iban":"ES9820385778983000760236",
+			"date":"2019-07-16T16:55:42.000Z",
+			"amount":193.38,
+			"fee":3.18,
+			"description":"Restaurant payment"
+			}
+	},
+    {
+	    "transaction": {
+	    	"id" : 1,
+			"account_id" : 1,
+	    	"reference":"12345B"
+			"account_iban":"ES9820385778983000760236",
+			"date":"2019-07-16T16:55:42.000Z",
+			"amount":893.38,
+			"fee":5.35,
+			"description":"Dept Store payment"
+			}
+	}
+]

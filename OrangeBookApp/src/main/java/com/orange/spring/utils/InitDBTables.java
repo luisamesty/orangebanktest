@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 import org.hibernate.Session;
@@ -19,7 +18,6 @@ import org.json.simple.parser.ParseException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.orange.spring.dao.AccountDaoImpl;
 import com.orange.spring.model.Account;
 
 @CrossOrigin(origins = "*")
@@ -116,7 +114,6 @@ public class InitDBTables {
 		account.setName(name);
 		// ADD TO ARRAY
 		accounts.add(account);
-
 	}
 
 	/**
@@ -143,7 +140,6 @@ public class InitDBTables {
         	// UtilConfig - Hibernate Conection 
         	UtilConfig uconf = new UtilConfig();
         	Properties props = uconf.getProperties();
-        	//System.out.println( "postgresql.driver:"+props.getProperty("postgresql.driver"));
         	session = uconf.getSessionFactory().openSession();
             // RECORDS Account Array
         	System.out.println("GRABANDO ARREGLO DE CUENTAS .....");
@@ -153,7 +149,7 @@ public class InitDBTables {
         		// Get i Account
         		Account account = accounts.get(i);
                 System.out.println(account.toString());
-                // Save account
+                // Save account Future Try Catch
                 //try {
                 	session.save(account);
                 	transaction.commit();
