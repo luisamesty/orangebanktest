@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 public class Account {
 	@OrderBy 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(unique = true)
 	Long id;
 	

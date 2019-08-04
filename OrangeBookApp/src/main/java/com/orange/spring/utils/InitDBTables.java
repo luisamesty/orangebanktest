@@ -58,7 +58,7 @@ public class InitDBTables {
 		// Display Array to Console
 		displayAccountArray();
 		// Saves Account Array
-		saveAccountArray2();
+		saveAccountArray();
 
 	}
 	
@@ -150,17 +150,13 @@ public class InitDBTables {
 	 * saveAccountArray2
 	 * Saves to DB Account Array (FUTURE INCLUDE VALIDATIONS by IBAN AND ID)
 	 */
-	private static void saveAccountArray2() {
+	private static void saveAccountArray() {
 		
 		Account account= null;
-		Account account2 = null;
-		String account_iban = "";
-		String account_iban2 = "";
-		long account_id = 0;
-		List<Account> accts = null;
 
     	// UtilConfig - Hibernate Conection 
     	UtilConfig uconf = new UtilConfig();
+    	boolean isError = false;
     	// Session open
     	try {
 			session = uconf.getSessionFactoryB().openSession();
@@ -175,7 +171,6 @@ public class InitDBTables {
     		// Get i Account
     		account = accounts.get(i);
             // Verify IF exists 
-		  	// Verify if ID exists
         	System.out.println(account.toString());
     		// HIBERNATE 
             try {
@@ -183,12 +178,15 @@ public class InitDBTables {
         		//transaction.begin();
         		session.save(account);
             	transaction.commit();
+            	isError = false;
             } catch (Exception e) {
                 if (transaction != null) {
                   transaction.rollback();
+                  isError = true;
                 }
             } finally {
-            	System.out.println("** ERROR * Account already exists ID:"+account.getId()+"  IBAN:"+account.getAccount_iban());
+            	if (isError )
+            		System.out.println("** ERROR * Account already exists ID:"+account.getId()+"  IBAN:"+account.getAccount_iban());
             }
         }
     	// Session close
@@ -197,49 +195,7 @@ public class InitDBTables {
         }
 	}
 	
-	/**
-	 * saveAccountArray
-	 * Saves to DB Account Array
-	 */
-	private static void saveAccountArray() {
-		
-    	// HIBERNATE 
-        try {
-        	// UtilConfig - Hibernate Conection 
-        	UtilConfig uconf = new UtilConfig();
-        	//Properties props = uconf.getProperties();
-        	session = uconf.getSessionFactoryB().openSession();
-            // RECORDS Account Array
-        	System.out.println("GRABANDO ARREGLO DE CUENTAS .....");
-        	for (int i=0 ; i < accounts.size(); i++) {
-        		transaction = session.beginTransaction();
-        		//transaction.begin();
-        		// Get i Account
-        		Account account = accounts.get(i);
-                System.out.println(account.toString());
-                // Save account Future Try Catch
-                //try {
-                	session.save(account);
-                	transaction.commit();
-                //} catch( javax.persistence.PersistenceException  ex) {
-                //	if(ex.getCause() instanceof org.hibernate.exception.ConstraintViolationException)
-                //		System.out.println("** DUPLICATE ** "+account.toString());
-                //}
-        	}
-        	//uconf.shutdown();
-			// Account 
-        } catch (Exception e) {
-            if (transaction != null) {
-              transaction.rollback();
-            }
-            e.printStackTrace();
-        } finally {
-            if (session != null) {
-              session.close();
-            }
-        }
 
-	}
 
 	
 	private static void  initDBTables() {
@@ -290,5 +246,49 @@ public class InitDBTables {
         }
 		
 	}
+
 	
+//	/**
+//	 * saveAccountArray
+//	 * Saves to DB Account Array
+//	 */
+//	private static void saveAccountArray() {
+//		
+//   	// HIBERNATE 
+//       try {
+//       	// UtilConfig - Hibernate Conection 
+//       	UtilConfig uconf = new UtilConfig();
+//       	//Properties props = uconf.getProperties();
+//       	session = uconf.getSessionFactoryB().openSession();
+//           // RECORDS Account Array
+//       	System.out.println("GRABANDO ARREGLO DE CUENTAS .....");
+//       	for (int i=0 ; i < accounts.size(); i++) {
+//       		transaction = session.beginTransaction();
+//       		//transaction.begin();
+//       		// Get i Account
+//       		Account account = accounts.get(i);
+//               System.out.println(account.toString());
+//               // Save account Future Try Catch
+//               //try {
+//               	session.save(account);
+//               	transaction.commit();
+//               //} catch( javax.persistence.PersistenceException  ex) {
+//               //	if(ex.getCause() instanceof org.hibernate.exception.ConstraintViolationException)
+//               //		System.out.println("** DUPLICATE ** "+account.toString());
+//               //}
+//       	}
+//       	//uconf.shutdown();
+//			// Account 
+//       } catch (Exception e) {
+//           if (transaction != null) {
+//             transaction.rollback();
+//           }
+//           e.printStackTrace();
+//       } finally {
+//           if (session != null) {
+//             session.close();
+//           }
+//       }
+//
+//	}
 }

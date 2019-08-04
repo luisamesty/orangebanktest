@@ -1,21 +1,18 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 4 ago. 2019 3:40:30 by Hibernate Tools 3.5.0.Final -->
+<!-- Generated 4 ago. 2019 12:43:36 by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
     <class name="com.orange.spring.model.AccountTransaction" table="ACCOUNTTRANSACTION">
         <id name="id" type="java.lang.Long">
             <column name="ID" />
             <generator class="assigned" />
         </id>
-        <property name="account_id" type="java.lang.Long">
-            <column name="ACCOUNT_ID" />
+        <property name="account_iban" type="java.lang.String">
+            <column name="ACCOUNT_IBAN" />
         </property>
         <property name="reference" type="java.lang.String">
             <column name="REFERENCE" />
-        </property>
-        <property name="account_iban" type="java.lang.String">
-            <column name="ACCOUNT_IBAN" />
         </property>
         <property name="date" type="java.sql.Timestamp">
             <column name="DATE" />
@@ -26,10 +23,10 @@
         <property name="fee" type="java.math.BigDecimal">
             <column name="FEE" />
         </property>
-        <property name="trdescription" type="java.lang.String" access="field">
+        <property name="trdescription" type="java.lang.String">
             <column name="TRDESCRIPTION" />
         </property>
-        <property name="trstatus" type="java.lang.String" access="field">
+        <property name="trstatus" type="java.lang.String">
             <column name="TRSTATUS" />
         </property>
     </class>

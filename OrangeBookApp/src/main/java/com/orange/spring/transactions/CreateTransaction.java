@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.json.simple.JSONArray;
@@ -18,6 +19,7 @@ import org.json.simple.parser.ParseException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.orange.spring.model.Account;
 import com.orange.spring.model.AccountTransaction;
 import com.orange.spring.utils.UtilConfig;
 
@@ -89,15 +91,12 @@ public class CreateTransaction {
 		//Get id (Actually added for Test in JSON File)
 		Long id = (Long) trObject.get("id");	
 		System.out.println("id="+id);
-		//Get account_id (Actually added for Test in JSON File)
-		Long account_id = (Long) trObject.get("account_id");	
-		System.out.println("account_id="+account_id);
+		//Get account_iban (Actually added for Test in JSON File)
+		String account_iban =  (String) trObject.get("account_iban");	
+		System.out.println("account_iban="+account_iban);
 		//Get reference 
 		String reference = (String) trObject.get("reference");	
 		System.out.println("reference="+reference);
-		//Get account_iban 
-		String account_iban = (String) trObject.get("account_iban");	
-		System.out.println("account_iban="+account_iban);
 		// Get transaction date
 		String date = (String) trObject.get("date");	
 		System.out.println("date="+date);
@@ -115,22 +114,21 @@ public class CreateTransaction {
 		BDamount = BDfee.setScale(2, BigDecimal.ROUND_UP);
 		System.out.println("balance="+BDfee);
 		//Get description 
-		String description = (String) trObject.get("description");	
-		System.out.println("description="+description);
+		String trdescription = (String) trObject.get("trdescription");	
+		System.out.println("trdescription="+trdescription);
 		// status
-		String status = "** Por revisar ***";
+		String trstatus = "** Por revisar ***";
 		// AccountTransaction 
 		@SuppressWarnings("null")
 		AccountTransaction acctr = new AccountTransaction();
 		acctr.setId(id);
-		acctr.setAccount_id(account_id);
+		acctr.setAccount_iban(account_iban);
 		acctr.setReference(reference);
 		acctr.setDate(TSdate);
-		acctr.setAccount_iban(account_iban);
 		acctr.setAmount(BDamount);
 		acctr.setFee(BDfee);
-		acctr.setDescription(description);
-		acctr.setStatus(status);
+		acctr.setTrdescription(trdescription);
+		acctr.setTrstatus(trstatus);
 		
 		// ADD TO ARRAY
 		acctransactions.add(acctr);
@@ -156,42 +154,44 @@ public class CreateTransaction {
 	
 	private static void saveTransactionArray() {
 		
-	   	// HIBERNATE 
-        try {
-        	// UtilConfig - Hibernate Conection 
-        	UtilConfig uconf = new UtilConfig();
-        	//Properties props = uconf.getProperties();
-        	//session = uconf.getSessionFactory().openSession();
-        	session = uconf.getSessionFactoryB().openSession();
-        	
-            // RECORDS Account Array
-        	System.out.println("GRABANDO ARREGLO DE TRANSACCIONES .....");
-        	for (int i=0 ; i < acctransactions.size(); i++) {
+    	// UtilConfig - Hibernate Conection 
+    	UtilConfig uconf = new UtilConfig();
+    	boolean isError = false;
+    	// Session open
+    	try {
+			session = uconf.getSessionFactoryB().openSession();
+		} catch (HibernateException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+        // RECORDS Account Array
+    	System.out.println("GRABANDO ARREGLO DE TRANSACCIONES .....");
+       	for (int i=0 ; i < acctransactions.size(); i++) {
+    		// Get i Account Transaction
+       		AccountTransaction acctr = acctransactions.get(i);
+            // Verify IF exists 
+        	System.out.println(acctr.toString());
+    		// HIBERNATE 
+            try {
         		transaction = session.beginTransaction();
         		//transaction.begin();
-        		// Get i Account
-        		AccountTransaction acctr = acctransactions.get(i);
-                System.out.println("SAVING..."+acctr.toString());
-                // Save account
-                //try {
-                	session.save(acctr);
-                	transaction.commit();
-                //} catch( javax.persistence.PersistenceException  ex) {
-                //	if(ex.getCause() instanceof org.hibernate.exception.ConstraintViolationException)
-                //		System.out.println("** DUPLICATE ** "+acctransactions.toString());
-                //}
-        	}
-        	//uconf.shutdown();
-			// Account 
-        } catch (Exception e) {
-            if (transaction != null) {
-              transaction.rollback();
+        		session.save(acctr);
+            	transaction.commit();
+            	isError = false;
+            } catch (Exception e) {
+                if (transaction != null) {
+                  transaction.rollback();
+                }
+                isError = true;
+            } finally {
+            	if(isError)
+            		System.out.println("** ERROR * Transaction already exists ID:"+acctr.getId()+"  IBAN:"+acctr.getAccount_iban());
             }
-            e.printStackTrace();
-        } finally {
-            if (session != null) {
-              session.close();
-            }
+        }
+       	// Session close
+        if (session != null) {
+          session.close();
         }
 	}
 }

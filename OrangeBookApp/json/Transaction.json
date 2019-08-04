@@ -2,25 +2,45 @@
     {
 	    "transaction": {
 		    "id" : 1,
-			"account_id" : 1,
-			"reference":"12345A"
-			"account_iban":"ES9820385778983000760236",
+			"account_iban": "ES9820385778983000760236",
+			"reference":"12345A",
 			"date":"2019-07-16T16:55:42.000Z",
 			"amount":193.38,
 			"fee":3.18,
-			"description":"Restaurant payment"
+			"trdescription":"Restaurant payment"
 			}
 	},
     {
 	    "transaction": {
 	    	"id" : 2,
-			"account_id" : 1,
-	    	"reference":"12345B"
-			"account_iban":"ES9820385778983000760236",
+			"account_iban": "ES9820385778983000760236",
+	    	"reference":"12345B",
 			"date":"2019-07-16T16:55:42.000Z",
 			"amount":893.38,
 			"fee":5.35,
-			"description":"Dept Store payment"
+			"trdescription":"Dept Store payment"
+			}
+	},
+    {
+	    "transaction": {
+		    "id" : 3,
+			"account_iban": "ES9820385778983000760236",
+			"reference":"12346A",
+			"date":"2019-07-16T16:55:42.000Z",
+			"amount":1193.38,
+			"fee":2.00,
+			"trdescription":"Restaurant payment"
+			}
+	},
+    {
+	    "transaction": {
+	    	"id" : 4,
+			"account_iban": "ES9820385778983000760236",
+	    	"reference":"12346B",
+			"date":"2019-07-16T16:55:42.000Z",
+			"amount":1893.38,
+			"fee":2.00,
+			"trdescription":"Dept Store payment"
 			}
 	}
 ]
