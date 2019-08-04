@@ -10,5 +10,8 @@
         <property name="hibernate.connection.username">postgres</property>
         <property name="hibernate.default_schema">public</property>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        <!-- List of XML mapping files -->
+<!-- 	   <mapping resource="account.hbm.xml"/> -->
+<!-- 	   <mapping resource="accounttransaction.hbm.xml"/> -->
     </session-factory>
 </hibernate-configuration>

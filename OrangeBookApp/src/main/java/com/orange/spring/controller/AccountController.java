@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.orange.spring.model.Account;
 import com.orange.spring.service.AccountService;
 
-//import com.orange.spring.service.AccountService;
-
 @CrossOrigin(origins = "*")
 @RestController
 public class AccountController {

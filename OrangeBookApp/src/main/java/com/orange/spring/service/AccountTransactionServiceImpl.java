@@ -10,7 +10,7 @@ import com.orange.spring.dao.AccountTransactionDao;
 import com.orange.spring.model.AccountTransaction;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 public class AccountTransactionServiceImpl implements AccountTransactionService  {
 
 	@Autowired
