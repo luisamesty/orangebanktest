@@ -6,14 +6,14 @@ import com.orange.spring.model.AccountTransaction;
 
 public interface AccountTransactionService {
 
-	long save(AccountTransaction accounttransaction);
+	long addTransaction(AccountTransaction accounttransaction);
 
-	AccountTransaction get(long id);
+	AccountTransaction getTransaction(long id);
 
-	List<AccountTransaction> list();
+	List<AccountTransaction> listTransaction();
 
-	void update(long id, AccountTransaction accounttransaction);
+	void updateTransaction(long id, AccountTransaction accounttransaction);
 
-	void delete(long id);
+	void deleteTransaction(long id);
 	
 }

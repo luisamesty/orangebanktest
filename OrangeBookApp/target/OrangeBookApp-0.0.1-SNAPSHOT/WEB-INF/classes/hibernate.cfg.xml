@@ -10,7 +10,19 @@
         <property name="hibernate.connection.username">postgres</property>
         <property name="hibernate.default_schema">public</property>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        <!-- Echo the SQL to stdout -->
+        <property name="show_sql">true</property>
+        <!-- Update the database schema on startup -->
+        <property name="hbm2ddl.auto">update</property>
+        <!-- dbcp connection pool configuration -->
+        <property name="hibernate.c3p0.min_size">5</property>
+        <property name="hibernate.c3p0.max_size">20</property>
+        <property name="hibernate.c3p0.timeout">1800</property>
+        <property name="hibernate.c3p0.max_statements">150</property>
+        <property name="hibernate.c3p0.acquire_increment">1</property>
         <!-- List of XML mapping files -->
+        <mapping class="com.orange.spring.model.Account"/>
+        <mapping class="com.orange.spring.model.AccountTransaction"/>
 <!-- 	   <mapping resource="account.hbm.xml"/> -->
 <!-- 	   <mapping resource="accounttransaction.hbm.xml"/> -->
     </session-factory>

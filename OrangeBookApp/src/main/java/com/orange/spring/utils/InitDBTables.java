@@ -16,6 +16,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -57,7 +58,7 @@ public class InitDBTables {
 		// Display Array to Console
 		displayAccountArray();
 		// Saves Account Array
-		saveAccountArray();
+		saveAccountArray2();
 
 	}
 	
@@ -141,7 +142,7 @@ public class InitDBTables {
     	System.out.println("Arreglo de cuentas .....");
     	for (int i=0 ; i < accounts.size(); i++) {
     		Account account = accounts.get(i);
-    		System.out.println(accounts.toString());
+    		System.out.println(account.toString());
     	}
 	}
 
@@ -153,78 +154,49 @@ public class InitDBTables {
 		
 		Account account= null;
 		Account account2 = null;
-		boolean isError = false;
 		String account_iban = "";
 		String account_iban2 = "";
 		long account_id = 0;
 		List<Account> accts = null;
-		// HIBERNATE 
-        try {
-        	// UtilConfig - Hibernate Conection 
-        	UtilConfig uconf = new UtilConfig();
-        	Properties props = uconf.getProperties();
-        	session = uconf.getSessionFactory().openSession();
-        	// RECORDS Account Array
-        	System.out.println("GRABANDO ARREGLO DE CUENTAS .....");
-        	for (int i=0 ; i < accounts.size(); i++) {
-        		// Get i Account
-        		account = accounts.get(i);
-                // Verify IF exists 
-                isError = false;
-  			  	// Verify if ID exists
-            	System.out.println(account.toString());
+
+    	// UtilConfig - Hibernate Conection 
+    	UtilConfig uconf = new UtilConfig();
+    	// Session open
+    	try {
+			session = uconf.getSessionFactoryB().openSession();
+		} catch (HibernateException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+    	// RECORDS Account Array
+    	System.out.println("GRABANDO ARREGLO DE CUENTAS .....");
+    	for (int i=0 ; i < accounts.size(); i++) {
+    		// Get i Account
+    		account = accounts.get(i);
+            // Verify IF exists 
+		  	// Verify if ID exists
+        	System.out.println(account.toString());
+    		// HIBERNATE 
+            try {
         		transaction = session.beginTransaction();
-        		// Account Verify account id
-                if (account.getAccount_iban() != null || !account.getAccount_iban().isEmpty()) {
-                	account_iban  = account.getAccount_iban();
-                	System.out.println("account_iban="+account_iban);
-            		CriteriaBuilder cb = session.getCriteriaBuilder();
-            		CriteriaQuery<Account> cq = cb.createQuery(Account.class);
-          	      	Root<Account> root = cq.from(Account.class);
-          	      	cq.select(root);
-          	      	//  OJO WHERE Clause
-          	      	cq.where(em.getCriteriaBuilder().equal(root.get("account_iban"), account_iban ));
-          	      	//  OJO WHERE Clause
-          	      	Query<Account> query = session.createQuery(cq);
-          	      	accts = query.getResultList();
-          	      	if (accts.size() > 0)
-          	      		isError = true ;
+        		//transaction.begin();
+        		session.save(account);
+            	transaction.commit();
+            } catch (Exception e) {
+                if (transaction != null) {
+                  transaction.rollback();
                 }
-        		// Account Verify account_iban
-                if (account.getAccount_iban() != null || !account.getAccount_iban().isEmpty()) {
-                	account_id  = account.getId();
-            		CriteriaBuilder cb = session.getCriteriaBuilder();
-            		CriteriaQuery<Account> cq = cb.createQuery(Account.class);
-          	      	Root<Account> root = cq.from(Account.class);
-          	      	cq.select(root);
-          	      	//  OJO WHERE Clause
-          	      	cq.where(em.getCriteriaBuilder().equal(root.get("id"), account_id ));
-          	      	//  OJO WHERE Clause
-          	      	Query<Account> query = session.createQuery(cq);
-          	      	accts = query.getResultList();
-          	      	if (accts.size() > 0)
-          	      		isError = true ;
-                }
-                if (!isError) {
-	        		//transaction.begin();
-	                session.save(account);
-	            	transaction.commit();
-                }
-        	}
-        	//uconf.shutdown();
-			// Account 
-        } catch (Exception e) {
-            if (transaction != null) {
-              transaction.rollback();
-            }
-            e.printStackTrace();
-        } finally {
-            if (session != null) {
-              session.close();
+            } finally {
+            	System.out.println("** ERROR * Account already exists ID:"+account.getId()+"  IBAN:"+account.getAccount_iban());
             }
         }
-		
+    	// Session close
+        if (session != null) {
+          session.close();
+        }
 	}
+	
 	/**
 	 * saveAccountArray
 	 * Saves to DB Account Array
@@ -235,8 +207,8 @@ public class InitDBTables {
         try {
         	// UtilConfig - Hibernate Conection 
         	UtilConfig uconf = new UtilConfig();
-        	Properties props = uconf.getProperties();
-        	session = uconf.getSessionFactory().openSession();
+        	//Properties props = uconf.getProperties();
+        	session = uconf.getSessionFactoryB().openSession();
             // RECORDS Account Array
         	System.out.println("GRABANDO ARREGLO DE CUENTAS .....");
         	for (int i=0 ; i < accounts.size(); i++) {

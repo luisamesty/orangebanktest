@@ -38,7 +38,7 @@ public class CreateTransaction {
 		// Display Transaction Array to Console
 		displayTransactionArray();
 		// Saves Account Array
-		//saveTransactionArray();
+		saveTransactionArray();
 	}
 	
     /**
@@ -59,7 +59,7 @@ public class CreateTransaction {
             Object obj = jsonParser.parse(reader);
 
             JSONArray trList = (JSONArray) obj;
-            System.out.println(trList);
+            //System.out.println(trList);
 
             //Iterate over account array
             
@@ -145,7 +145,7 @@ public class CreateTransaction {
     	System.out.println("Arreglo de Transacciones .....");
     	for (int i=0 ; i < acctransactions.size(); i++) {
     		AccountTransaction acctr = acctransactions.get(i);
-    		System.out.println(acctransactions.toString());
+    		System.out.println(acctr.toString());
     	}
 	}
 	
@@ -160,8 +160,10 @@ public class CreateTransaction {
         try {
         	// UtilConfig - Hibernate Conection 
         	UtilConfig uconf = new UtilConfig();
-        	Properties props = uconf.getProperties();
-        	session = uconf.getSessionFactory().openSession();
+        	//Properties props = uconf.getProperties();
+        	//session = uconf.getSessionFactory().openSession();
+        	session = uconf.getSessionFactoryB().openSession();
+        	
             // RECORDS Account Array
         	System.out.println("GRABANDO ARREGLO DE TRANSACCIONES .....");
         	for (int i=0 ; i < acctransactions.size(); i++) {

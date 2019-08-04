@@ -7,18 +7,18 @@ import com.orange.spring.model.AccountTransaction;
 public interface AccountTransactionDao {
 
 	// Save the record
-    long save(AccountTransaction accounttransaction);
+    long addTransaction(AccountTransaction accounttransaction);
  
     // Get a single record
-    AccountTransaction get(long id);
+    AccountTransaction getTransaction(long id);
  
     // Get all the records
-    List<AccountTransaction> list();
+    List<AccountTransaction> listTransaction();
  
     // Update the record
-    void update(long id, AccountTransaction accounttransaction);
+    void updateTransaction(long id, AccountTransaction accounttransaction);
  
     // Delete a record
-    void delete(long id);
+    void deleteTransaction(long id);
     
 }

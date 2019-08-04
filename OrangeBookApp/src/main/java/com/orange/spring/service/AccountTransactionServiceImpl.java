@@ -10,7 +10,7 @@ import com.orange.spring.dao.AccountTransactionDao;
 import com.orange.spring.model.AccountTransaction;
 
 @Service
-@Transactional(readOnly = false)
+@Transactional(readOnly = true)
 public class AccountTransactionServiceImpl implements AccountTransactionService  {
 
 	@Autowired
@@ -18,30 +18,30 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
 	
 	@Transactional
 	@Override
-	public long save(AccountTransaction accounttransaction) {
-		return accounttransactionDao.save(accounttransaction);
+	public long addTransaction(AccountTransaction accounttransaction) {
+		return accounttransactionDao.addTransaction(accounttransaction);
 	}
 
 	@Override
-	public AccountTransaction get(long id) {
-		return accounttransactionDao.get(id);
+	public AccountTransaction getTransaction(long id) {
+		return accounttransactionDao.getTransaction(id);
 	}
 
 	@Override
-	public List<AccountTransaction> list() {
-		return accounttransactionDao.list();
-	}
-
-	@Transactional
-	@Override
-	public void update(long id, AccountTransaction accounttransaction) {
-		accounttransactionDao.update(id, accounttransaction);
+	public List<AccountTransaction> listTransaction() {
+		return accounttransactionDao.listTransaction();
 	}
 
 	@Transactional
 	@Override
-	public void delete(long id) {
-		accounttransactionDao.delete(id);
+	public void updateTransaction(long id, AccountTransaction accounttransaction) {
+		accounttransactionDao.updateTransaction(id, accounttransaction);
+	}
+
+	@Transactional
+	@Override
+	public void deleteTransaction(long id) {
+		accounttransactionDao.deleteTransaction(id);
 	}
 
 }

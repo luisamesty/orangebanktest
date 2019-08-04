@@ -21,18 +21,18 @@ public class AccountTransactionDaoImpl implements AccountTransactionDao {
 	private SessionFactory sessionFactory;
 	
 	@Override
-	public long save(AccountTransaction accounttransaction) {
+	public long addTransaction(AccountTransaction accounttransaction) {
 		sessionFactory.getCurrentSession().save(accounttransaction);
 	      return accounttransaction.getId();
 	}
 
 	@Override
-	public AccountTransaction get(long id) {
+	public AccountTransaction getTransaction(long id) {
 		return sessionFactory.getCurrentSession().get(AccountTransaction.class, id);
 	}
 
 	@Override
-	public List<AccountTransaction> list() {
+	public List<AccountTransaction> listTransaction() {
 		 Session session = sessionFactory.getCurrentSession();
 	      CriteriaBuilder cb = session.getCriteriaBuilder();
 	      CriteriaQuery<AccountTransaction> cq = cb.createQuery(AccountTransaction.class);
@@ -46,7 +46,7 @@ public class AccountTransactionDaoImpl implements AccountTransactionDao {
 	}
 
 	@Override
-	public void update(long id, AccountTransaction accounttransaction) {
+	public void updateTransaction(long id, AccountTransaction accounttransaction) {
 		Session session = sessionFactory.getCurrentSession();
 		AccountTransaction accounttransaction2 = session.byId(AccountTransaction.class).load(id);
 		accounttransaction2.setAccount_id(accounttransaction.getAccount_id());
@@ -61,7 +61,7 @@ public class AccountTransactionDaoImpl implements AccountTransactionDao {
 	}
 
 	@Override
-	public void delete(long id) {
+	public void deleteTransaction(long id) {
 		Session session = sessionFactory.getCurrentSession();
 		AccountTransaction accounttransaction = session.byId(AccountTransaction.class).load(id);
 	      session.delete(accounttransaction);

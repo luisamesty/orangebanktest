@@ -25,43 +25,43 @@ public class AccountTransactionController {
 	
 	  /*--- (GET ALL) get all account transactions---*/
 	   @GetMapping("/transaction")
-	   public ResponseEntity<List<AccountTransaction>> list() {
+	   public ResponseEntity<List<AccountTransaction>> listTransaction() {
 		   System.out.println("get all account transactions...");
-	      List<AccountTransaction> accounttransactions = accounttransactionService.list();
+	      List<AccountTransaction> accounttransactions = accounttransactionService.listTransaction();
 	      return ResponseEntity.ok().body(accounttransactions);
 	   }
 	   
 	   /*--- (POST) Add new account transaction---*/
 	   @PostMapping("/transaction")
-	   public ResponseEntity<?> save(@RequestBody AccountTransaction accounttransaction) {
+	   public ResponseEntity<?> addTransaction(@RequestBody AccountTransaction accounttransaction) {
 		  System.out.println("the json value of Account Transaction is :::::: "+accounttransaction);
-	      long id = accounttransactionService.save(accounttransaction);
+	      long id = accounttransactionService.addTransaction(accounttransaction);
 	      return ResponseEntity.ok().body("New Account Transaction has been saved with ID:" + id);
 	  }
 	   
 	  /*--- (GET 1) Get an account transaction by id---*/
 	  @GetMapping("/transaction/{id}")
-	  public ResponseEntity<AccountTransaction> get(@PathVariable("id") long id) {
-		  AccountTransaction accounttransaction = accounttransactionService.get(id);
+	  public ResponseEntity<AccountTransaction> getTransaction(@PathVariable("id") long id) {
+		  AccountTransaction accounttransaction = accounttransactionService.getTransaction(id);
 	     return ResponseEntity.ok().body(accounttransaction);
 	  }
 	  
 	   /*--- (PUT) Update an account transaction by id---*/
 	   @PutMapping("/transaction/{id}")
-	   public ResponseEntity<?> update(@PathVariable("id") long id, @RequestBody AccountTransaction accounttransaction) {
-		   accounttransactionService.update(id, accounttransaction);
+	   public ResponseEntity<?> updateTransaction(@PathVariable("id") long id, @RequestBody AccountTransaction accounttransaction) {
+		   accounttransactionService.updateTransaction(id, accounttransaction);
 	      return ResponseEntity.ok().body("Account transaction has been updated successfully.");
 	   }
 	   
 	   /*--- (DEL) Delete an account transaction id---*/
 	   @DeleteMapping("/transaction/{id}")
-	   public ResponseEntity<?> delete(@PathVariable("id") long id) {
+	   public ResponseEntity<?> deleteTransaction(@PathVariable("id") long id) {
 		  // New Validation By ID
-		  if (accounttransactionService.get(id) == null) {
+		  if (accounttransactionService.getTransaction(id) == null) {
 				  //System.out.println("** ERROR, EXIST Account ::::: "+account2.toString());
 				  return ResponseEntity.ok().body("** ERROR ** Account Transaction DO NOT EXISTT. NO ransaction has been deleted with ID:" + id);
 		  }
-		  accounttransactionService.delete(id);
+		  accounttransactionService.deleteTransaction(id);
 	      return ResponseEntity.ok().body("Account Transaction has been deleted successfully.");
 	   }
 }

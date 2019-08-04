@@ -12,6 +12,7 @@ import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.service.ServiceRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -29,13 +30,18 @@ public class UtilConfig {
 	private Environment env;
 	
 	private StandardServiceRegistry registry;
-	private SessionFactory sessionFactory;
+	private static SessionFactory sessionFactory;
 	
 	Properties props = new Properties();
-	
+	/**
+	 * getSessionFactory From Map (Not Used @Deprecated)
+	 * @return
+	 * @throws IOException
+	 */
+	@Deprecated
 	public SessionFactory getSessionFactory() throws IOException {
 	    if (sessionFactory == null) {
-    	  //System.out.println("Sesion nueva.. creando sesion "); 
+    	  System.out.println("Sesion nueva.. creando sesion "); 
     	  Properties props = getProperties();
     	  
 	      try {
@@ -53,6 +59,7 @@ public class UtilConfig {
 
 	        registryBuilder.applySettings(settings);
 
+	        // METOD A
 	        registry = registryBuilder.build();
 
 	        MetadataSources sources = new MetadataSources(registry)
@@ -61,6 +68,7 @@ public class UtilConfig {
 	        Metadata metadata = sources.getMetadataBuilder().build();
 
 	        sessionFactory = metadata.getSessionFactoryBuilder().build();
+	        
 	      } catch (Exception e) {
 	        //System.out.println("SessionFactory creation failed");
 	        if (registry != null) {
@@ -71,6 +79,28 @@ public class UtilConfig {
 	    return sessionFactory;
 	}
 
+	/**
+	 * getSessionFactoryB: From hibernate.cfg.xml (Actually Used)
+	 * @return
+	 * @throws IOException
+	 */
+	public SessionFactory getSessionFactoryB() throws IOException {
+		
+        try {
+            // Create the SessionFactory from hibernate.cfg.xml
+            StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder() .configure("hibernate.cfg.xml").build();
+            Metadata metadata = new MetadataSources(standardRegistry).getMetadataBuilder().build();
+            return metadata.getSessionFactoryBuilder().build();
+        } 
+        catch (Throwable ex) {
+            // Make sure you log the exception, as it might be swallowed
+            System.err.println("Initial SessionFactory creation failed." + ex);
+            throw new ExceptionInInitializerError(ex);
+        }
+		
+	}
+
+		
 	public void shutdown() {
     	System.out.println("Hibernate Util Shutdown ....");
 	    if (registry != null) {

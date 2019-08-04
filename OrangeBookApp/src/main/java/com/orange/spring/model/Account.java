@@ -18,10 +18,15 @@ public class Account {
 	@OrderBy 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(unique = true)
 	Long id;
+	
 	@Column(name="NAME", nullable = false)
 	String name;
+	
+	@Column(unique = true)
 	String account_iban;
+	
 	BigDecimal balance;
 	
 	public Long getId() {
