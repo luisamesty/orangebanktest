@@ -90,7 +90,7 @@ public class AccountController {
 		  // New Validation By ID
 		   if (accountService.get(id) == null) {
 				  //System.out.println("** ERROR, EXIST Account ::::: "+account2.toString());
-				  return ResponseEntity.ok().body("** ERROR ** Account DO NOT EXISTT. NO Account has been deleted with ID:" + id);
+				  return ResponseEntity.ok().body("** ERROR ** Account DO NOT EXIST. NO Account has been deleted with ID:" + id);
 		  }
 		  accountService.delete(id);
 	      return ResponseEntity.ok().body("Account has been deleted successfully.");

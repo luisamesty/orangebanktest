@@ -63,7 +63,7 @@ public class AccountTransactionController {
 		  // New Validation By ID
 		  if (accounttransactionService.getTransaction(id) == null) {
 				  //System.out.println("** ERROR, EXIST Account ::::: "+account2.toString());
-				  return ResponseEntity.ok().body("** ERROR ** Account Transaction DO NOT EXISTT. NO ransaction has been deleted with ID:" + id);
+				  return ResponseEntity.ok().body("** ERROR ** Account Transaction DO NOT EXIST. NO transaction has been deleted with ID:" + id);
 		  }
 		  accounttransactionService.deleteTransaction(id);
 	      return ResponseEntity.ok().body("Account Transaction has been deleted successfully.");

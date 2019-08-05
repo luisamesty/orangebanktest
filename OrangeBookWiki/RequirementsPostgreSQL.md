@@ -6,8 +6,10 @@ Return to Main: </br>
 
 ## PostgreSQL Database Requirements
 <pre>
+### Local, Remote or microsevice  Postgresql Database Instance.
 Local or Remote Postgresql Database Instance, must be installed and service running.
-Local IP configuration must be available on pg_hba.con file, in order to accept request from the IP address of the Test PC.
+Local IP configuration must be available on pg_hba.con file,
+in order to accept request from the IP address of the Test PC.
 Database must be created:
 name:  orangeapi
 owner: postgres
@@ -18,7 +20,7 @@ Tables used by App:
 
 (See d.properties sample   on src/main/resources project's directory) 
 </pre>
-### Hibernate File:  db.properties
+### Hibernate File:  db.properties (Sample used)
 <pre>
 # PostgreSQL properties
 postgresql.driver=org.postgresql.Driver
@@ -40,13 +42,16 @@ hibernate.c3p0.max_statements=150
 </pre>
 ### Initial Data Base Setup.
 <pre>
-Database "orangeapi", has to be created using postgresql command lines, or any PG Administrator. (Recommended PGAdmin).
-Once Database is created, OrangeBookApp creates the two tables, than will be used on test exercises.
+Database "orangeapi", has to be created using postgresql command lines,
+or any PG Administrator. (Recommended PGAdmin).
+Once Database is created, OrangeBookApp creates the two tables, 
+than will be used on test exercises.
 Tables:
     Account.   Entity that store accounts and balance amount.
     AccountTransaction.  Entity that store account transaction processed.
 
-Two SQL sripts are provided on sql directory of OrangeBookApp project, for additional Database settings. 
+Two SQL sripts are provided on sql directory of OrangeBookApp project, 
+for additional Database settings. 
 They must be run on this order:
     accounts_init_db.sql
     transactions_init_db.sql
@@ -69,7 +74,8 @@ INSERT INTO public.account(
 Additional Java Class is provided for Initial Data Base:
     InitDBTables.java       Provides Java code for same purpose.
     HibernateUtil.java      Provides local Hibernate DB session.
-This classes uses json files provided on <b>json</b> directory of main app. A json parser reader is modelled in order to read this files:
+This classes uses json files provided on <b>json</b> directory of main app. 
+A json parser reader is modelled in order to read this files:
     Account.json
     Transaction.json
 </pre>

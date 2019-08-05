@@ -14,7 +14,7 @@ Apps:
         Version: 2018-09 (4.9.0)
         Build id: 20180917-1800
     Postman App.
-        Postman is a desktop app that helps you test asnd develop APIs faster and easyly.
+        Postman is a desktop app that helps you test and develop APIs faster and easyly.
         Website: https://www.getpostman.com
     Visual Studio Code.
         Versión 1.36.1 (1.36.1)
