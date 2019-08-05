@@ -1,7 +1,7 @@
 -- AccountTransactions INIT DB
 ALTER TABLE public.accounttransaction DROP CONSTRAINT IF EXISTS accounttransaction_reference;
 ALTER TABLE public.accounttransaction 
-ADD CONSTRAINT accounttransaction_reference UNIQUE (reference, account_iban);
+ADD CONSTRAINT accounttransaction_reference UNIQUE (treference, account_iban);
 
 ALTER TABLE public.accounttransaction DROP CONSTRAINT IF EXISTS accounttransaction_accountiban;
 ALTER TABLE public.accounttransaction 

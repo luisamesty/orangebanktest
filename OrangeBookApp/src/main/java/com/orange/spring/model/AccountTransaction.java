@@ -17,8 +17,8 @@ public class AccountTransaction {
 		@GeneratedValue(strategy = GenerationType.SEQUENCE)
 		Long id;
 		String account_iban;
-		String reference;
-		String date;
+		String treference;
+		String trdate;
 		BigDecimal amount;
 		BigDecimal fee;
 		String trdescription;
@@ -45,22 +45,22 @@ public class AccountTransaction {
 
 
 		public String getReference() {
-			return reference;
+			return treference;
 		}
 
 
-		public void setReference(String reference) {
-			this.reference = reference;
+		public void setReference(String treference) {
+			this.treference = treference;
 		}
 
 
 		public String getDate() {
-			return date;
+			return trdate;
 		}
 
 
-		public void setDate(String date) {
-			this.date = date;
+		public void setDate(String trdate) {
+			this.trdate = trdate;
 		}
 
 
@@ -106,8 +106,8 @@ public class AccountTransaction {
 
 		@Override
 		public String toString() {
-			return "AccountTransaction [id=" + id + ", account_iban=" + account_iban + ", reference=" + reference + ", date="
-					+ date + ", amount=" + amount + ", fee=" + fee + ", trdescription=" + trdescription + ", trstatus="
+			return "AccountTransaction [id=" + id + ", account_iban=" + account_iban + ", reference=" + treference + ", trdate="
+					+ trdate + ", amount=" + amount + ", fee=" + fee + ", trdescription=" + trdescription + ", trstatus="
 					+ trstatus + "]";
 		}
 
