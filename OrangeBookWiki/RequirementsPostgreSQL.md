@@ -69,4 +69,7 @@ INSERT INTO public.account(
 Additional Java Class is provided for Initial Data Base:
     InitDBTables.java       Provides Java code for same purpose.
     HibernateUtil.java      Provides local Hibernate DB session.
+This classes uses json files provided on <b>json</b> directory of main app. A json parser reader is modelled in order to read this files:
+    Account.json
+    Transaction.json
 </pre>
