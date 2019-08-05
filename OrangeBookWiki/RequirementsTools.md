@@ -19,8 +19,16 @@ Apps:
     Visual Studio Code.
         Versión 1.36.1 (1.36.1)
         For Wiki Md files.
-    Docker.
-
+    Docker desktop for Mac OS.
+        Version 2.1.0.0
+        Engine 19.03.1
+    Kubernetes (minikube).
+        V1.14.3
     Kitematic.
+        V0.17.6
+    Virtual Box.
+        Version 6.0
+
 
 </pre>
+Return to Main: [README.md](https://github.com/luisamesty/orangebanktest/blob/master/README.md)
