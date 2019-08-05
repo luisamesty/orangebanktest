@@ -16,7 +16,7 @@ on Local Apache TOMCAT, and ready to accept request on <b>http://localhost:8080<
 <pre>
 Using Postman. 
 In Sample Data base init only 5 accounts were created. So additional accout no. 6 can be tested for creating.
-POSTMAN REQUEST: POST
+POSTMAN REQUEST: <b>POST</b>
 POSTMAN URL: http://localhost:8080/OrangeBookApp/account/
 JSON Data:
    {
@@ -29,7 +29,7 @@ JSON Data:
 </pre>
 ### Read All Accounts
 <pre>
-POSTMAN REQUEST: GET
+POSTMAN REQUEST: <b>GET</b>
 POSTMAN URL: http://localhost:8080/OrangeBookApp/account/
 JSON Data: (Not required)
 <u>Result message: (all accounts included)</u> 
@@ -74,7 +74,7 @@ JSON Data: (Not required)
 </pre>
 ### Read ONE Account (ID=1)
 <pre>
-POSTMAN REQUEST: POST
+POSTMAN REQUEST: <b>POST</b>
 POSTMAN URL: http://localhost:8080/OrangeBookApp/account/1
 JSON Data: (Not required)
 <u>Result message: (only Account ID = 1)</u> 
@@ -89,7 +89,7 @@ JSON Data: (Not required)
 </pre>
 ### Update Account (ID=1)
 <pre>
-POSTMAN REQUEST: PUT
+POSTMAN REQUEST: <b>PUT</b>
 POSTMAN URL: http://localhost:8080/OrangeBookApp/account/1
 JSON Data:
 {
@@ -105,7 +105,7 @@ JSON Data:
 </pre>
 ### Delete Account (5)
 <pre>
-POSTMAN REQUEST: DELETE
+POSTMAN REQUEST: <b>DELETE</b>
 POSTMAN URL: http://localhost:8080/OrangeBookApp/account/5
 JSON Data: (Not required)
 <u>Result messages:</u> 

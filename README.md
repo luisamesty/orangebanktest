@@ -14,5 +14,7 @@ The goal of this code challenge is to create a microserviceTest APP using Java a
 - [PostgreSQL Database 9.6](https://github.com/luisamesty/orangebanktest/blob/master/OrangeBookWiki/RequirementsPostgreSQL.md)
 - [Account API TEST](https://github.com/luisamesty/orangebanktest/blob/master/OrangeBookWiki/TestAccount.md)
 - [Account Transaction API TEST](https://github.com/luisamesty/orangebanktest/blob/master/OrangeBookWiki/TestAccountTransaction.md)
+- [FINAL TESTS](https://github.com/luisamesty/orangebanktest/blob/master/OrangeBookWiki/TestFinal.md)
+- [Comments](https://github.com/luisamesty/orangebanktest/blob/master/OrangeBookWiki/TestChallengeComments.md)
 ***
 Technologies stack: Java, Spring, Maven, Hibernate, PostgreSQL, JUnit, Log4j, Jetty, Tomcat, HTML, CSS.
