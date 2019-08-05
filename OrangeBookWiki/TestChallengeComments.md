@@ -19,9 +19,22 @@ I tryed to apply all demanding rules, and soliciting experience:
     - Java 1.8 or higher.
     - Sping Framework, mvc, boot, data.
     - Continuos Integration (Jenkins)
-I have experience as a developer based on Open Source ERP Idempiere. Particullary this ERP lacks a litle on Testing procedures, because most java plugin development is based on community developed legacy code.
-Idempiere is based on Java JPA persistence, making it compatible for Oracle an PostgreSQL. So my experience on Hibernate is relatively medium. There are some Database validations, that must be done on hibernate project table model. Instead of this, i used an script to solve temporaryly some table constrains.
-At the moment, i have not 100% complied with the development of applications under a testing approach. This is due because i have to employ time on project structure design, i mean classes, Dao, Service and Controller. Also describing the tools required to install development and production environment.
-The objective of continuous integration has not been addressed in this exercise, however the use of mavem simplifyes this approach.
+I have experience as a developer based on Open Source ERP Idempiere. 
+Particullary this ERP lacks a litle on Testing procedures, because most java plugin 
+development is based on community developed legacy code.
+Idempiere is based on Java JPA persistence, making it compatible for Oracle an PostgreSQL. 
+So my experience on Hibernate is relatively medium, based as selft-taught and developer curiosity. 
+There are some Database validations, that must be done on hibernate project table annotations model. 
+Instead of this, i used an script to solve temporaryly some table constrains. I recognize it is not a good practice, specially on ORM development.
+At the moment, i have not 100% complied with the development of applications under a testing approach. 
+This is due because i have to employ time on project structure design, 
+i mean classes, Dao, Service and Controller. 
+Also describing the tools required to install development and production environment.
+The objective of continuous integration has not been addressed in this exercise, 
+however the use of mavem simplifyes this approach.
 A microservice for Jenkins cant be used for this purpose.
+Additional Front End HTML-CSS-JS pages will easyly help improve testing on production environment.
+It has been a pleasure to work on this.
+I hope, It likes to you
+Best regards, Luis Amesty Linares 
 </pre>
