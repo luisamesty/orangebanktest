@@ -159,10 +159,9 @@ public class InitDBTables {
     	boolean isError = false;
     	// Session open
     	try {
-			session = uconf.getSessionFactoryB().openSession();
+			//session = uconf.getSessionFactoryB().openSession();
+			session = HibernateUtil.getSessionFactory().openSession();
 		} catch (HibernateException e1) {
-			e1.printStackTrace();
-		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
     	// RECORDS Account Array
@@ -203,12 +202,48 @@ public class InitDBTables {
 		
     	// HIBERNATE 
         try {
-        	// UtilConfig - Hibernate Conection 
-        	UtilConfig uconf = new UtilConfig();
-        	Properties props = uconf.getProperties();
+        	// UtilConfig - HIBER CONN 
+        	String sqlString = "";
+        	Query<?> query= null;
         	//System.out.println( "postgresql.driver:"+props.getProperty("postgresql.driver"));
-        	session = uconf.getSessionFactory().openSession();
+        	session = HibernateUtil.getSessionFactory().openSession();
         	transaction = session.beginTransaction();
+        	
+        	// ALTER TABLE Account
+//        	sqlString="ALTER TABLE public.account DROP CONSTRAINT IF EXISTS account_iban ";
+//        	query=session.createNativeQuery(sqlString);
+//        	query.executeUpdate();
+//        	transaction.commit();
+//        	sqlString="ALTER TABLE public.account " + 
+//        			"ADD CONSTRAINT account_iban UNIQUE (account_iban) ";
+//        	query=session.createNativeQuery(sqlString);
+//        	query.executeUpdate();
+//        	transaction.commit();
+        	
+//        	// ALTER TABLE AccountTransaction
+//        	// AccountTransaction UNIQUE KEY reference + account_iban
+//        	sqlString="ALTER TABLE public.accounttransaction DROP CONSTRAINT IF EXISTS accounttransaction_reference ";
+//        	query=session.createNativeQuery(sqlString);
+//        	query.executeUpdate();
+//        	transaction.commit();
+//        	sqlString="ALTER TABLE public.accounttransaction  " + 
+//        			"ADD CONSTRAINT accounttransaction_reference UNIQUE (reference, account_iban)";
+//        	query=session.createNativeQuery(sqlString);
+//        	query.executeUpdate();
+//        	transaction.commit();
+//        	// AccountTransaction Foreign KEY account_iban on Account Table
+//        	sqlString="ALTER TABLE public.accounttransaction DROP CONSTRAINT IF EXISTS accounttransaction_accountiban ";
+//        	query=session.createNativeQuery(sqlString);
+//        	query.executeUpdate();
+//        	transaction.commit();
+//        	sqlString="ALTER TABLE public.accounttransaction  " + 
+//        			"ADD CONSTRAINT accounttransaction_accountiban FOREIGN KEY (account_iban) " + 
+//        			"REFERENCES public.account (account_iban) MATCH SIMPLE " + 
+//        			"ON UPDATE NO ACTION " + 
+//        			"ON DELETE NO ACTION ";
+//        	query=session.createNativeQuery(sqlString);
+//        	query.executeUpdate();
+//        	transaction.commit();
         	
         	// FUTURE INIT IMPROVEMETS
         	// DELETE RECORD FROM accounttransaction table 
@@ -216,10 +251,10 @@ public class InitDBTables {
             //query1.executeUpdate();
             //session.flush();
             
-        	// DELETE RECORD FROM account table 
-        	Query<?> query2 = session.createQuery("DELETE FROM Account");
-            query2.executeUpdate();
-            session.flush();
+//        	// DELETE RECORD FROM account table 
+//        	Query<?> query2 = session.createQuery("DELETE FROM Account");
+//            query2.executeUpdate();
+//            session.flush();
             
             // FUTURE INIT IMPROVEMETS
             // UPDATE account_id_seq SEQUENCE to 1

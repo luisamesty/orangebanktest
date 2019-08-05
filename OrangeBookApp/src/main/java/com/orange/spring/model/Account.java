@@ -24,7 +24,6 @@ public class Account {
 	@Column(name="NAME", nullable = false)
 	String name;
 	
-	@Column(unique = true)
 	String account_iban;
 	
 	BigDecimal balance;

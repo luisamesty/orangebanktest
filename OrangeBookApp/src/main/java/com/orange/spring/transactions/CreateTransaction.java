@@ -19,8 +19,13 @@ import org.json.simple.parser.ParseException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.orange.spring.dao.AccountDao;
+import com.orange.spring.dao.AccountDaoImpl;
 import com.orange.spring.model.Account;
 import com.orange.spring.model.AccountTransaction;
+import com.orange.spring.service.AccountService;
+import com.orange.spring.service.AccountServiceImpl;
+import com.orange.spring.utils.HibernateUtil;
 import com.orange.spring.utils.UtilConfig;
 
 @CrossOrigin(origins = "*")
@@ -124,7 +129,7 @@ public class CreateTransaction {
 		acctr.setId(id);
 		acctr.setAccount_iban(account_iban);
 		acctr.setReference(reference);
-		acctr.setDate(TSdate);
+		acctr.setDate(date);
 		acctr.setAmount(BDamount);
 		acctr.setFee(BDfee);
 		acctr.setTrdescription(trdescription);
@@ -154,15 +159,17 @@ public class CreateTransaction {
 	
 	private static void saveTransactionArray() {
 		
-    	// UtilConfig - Hibernate Conection 
+    	// UtilConfig - HIB CONN 
     	UtilConfig uconf = new UtilConfig();
+    	AccountDao accountDao = new AccountDaoImpl();
+    	Account account = null;
     	boolean isError = false;
+    	String errorMessage="";
     	// Session open
     	try {
-			session = uconf.getSessionFactoryB().openSession();
+			//session = uconf.getSessionFactoryB().openSession();
+			session = HibernateUtil.getSessionFactory().openSession();
 		} catch (HibernateException e1) {
-			e1.printStackTrace();
-		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
         // RECORDS Account Array
@@ -170,6 +177,11 @@ public class CreateTransaction {
        	for (int i=0 ; i < acctransactions.size(); i++) {
     		// Get i Account Transaction
        		AccountTransaction acctr = acctransactions.get(i);
+       		// Get Account 
+       		System.out.println("Traza cuenta TR ...:"+acctr.getAccount_iban());
+//			account = accountDao.getByIBAN(acctr.getAccount_iban());
+//       		if (account != null)
+//       			System.out.println("Traza cuenta BANCO ...:"+account.getAccount_iban());
             // Verify IF exists 
         	System.out.println(acctr.toString());
     		// HIBERNATE 
@@ -183,10 +195,11 @@ public class CreateTransaction {
                 if (transaction != null) {
                   transaction.rollback();
                 }
+                errorMessage=e.getLocalizedMessage(); //e.getMessage();
                 isError = true;
             } finally {
             	if(isError)
-            		System.out.println("** ERROR * Transaction already exists ID:"+acctr.getId()+"  IBAN:"+acctr.getAccount_iban());
+            		System.out.println("** ERROR ** "+errorMessage+" ID:"+acctr.getId()+" REF:"+acctr.getReference()+"  IBAN:"+acctr.getAccount_iban());
             }
         }
        	// Session close

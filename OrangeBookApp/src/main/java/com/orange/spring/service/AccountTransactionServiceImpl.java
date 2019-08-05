@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.orange.spring.dao.AccountTransactionDao;
 import com.orange.spring.model.AccountTransaction;
+import com.orange.spring.model.TransactionId;
 
 @Service
 @Transactional(readOnly = true)
@@ -18,7 +19,7 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
 	
 	@Transactional
 	@Override
-	public long addTransaction(AccountTransaction accounttransaction) {
+	public Long addTransaction(AccountTransaction accounttransaction) {
 		return accounttransactionDao.addTransaction(accounttransaction);
 	}
 

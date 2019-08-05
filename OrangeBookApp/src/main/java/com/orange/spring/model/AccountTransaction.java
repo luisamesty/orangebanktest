@@ -3,12 +3,11 @@ package com.orange.spring.model;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity(name = "AccountTransaction")
@@ -19,7 +18,7 @@ public class AccountTransaction {
 		Long id;
 		String account_iban;
 		String reference;
-		Timestamp date;
+		String date;
 		BigDecimal amount;
 		BigDecimal fee;
 		String trdescription;
@@ -55,12 +54,12 @@ public class AccountTransaction {
 		}
 
 
-		public Timestamp getDate() {
+		public String getDate() {
 			return date;
 		}
 
 
-		public void setDate(Timestamp date) {
+		public void setDate(String date) {
 			this.date = date;
 		}
 

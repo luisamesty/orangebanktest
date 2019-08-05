@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.orange.spring.model.AccountTransaction;
 import com.orange.spring.service.AccountTransactionService;
 
@@ -24,37 +23,42 @@ public class AccountTransactionController {
 	private AccountTransactionService accounttransactionService;
 	
 	  /*--- (GET ALL) get all account transactions---*/
-	   @GetMapping("/transaction")
+	   @GetMapping("/transaction/get")
 	   public ResponseEntity<List<AccountTransaction>> listTransaction() {
 		   System.out.println("get all account transactions...");
 	      List<AccountTransaction> accounttransactions = accounttransactionService.listTransaction();
 	      return ResponseEntity.ok().body(accounttransactions);
 	   }
-	   
+		
 	   /*--- (POST) Add new account transaction---*/
-	   @PostMapping("/transaction")
+	   @PostMapping("/transaction/post")
 	   public ResponseEntity<?> addTransaction(@RequestBody AccountTransaction accounttransaction) {
 		  System.out.println("the json value of Account Transaction is :::::: "+accounttransaction);
-	      long id = accounttransactionService.addTransaction(accounttransaction);
+		  Long id = accounttransactionService.addTransaction(accounttransaction);
 	      return ResponseEntity.ok().body("New Account Transaction has been saved with ID:" + id);
 	  }
 	   
 	  /*--- (GET 1) Get an account transaction by id---*/
-	  @GetMapping("/transaction/{id}")
+	  @GetMapping("/transaction/get/{id}")
 	  public ResponseEntity<AccountTransaction> getTransaction(@PathVariable("id") long id) {
 		  AccountTransaction accounttransaction = accounttransactionService.getTransaction(id);
 	     return ResponseEntity.ok().body(accounttransaction);
 	  }
-	  
+//	  public long getTransactionByRefIban(String account_iban, String reference) {
+//		  long tr_id=(Long) null;
+//		  
+//		  return tr_id;
+//	  }
 	   /*--- (PUT) Update an account transaction by id---*/
-	   @PutMapping("/transaction/{id}")
+	   @PutMapping("/transaction/put/{id}")
 	   public ResponseEntity<?> updateTransaction(@PathVariable("id") long id, @RequestBody AccountTransaction accounttransaction) {
+		   System.out.println("the json value of Account Transaction is :::::: "+accounttransaction);
 		   accounttransactionService.updateTransaction(id, accounttransaction);
 	      return ResponseEntity.ok().body("Account transaction has been updated successfully.");
 	   }
 	   
 	   /*--- (DEL) Delete an account transaction id---*/
-	   @DeleteMapping("/transaction/{id}")
+	   @DeleteMapping("/transaction/del/{id}")
 	   public ResponseEntity<?> deleteTransaction(@PathVariable("id") long id) {
 		  // New Validation By ID
 		  if (accounttransactionService.getTransaction(id) == null) {

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.orange.spring.model.AccountTransaction;
+import com.orange.spring.model.TransactionId;
 
 @Repository
 public class AccountTransactionDaoImpl implements AccountTransactionDao {
@@ -21,7 +22,7 @@ public class AccountTransactionDaoImpl implements AccountTransactionDao {
 	private SessionFactory sessionFactory;
 	
 	@Override
-	public long addTransaction(AccountTransaction accounttransaction) {
+	public Long addTransaction(AccountTransaction accounttransaction) {
 		sessionFactory.getCurrentSession().save(accounttransaction);
 	      return accounttransaction.getId();
 	}

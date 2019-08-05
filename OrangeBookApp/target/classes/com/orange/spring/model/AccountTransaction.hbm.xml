@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 4 ago. 2019 12:43:36 by Hibernate Tools 3.5.0.Final -->
+<!-- Generated 5 ago. 2019 1:11:05 by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
     <class name="com.orange.spring.model.AccountTransaction" table="ACCOUNTTRANSACTION">
         <id name="id" type="java.lang.Long">
@@ -14,7 +14,7 @@
         <property name="reference" type="java.lang.String">
             <column name="REFERENCE" />
         </property>
-        <property name="date" type="java.sql.Timestamp">
+        <property name="date" type="java.lang.String">
             <column name="DATE" />
         </property>
         <property name="amount" type="java.math.BigDecimal">
