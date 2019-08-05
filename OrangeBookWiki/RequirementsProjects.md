@@ -1,8 +1,8 @@
-## Code Challenge
+## Code Challenge - APP  and Projects
 The goal of this code challenge is to create a microservice using Java and any framework that you think it is
-appropriate.
-## Return to Main
-- [Home] (https://github.com/luisamesty/orangebanktest/blob/master/README.md)
+appropriate.</br>
+Return to Main: </br>
+[README.md] (https://github.com/luisamesty/orangebanktest/blob/master/README.md)
 ## Apps and Projects
 <pre>
 App has been separated on three projects:
@@ -37,14 +37,16 @@ Some of dependencies imported on pom.xml:
     version: 3.6.0
 Embedded Apache Tomcat required for testing web application
 </pre>
-#### OrangeBookTestApp
-<pre>
-This is the App for testing.
-It's based on same dependencies.
-</pre>
 #### OrangeBookWiki
 <pre>
 This project contains only md files for README links and documentation.
 Future Wiki for App on GitHub.
 </pre>
+#### OrangeBookTestApp (Not used on this version 1.0)
+<pre>
+This is the App for testing.
+It's based on same dependencies.
+For future Content.....
+</pre>
+
 
