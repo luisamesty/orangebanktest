@@ -1,7 +1,5 @@
 ## Code Challenge (ECLIPSE DEVELOPMENT IDE)
-The goal of this code challenge is to create a microserviceTest APP using Java and Docker Containers using a PostgreSQL Database.</br>
-Return to Main: </br>
-[README.md] (https://github.com/luisamesty/orangebanktest/blob/master/README.md)
+Return to Main: [README.md] (https://github.com/luisamesty/orangebanktest/blob/master/README.md)
 
 ## ECLIPSE DEVELOPMENT IDE
 <pre>

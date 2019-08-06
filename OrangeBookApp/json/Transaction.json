@@ -3,10 +3,10 @@
 	    "transaction": {
 		    "id" : 1,
 			"account_iban": "ES9820385778983000760236",
-			"reference":"12345A",
-			"date":"2019-07-16T16:55:42.000Z",
-			"amount":193.38,
-			"fee":3.18,
+			"treference":"12345A",
+			"trfecha":"2019-07-16T16:55:42.000Z",
+			"tramount":193.38,
+			"trfee":3.18,
 			"trdescription":"Restaurant payment"
 			}
 	},
@@ -14,10 +14,10 @@
 	    "transaction": {
 	    	"id" : 2,
 			"account_iban": "ES9820385778983000760236",
-	    	"reference":"12345B",
-			"date":"2019-07-16T16:55:42.000Z",
-			"amount":893.38,
-			"fee":5.35,
+	    	"treference":"12345B",
+			"trfecha":"2019-07-16T16:55:42.000Z",
+			"tramount":893.38,
+			"trfee":5.35,
 			"trdescription":"Dept Store payment"
 			}
 	},
@@ -25,10 +25,10 @@
 	    "transaction": {
 		    "id" : 3,
 			"account_iban": "ES9820385778983000760236",
-			"reference":"12346A",
-			"date":"2019-07-16T16:55:42.000Z",
-			"amount":1193.38,
-			"fee":2.00,
+			"treference":"12346A",
+			"trfecha":"2019-07-16T16:55:42.000Z",
+			"tramount":1193.38,
+			"trfee":2.00,
 			"trdescription":"Restaurant payment"
 			}
 	},
@@ -36,10 +36,10 @@
 	    "transaction": {
 	    	"id" : 4,
 			"account_iban": "ES9820385778983000760236",
-	    	"reference":"12346B",
-			"date":"2019-07-16T16:55:42.000Z",
-			"amount":1893.38,
-			"fee":2.00,
+	    	"treference":"12346B",
+			"trfecha":"2019-07-16T16:55:42.000Z",
+			"tramount":1893.38,
+			"trfee":2.00,
 			"trdescription":"Dept Store payment"
 			}
 	}

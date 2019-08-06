@@ -1,8 +1,5 @@
 ## Code Challenge - APPs and Tools used
-The goal of this code challenge is to create a microservice using Java and any framework that you think it is
-appropriate.</br>
-Return to Main: </br>
-[README.md] (https://github.com/luisamesty/orangebanktest/blob/master/README.md)
+Return to Main: [README.md] (https://github.com/luisamesty/orangebanktest/blob/master/README.md)
 ## Apps and Tools used
 <pre>
 Environment (used):

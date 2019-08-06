@@ -99,25 +99,25 @@ public class CreateTransaction {
 		//Get account_iban (Actually added for Test in JSON File)
 		String account_iban =  (String) trObject.get("account_iban");	
 		System.out.println("account_iban="+account_iban);
-		//Get reference 
-		String reference = (String) trObject.get("reference");	
-		System.out.println("reference="+reference);
-		// Get transaction date
-		String date = (String) trObject.get("date");	
-		System.out.println("date="+date);
-		//System.out.println("Temp String date="+date.substring(0,10)+" "+date.substring(11,23));
-		Timestamp TSdate = Timestamp.valueOf(date.substring(0,10)+" "+date.substring(11,23));
-		System.out.println("TSdate="+TSdate);
+		//Get treference 
+		String treference = (String) trObject.get("treference");	
+		System.out.println("treference="+treference);
+		// Get transaction trfecha
+		String trfecha = (String) trObject.get("trfecha");	
+		System.out.println("trdate="+trfecha);
+		//System.out.println("Temporary String trfecha="+date.substring(0,10)+" "+trdate.substring(11,23));
+		Timestamp TSdate = Timestamp.valueOf(trfecha.substring(0,10)+" "+trfecha.substring(11,23));
+		System.out.println("trdate="+TSdate);
 		//Get amount 
-		double amount = (double) trObject.get("amount");	
-		BigDecimal BDamount = new BigDecimal(amount);
+		double tramount = (double) trObject.get("tramount");	
+		BigDecimal BDamount = new BigDecimal(tramount);
 		BDamount = BDamount.setScale(2, BigDecimal.ROUND_UP);
-		System.out.println("balance="+BDamount);
+		System.out.println("tramount="+BDamount);
 		//Get fee 
-		double fee = (double) trObject.get("fee");	
-		BigDecimal BDfee = new BigDecimal(fee);
+		double trfee = (double) trObject.get("trfee");	
+		BigDecimal BDfee = new BigDecimal(trfee);
 		BDamount = BDfee.setScale(2, BigDecimal.ROUND_UP);
-		System.out.println("balance="+BDfee);
+		System.out.println("trfee="+BDfee);
 		//Get description 
 		String trdescription = (String) trObject.get("trdescription");	
 		System.out.println("trdescription="+trdescription);
@@ -128,10 +128,10 @@ public class CreateTransaction {
 		AccountTransaction acctr = new AccountTransaction();
 		acctr.setId(id);
 		acctr.setAccount_iban(account_iban);
-		acctr.setReference(reference);
-		acctr.setDate(date);
-		acctr.setAmount(BDamount);
-		acctr.setFee(BDfee);
+		acctr.setTReference(treference);
+		acctr.setTrFecha(trfecha);
+		acctr.setTrAmount(BDamount);
+		acctr.setTrFee(BDfee);
 		acctr.setTrdescription(trdescription);
 		acctr.setTrstatus(trstatus);
 		
@@ -199,7 +199,7 @@ public class CreateTransaction {
                 isError = true;
             } finally {
             	if(isError)
-            		System.out.println("** ERROR ** "+errorMessage+" ID:"+acctr.getId()+" REF:"+acctr.getReference()+"  IBAN:"+acctr.getAccount_iban());
+            		System.out.println("** ERROR ** "+errorMessage+" ID:"+acctr.getId()+" REF:"+acctr.getTReference()+"  IBAN:"+acctr.getAccount_iban());
             }
         }
        	// Session close

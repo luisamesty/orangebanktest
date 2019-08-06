@@ -3,7 +3,6 @@ package com.orange.spring.service;
 import java.util.List;
 
 import com.orange.spring.model.AccountTransaction;
-import com.orange.spring.model.TransactionId;
 
 public interface AccountTransactionService {
 

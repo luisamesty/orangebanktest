@@ -5,6 +5,7 @@ com/orange/spring/dao/AccountDaoImpl.class
 com/orange/spring/model/AccountTransaction.class
 com/orange/spring/utils/UtilConfig.class
 com/orange/spring/service/AccountServiceImpl.class
+com/orange/spring/utils/HibernateUtil.class
 com/orange/spring/controller/AccountTransactionController.class
 com/orange/spring/model/TransactionId.class
 com/orange/spring/config/MyWebAppInitializer.class

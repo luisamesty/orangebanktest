@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 5 ago. 2019 1:11:05 by Hibernate Tools 3.5.0.Final -->
+<!-- Generated 5 ago. 2019 2:16:08 by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
     <class name="com.orange.spring.model.AccountTransaction" table="ACCOUNTTRANSACTION">
         <id name="id" type="java.lang.Long">
@@ -11,11 +11,11 @@
         <property name="account_iban" type="java.lang.String">
             <column name="ACCOUNT_IBAN" />
         </property>
-        <property name="reference" type="java.lang.String">
-            <column name="REFERENCE" />
+        <property name="treference" type="java.lang.String" access="field">
+            <column name="TREFERENCE" />
         </property>
-        <property name="date" type="java.lang.String">
-            <column name="DATE" />
+        <property name="trdate" type="java.lang.String" access="field">
+            <column name="TRDATE" />
         </property>
         <property name="amount" type="java.math.BigDecimal">
             <column name="AMOUNT" />

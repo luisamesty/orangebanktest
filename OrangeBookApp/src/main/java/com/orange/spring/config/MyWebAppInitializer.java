@@ -2,7 +2,11 @@ package com.orange.spring.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 import com.orange.spring.config.WebConfig;
-
+/**
+ * 
+ * @author luisamesty
+ *
+ */
 public class MyWebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	@Override

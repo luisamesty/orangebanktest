@@ -51,10 +51,10 @@ public class AccountTransactionDaoImpl implements AccountTransactionDao {
 		Session session = sessionFactory.getCurrentSession();
 		AccountTransaction accounttransaction2 = session.byId(AccountTransaction.class).load(id);
 		accounttransaction2.setAccount_iban(accounttransaction.getAccount_iban());
-		accounttransaction2.setReference(accounttransaction.getReference());
-		accounttransaction2.setDate(accounttransaction.getDate());
-		accounttransaction2.setAmount(accounttransaction.getAmount());
-		accounttransaction2.setFee(accounttransaction.getFee());
+		accounttransaction2.setTReference(accounttransaction.getTReference());
+		accounttransaction2.setTrFecha(accounttransaction.getTrFecha());
+		accounttransaction2.setTrAmount(accounttransaction.getTrAmount());
+		accounttransaction2.setTrFee(accounttransaction.getTrFee());
 		accounttransaction2.setTrdescription(accounttransaction.getTrdescription());
 		accounttransaction2.setTrstatus(accounttransaction.getTrstatus());
 	      session.flush();

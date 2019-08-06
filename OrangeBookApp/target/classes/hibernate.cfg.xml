@@ -28,7 +28,7 @@
         <!-- List of XML mapping files -->
         <mapping class="com.orange.spring.model.Account"/>
         <mapping class="com.orange.spring.model.AccountTransaction"/>
-<!-- 	   <mapping resource="account.hbm.xml"/> -->
-<!-- 	   <mapping resource="accounttransaction.hbm.xml"/> -->
+<!-- 	   <mapping resource="com/orange/spring/model/Account.hbm.xml"/> -->
+<!-- 	   <mapping resource="com/orange/spring/model/AccountTransaction.hbm.xml"/> -->
     </session-factory>
 </hibernate-configuration>
