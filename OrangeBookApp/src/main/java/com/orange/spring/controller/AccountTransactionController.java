@@ -34,24 +34,24 @@ public class AccountTransactionController {
 	   @PostMapping("/transaction/post")
 	   public ResponseEntity<?> addTransaction(@RequestBody AccountTransaction accounttransaction) {
 		  System.out.println("the json value of Account Transaction is :::::: "+accounttransaction);
-		  Long id = accounttransactionService.addTransaction(accounttransaction);
+		  int id = accounttransactionService.addTransaction(accounttransaction);
 	      return ResponseEntity.ok().body("New Account Transaction has been saved with ID:" + id);
 	  }
 	   
 	  /*--- (GET 1) Get an account transaction by id---*/
 	  @GetMapping("/transaction/get/{id}")
-	  public ResponseEntity<AccountTransaction> getTransaction(@PathVariable("id") long id) {
+	  public ResponseEntity<AccountTransaction> getTransaction(@PathVariable("id") int id) {
 		  AccountTransaction accounttransaction = accounttransactionService.getTransaction(id);
 	     return ResponseEntity.ok().body(accounttransaction);
 	  }
-//	  public long getTransactionByRefIban(String account_iban, String reference) {
-//		  long tr_id=(Long) null;
+//	  public int getTransactionByRefIban(String account_iban, String reference) {
+//		  int tr_id=(int) null;
 //		  
 //		  return tr_id;
 //	  }
 	   /*--- (PUT) Update an account transaction by id---*/
 	   @PutMapping("/transaction/put/{id}")
-	   public ResponseEntity<?> updateTransaction(@PathVariable("id") long id, @RequestBody AccountTransaction accounttransaction) {
+	   public ResponseEntity<?> updateTransaction(@PathVariable("id") int id, @RequestBody AccountTransaction accounttransaction) {
 		   System.out.println("the json value of Account Transaction is :::::: "+accounttransaction);
 		   accounttransactionService.updateTransaction(id, accounttransaction);
 	      return ResponseEntity.ok().body("Account transaction has been updated successfully.");
@@ -59,7 +59,7 @@ public class AccountTransactionController {
 	   
 	   /*--- (DEL) Delete an account transaction id---*/
 	   @DeleteMapping("/transaction/del/{id}")
-	   public ResponseEntity<?> deleteTransaction(@PathVariable("id") long id) {
+	   public ResponseEntity<?> deleteTransaction(@PathVariable("id") int id) {
 		  // New Validation By ID
 		  if (accounttransactionService.getTransaction(id) == null) {
 				  //System.out.println("** ERROR, EXIST Account ::::: "+account2.toString());

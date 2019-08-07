@@ -6,16 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-
-import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -30,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.orange.spring.model.Account;
 import com.orange.spring.service.AccountServiceImpl;
-
+import com.orange.spring.utils.HibernateUtil;
 @CrossOrigin(origins = "*")
 @RestController
 public class InitDBTables {
@@ -108,7 +100,8 @@ public class InitDBTables {
 		JSONObject trObject = (JSONObject) acct.get("account");
 
 		//Get id 
-		Long id = (Long) trObject.get("id");	
+		long longid = (long) trObject.get("id");
+		int id = (int) longid;
 		System.out.println("id="+id);
 		//Get name 
 		String name = (String) trObject.get("name");	

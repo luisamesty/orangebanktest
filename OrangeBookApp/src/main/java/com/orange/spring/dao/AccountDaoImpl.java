@@ -27,13 +27,13 @@ public class AccountDaoImpl implements AccountDao {
 	EntityManager em;
 	// OJO
 	@Override
-	public long save(Account account) {
+	public int save(Account account) {
 		sessionFactory.getCurrentSession().save(account);
 	      return account.getId();
 	}
 
 	@Override
-	public Account get(long id) {
+	public Account get(int id) {
 		return sessionFactory.getCurrentSession().get(Account.class, id);
 	}
 
@@ -71,7 +71,7 @@ public class AccountDaoImpl implements AccountDao {
 	}
 
 	@Override
-	public void update(long id, Account account) {
+	public void update(int id, Account account) {
 		Session session = sessionFactory.getCurrentSession();
 		Account account2 = session.byId(Account.class).load(id);
 		account2.setAccount_iban(account.getAccount_iban());
@@ -81,7 +81,7 @@ public class AccountDaoImpl implements AccountDao {
 	}
 
 	@Override
-	public void delete(long id) {
+	public void delete(int id) {
 		Session session = sessionFactory.getCurrentSession();
 	      Account account = session.byId(Account.class).load(id);
 	      session.delete(account);

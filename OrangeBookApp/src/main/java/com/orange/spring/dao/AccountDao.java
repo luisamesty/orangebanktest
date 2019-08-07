@@ -7,19 +7,19 @@ import com.orange.spring.model.Account;
 public interface AccountDao {
 
 	// Save the record
-    long save(Account account);
+    int save(Account account);
  
     // Get a single record
-    Account get(long id);
+    Account get(int id);
  
     // Get all the records
     List<Account> list();
  
     // Update the record
-    void update(long id, Account account);
+    void update(int id, Account account);
     
     // Delete a record
-    void delete(long id);
+    void delete(int id);
  
     // Get a single record where account_iban
     Account getByIBAN(String account_iban);

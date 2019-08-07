@@ -19,12 +19,12 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
 	
 	@Transactional
 	@Override
-	public Long addTransaction(AccountTransaction accounttransaction) {
+	public int addTransaction(AccountTransaction accounttransaction) {
 		return accounttransactionDao.addTransaction(accounttransaction);
 	}
 
 	@Override
-	public AccountTransaction getTransaction(long id) {
+	public AccountTransaction getTransaction(int id) {
 		return accounttransactionDao.getTransaction(id);
 	}
 
@@ -35,13 +35,13 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
 
 	@Transactional
 	@Override
-	public void updateTransaction(long id, AccountTransaction accounttransaction) {
+	public void updateTransaction(int id, AccountTransaction accounttransaction) {
 		accounttransactionDao.updateTransaction(id, accounttransaction);
 	}
 
 	@Transactional
 	@Override
-	public void deleteTransaction(long id) {
+	public void deleteTransaction(int id) {
 		accounttransactionDao.deleteTransaction(id);
 	}
 

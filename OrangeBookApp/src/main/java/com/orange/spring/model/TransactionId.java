@@ -7,7 +7,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class TransactionId implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+
 	protected String account_iban;
 	protected String reference;
 	

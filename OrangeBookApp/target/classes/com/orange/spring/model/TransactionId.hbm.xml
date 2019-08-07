@@ -4,7 +4,7 @@
 <!-- Generated 4 ago. 2019 14:53:58 by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
     <class name="com.orange.spring.model.TransactionId" table="TRANSACTIONID">
-        <id name="id" type="java.lang.Long">
+        <id name="id" type="java.lang.int">
             <column name="ID" />
             <generator class="assigned" />
         </id>

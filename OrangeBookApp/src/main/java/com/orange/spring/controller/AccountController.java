@@ -35,7 +35,7 @@ public class AccountController {
 	   public ResponseEntity<?> save(@RequestBody Account account) {
 		  // New Validation By ID
 		  Account account2 = null;
-		  if (account.getId() != null) {
+		  if (account.getId() != 0) {
 			  account2 = accountService.get(account.getId());
 			  if (account2 != null) {
 				  //System.out.println("** ERROR, EXIST Account ::::: "+account2.toString());
@@ -53,23 +53,23 @@ public class AccountController {
 			  }
 		  }
 		  // OJO Validation
-		  long id = accountService.save(account);
+		  int id = accountService.save(account);
 	      return ResponseEntity.ok().body("New Account has been saved with ID:" + id);
 	  }
 	  
 	  /*---(GET 1)Get an account by id---*/
 	  @GetMapping("/account/{id}")
-	  public ResponseEntity<Account> get(@PathVariable("id") long id) {
+	  public ResponseEntity<Account> get(@PathVariable("id") int id) {
 	     Account account = accountService.get(id);
 	     return ResponseEntity.ok().body(account);
 	  }
 
 	   /*---(PUT) Update an account by id---*/
 	   @PutMapping("/account/{id}")
-	   public ResponseEntity<?> update(@PathVariable("id") long id, @RequestBody Account account) {
+	   public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody Account account) {
 		  // New Validation By ID
 		  Account account2 = null;
-		  if (account.getId() != null) {
+		  if (account.getId() != 0) {
 			  account2 = accountService.get(account.getId());
 			  if (id != account2.getId()) {
 				  return ResponseEntity.ok().body("** ERROR ** Account and ID Missmatch. NO Account has been updated with ID:" + (id) +" / "+account.getId()); 
@@ -86,7 +86,7 @@ public class AccountController {
 	   
 	   /*---(DEL) Delete an account id---*/
 	   @DeleteMapping("/account/{id}")
-	   public ResponseEntity<?> delete(@PathVariable("id") long id) {
+	   public ResponseEntity<?> delete(@PathVariable("id") int id) {
 		  // New Validation By ID
 		   if (accountService.get(id) == null) {
 				  //System.out.println("** ERROR, EXIST Account ::::: "+account2.toString());

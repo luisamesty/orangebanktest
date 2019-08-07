@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Properties;
-
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -23,8 +21,6 @@ import com.orange.spring.dao.AccountDao;
 import com.orange.spring.dao.AccountDaoImpl;
 import com.orange.spring.model.Account;
 import com.orange.spring.model.AccountTransaction;
-import com.orange.spring.service.AccountService;
-import com.orange.spring.service.AccountServiceImpl;
 import com.orange.spring.utils.HibernateUtil;
 import com.orange.spring.utils.UtilConfig;
 
@@ -94,7 +90,8 @@ public class CreateTransaction {
 		JSONObject trObject = (JSONObject) trans.get("transaction");
 
 		//Get id (Actually added for Test in JSON File)
-		Long id = (Long) trObject.get("id");	
+		long longid = (long) trObject.get("id");
+		int id = (int) longid;
 		System.out.println("id="+id);
 		//Get account_iban (Actually added for Test in JSON File)
 		String account_iban =  (String) trObject.get("account_iban");	

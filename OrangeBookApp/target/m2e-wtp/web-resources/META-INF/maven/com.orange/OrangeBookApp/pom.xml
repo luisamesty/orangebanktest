@@ -13,9 +13,12 @@
   <properties>
     <failOnMissingWebXml>false</failOnMissingWebXml>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <org.springframework-version>4.3.10.RELEASE</org.springframework-version>
+     <hibernate.version>5.2.11.Final</hibernate.version>
+     <org.slf4j-version>1.7.5</org.slf4j-version>
   </properties>
  
- <repositories>
+  <repositories>
     <repository>
       <id>JBoss repository</id>
       <url>http://repository.jboss.com/maven2/</url>
@@ -23,30 +26,53 @@
   </repositories>
   
   <dependencies>
+ 	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context</artifactId>
+		<version>${org.springframework-version}</version>
+		<exclusions>
+			<!-- Exclude Commons Logging in favor of SLF4j -->
+			<exclusion>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+			 </exclusion>
+		</exclusions>
+	</dependency>
+  
     <!-- Spring MVC Dependency -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
-      <version>4.3.10.RELEASE</version>
+      <version>${org.springframework-version}</version>
     </dependency>
     <!-- Spring ORM -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-orm</artifactId>
-      <version>4.3.10.RELEASE</version>
+      <version>${org.springframework-version}</version>
     </dependency>
+   	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-tx</artifactId>
+		<version>${org.springframework-version}</version>
+	</dependency>
     <!-- Hibernate ORM -->
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-core</artifactId>
-      <version>5.2.11.Final</version>
+      <version>${hibernate.version}</version>
     </dependency>
     <!-- Hibernate-C3P0 Integration -->
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-c3p0</artifactId>
-      <version>5.2.11.Final</version>
+      <version>${hibernate.version}</version>
     </dependency>
+   	<dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate-entitymanager</artifactId>
+		<version>${hibernate.version}</version>
+	</dependency>
       <!-- Hibernate annotation -->
 <!-- 	<dependency> -->
 <!-- 		<groupId>hibernate-annotations</groupId> -->
@@ -59,6 +85,48 @@
       <artifactId>c3p0</artifactId>
       <version>0.9.5.2</version>
     </dependency>
+   	<!-- Logging -->
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-api</artifactId>
+		<version>${org.slf4j-version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>jcl-over-slf4j</artifactId>
+		<version>${org.slf4j-version}</version>
+		<scope>runtime</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-log4j12</artifactId>
+		<version>${org.slf4j-version}</version>
+		<scope>runtime</scope>
+	</dependency>
+	<dependency>
+		<groupId>log4j</groupId>
+		<artifactId>log4j</artifactId>
+		<version>1.2.15</version>
+		<exclusions>
+			<exclusion>
+				<groupId>javax.mail</groupId>
+				<artifactId>mail</artifactId>
+			</exclusion>
+			<exclusion>
+				<groupId>javax.jms</groupId>
+				<artifactId>jms</artifactId>
+			</exclusion>
+			<exclusion>
+				<groupId>com.sun.jdmk</groupId>
+				<artifactId>jmxtools</artifactId>
+			</exclusion>
+			<exclusion>
+				<groupId>com.sun.jmx</groupId>
+				<artifactId>jmxri</artifactId>
+			</exclusion>
+		</exclusions>
+		<scope>runtime</scope>
+	</dependency>
    <!-- PostgreSQL Connector -->
 	<dependency>
 	    <groupId>org.postgresql</groupId>
@@ -78,6 +146,12 @@
       <version>3.1.0</version>
       <scope>provided</scope>
     </dependency>
+    <!--  uri="http://java.sun.com/jsp/jstl/core"  -->
+    <dependency>
+    	<groupId>javax.servlet</groupId>
+    	<artifactId>jstl</artifactId>
+    	<version>1.2</version>
+	</dependency>
 	<!-- https://mvnrepository.com/artifact/org.json/json -->
 	<dependency>
 	    <groupId>org.json</groupId>

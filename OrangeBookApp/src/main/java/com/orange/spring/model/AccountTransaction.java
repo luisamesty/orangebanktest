@@ -17,7 +17,7 @@ public class AccountTransaction {
 	@OrderBy 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	Long id;
+	int id;
 	String account_iban;
 	String treference;
 	String trfecha;
@@ -26,12 +26,12 @@ public class AccountTransaction {
 	String trdescription;
 	String trstatus;
 
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

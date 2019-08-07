@@ -18,12 +18,12 @@ public class AccountServiceImpl implements AccountService  {
 	
 	@Transactional
 	@Override
-	public long save(Account account) {
+	public int save(Account account) {
 		return accountDao.save(account);
 	}
 
 	@Override
-	public Account get(long id) {
+	public Account get(int id) {
 		return accountDao.get(id);
 	}
 
@@ -34,13 +34,13 @@ public class AccountServiceImpl implements AccountService  {
 
 	@Transactional
 	@Override
-	public void update(long id, Account account) {
+	public void update(int id, Account account) {
 		accountDao.update(id, account);
 	}
 
 	@Transactional
 	@Override
-	public void delete(long id) {
+	public void delete(int id) {
 		accountDao.delete(id);
 	}
 

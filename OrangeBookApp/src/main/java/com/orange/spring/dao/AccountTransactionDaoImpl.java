@@ -22,13 +22,13 @@ public class AccountTransactionDaoImpl implements AccountTransactionDao {
 	private SessionFactory sessionFactory;
 	
 	@Override
-	public Long addTransaction(AccountTransaction accounttransaction) {
+	public int addTransaction(AccountTransaction accounttransaction) {
 		sessionFactory.getCurrentSession().save(accounttransaction);
 	      return accounttransaction.getId();
 	}
 
 	@Override
-	public AccountTransaction getTransaction(long id) {
+	public AccountTransaction getTransaction(int id) {
 		return sessionFactory.getCurrentSession().get(AccountTransaction.class, id);
 	}
 
@@ -47,7 +47,7 @@ public class AccountTransactionDaoImpl implements AccountTransactionDao {
 	}
 
 	@Override
-	public void updateTransaction(long id, AccountTransaction accounttransaction) {
+	public void updateTransaction(int id, AccountTransaction accounttransaction) {
 		Session session = sessionFactory.getCurrentSession();
 		AccountTransaction accounttransaction2 = session.byId(AccountTransaction.class).load(id);
 		accounttransaction2.setAccount_iban(accounttransaction.getAccount_iban());
@@ -61,7 +61,7 @@ public class AccountTransactionDaoImpl implements AccountTransactionDao {
 	}
 
 	@Override
-	public void deleteTransaction(long id) {
+	public void deleteTransaction(int id) {
 		Session session = sessionFactory.getCurrentSession();
 		AccountTransaction accounttransaction = session.byId(AccountTransaction.class).load(id);
 	      session.delete(accounttransaction);
