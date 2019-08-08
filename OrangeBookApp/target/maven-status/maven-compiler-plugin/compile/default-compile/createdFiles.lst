@@ -7,7 +7,6 @@ com/orange/spring/utils/UtilConfig.class
 com/orange/spring/service/AccountServiceImpl.class
 com/orange/spring/utils/HibernateUtil.class
 com/orange/spring/controller/AccountTransactionController.class
-com/orange/spring/model/TransactionId.class
 com/orange/spring/config/MyWebAppInitializer.class
 com/orange/spring/service/AccountService.class
 com/orange/spring/utils/InitDBTables.class

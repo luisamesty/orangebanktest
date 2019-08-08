@@ -2,78 +2,117 @@ package com.orange.spring.dao;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Repository;
-
+import org.hibernate.query.Query;
 import com.orange.spring.model.Account;
-
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class AccountDaoImpl implements AccountDao {
 
-	private static final Logger logger = LoggerFactory.getLogger(AccountDaoImpl.class);
-	
+	@Autowired
 	private SessionFactory sessionFactory;
-	
-	public void setSessionFactory(SessionFactory sf){
-		this.sessionFactory = sf;
-	}
-	
+	// OJO
+	@PersistenceContext 
+	EntityManager em;
+	// OJO
 	@Override
 	public void addAccount(Account account) {
-		Session session = this.sessionFactory.getCurrentSession();
-		session.persist(account);
-		logger.info("Account saved successfully, Account Details="+account.toString());
-		
+		Session session = sessionFactory.getCurrentSession();
+		boolean isError = false;
+	    String errorMessage="";
+        try {
+    		session.save(account);
+        	isError = false;
+        } catch (Exception e) {
+            errorMessage=e.getLocalizedMessage(); //e.getMessage();
+            isError = true;
+        } finally {
+      	  	if(isError)
+      	  		System.out.println("** Account INSERT ERROR ** "+errorMessage+"Account ID:"+account.getId()+"  IBAN:"+account.getAccount_iban());
+        }
+		sessionFactory.getCurrentSession().save(account);
 	}
 
 	@Override
-	public void updateAccount( Account account) {
-		Session session = this.sessionFactory.getCurrentSession();
-		session.update(account);
-		logger.info("Account updated successfully, Account Details="+account.toString());
+	public void updateAccount(Account account) {
+		Session session = sessionFactory.getCurrentSession();
+		boolean isError = false;
+	    String errorMessage="";
+        try {
+    		session.save(account);
+        	isError = false;
+        } catch (Exception e) {
+            errorMessage=e.getLocalizedMessage(); //e.getMessage();
+            isError = true;
+        } finally {
+      	  	if(isError)
+      	  		System.out.println("** Account UPDATE ERROR ** "+errorMessage+"Account ID:"+account.getId()+"  IBAN:"+account.getAccount_iban());
+        }
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Account> listAccount() {
-		Session session = this.sessionFactory.getCurrentSession();
-		List<Account> accountsList = session.createQuery("from Account").list();
-		for(Account p : accountsList){
-			logger.info("Account List::"+p);
-		}
-		return accountsList;
+		 Session session = sessionFactory.getCurrentSession();
+		 
+	      CriteriaBuilder builder = session.getCriteriaBuilder();
+	      CriteriaQuery<Account> query = builder.createQuery(Account.class);
+	      Root<Account> root = query.from(Account.class);
+	      query.select(root);
+	      Query<Account> queryacct = session.createQuery(query);
+	      if (queryacct == null) {
+	    		System.out.println("** Account LIST ERROR ** ");
+	    		return null;
+	      }
+	      //
+	      return queryacct.getResultList();
+
 	}
 
 	@Override
 	public Account getAccountById(int id) {
-		Session session = this.sessionFactory.getCurrentSession();		
-		Account account = (Account) session.load(Account.class, new Integer(id));
-		logger.info("Account loaded successfully, Account Details="+account.toString());
-		return account;
+		System.out.println("Traza : "+id);
+		 Session session = sessionFactory.getCurrentSession();
+	      CriteriaBuilder builder = session.getCriteriaBuilder();
+	      CriteriaQuery<Account> query = builder.createQuery(Account.class);
+	      Root<Account> root = query.from(Account.class);
+	      query.select(root).where(builder.equal(root.get("id"), id));;
+	      Query<Account> queryacct = session.createQuery(query);
+	      Account retAccount = queryacct.getSingleResult();
+	      if (retAccount == null )
+	    		  return null;
+	      else 
+	    	  return retAccount;
 	}
 
 	@Override
 	public void deleteAccount(int id) {
-		Session session = this.sessionFactory.getCurrentSession();
-		Account account = (Account) session.load(Account.class, new Integer(id));
-		if(null != account){
-			session.delete(account);
-		}
-		logger.info("Account deleted successfully, Account details="+account);
-		
+		Session session = sessionFactory.getCurrentSession();
+	      Account account = session.byId(Account.class).load(id);
+	      session.delete(account);
 	}
 
 	@Override
 	public Account getByIBAN(String account_iban) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Account retAccount = null;
+		Session session = sessionFactory.getCurrentSession();
+	    CriteriaBuilder builder = session.getCriteriaBuilder();
+	    CriteriaQuery<Account> query = builder.createQuery(Account.class);
+	    Root<Account> root = query.from(Account.class);
+	    query.select(root).where(builder.equal(root.get("account_iban"), account_iban));;
+	    Query<Account> queryacct = session.createQuery(query);
+	    retAccount = queryacct.getSingleResult();
+	    return retAccount;
 	}
-
-
-
+	
+	
 }

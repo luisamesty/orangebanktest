@@ -7,9 +7,16 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -159,10 +166,11 @@ public class CreateTransaction {
 	private static void saveTransactionArray() {
 		
     	// UtilConfig - HIB CONN 
-    	UtilConfig uconf = new UtilConfig();
-    	AccountDao accountDao = new AccountDaoImpl();
     	Account account = null;
     	boolean isError = false;
+    	BigDecimal newBalance = BigDecimal.ZERO;
+    	String treference = "";
+    	String trstatus = "";
     	String errorMessage="";
     	// Session open
     	try {
@@ -177,11 +185,43 @@ public class CreateTransaction {
     		// Get i Account Transaction
        		AccountTransaction acctr = acctransactions.get(i);
        		// Get Account 
-       		System.out.println("Traza cuenta TR ...:"+acctr.getAccount_iban());
-//			account = accountDao.getByIBAN(acctr.getAccount_iban());
-//       		if (account != null)
-//       			System.out.println("Traza cuenta BANCO ...:"+account.getAccount_iban());
-            // Verify IF exists 
+       		// System.out.println("Traza cuenta TRANSANCCION ...:"+acctr.getAccount_iban());
+			account = getAccountByIBAN(acctr.getAccount_iban(), session);
+       		// System.out.println("Traza cuenta TCUENTA ...:"+account.getAccount_iban());
+			// Init Vars
+			newBalance = BigDecimal.ZERO;
+			treference = "";
+			errorMessage="";
+			trstatus = "";
+			// Verify Account BY IBAN
+			if (account != null) {
+	            // Account VALID and Balance OK
+				if (account.getBalance().compareTo(acctr.getTramount() ) >= 0) {
+					// Update Balance
+					newBalance = account.getBalance().subtract(acctr.getTramount());
+					// 
+					trstatus ="SETTLED";
+				} else {
+		            // Account VALID and Balance NOT VALID
+					trstatus ="PENDING";
+					newBalance = account.getBalance().subtract(acctr.getTramount());
+				}
+				// Final Account Updates
+				account.setBalance(newBalance);
+				//
+			} else {
+				// ACCOUNT INVALID
+				trstatus ="INVALID";
+        		System.out.println("** TRANSACTION ERROR ACOUNT INVALID** "+errorMessage+" ID:"+acctr.getId()+" REF:"+acctr.getTreference()+"  IBAN:"+acctr.getAccount_iban());
+			}
+			// Verify reference if not  put TR ID
+			treference = acctr.getTreference();
+			if (treference == null || treference.isEmpty() )
+				treference = String.format ("%10s", acctr.getId());
+			// Final Transaction Updates
+			acctr.setTrstatus(trstatus);
+			acctr.setTreference(treference);
+			// TR Before Write to table
         	System.out.println(acctr.toString());
     		// HIBERNATE 
             try {
@@ -198,12 +238,50 @@ public class CreateTransaction {
                 isError = true;
             } finally {
             	if(isError)
-            		System.out.println("** ERROR ** "+errorMessage+" ID:"+acctr.getId()+" REF:"+acctr.getTreference()+"  IBAN:"+acctr.getAccount_iban());
+            		System.out.println("** WRITE ERROR ** "+errorMessage+" ID:"+acctr.getId()+" REF:"+acctr.getTreference()+"  IBAN:"+acctr.getAccount_iban());
+            }
+            // UPDATE BALANCE
+            if (!isError) {
+            	// Update Account Balance STATUS REFERENCE
+            	updateAccount(account, session);
             }
         }
        	// Session close
         if (session != null) {
           session.close();
         }
+	}
+	
+	public static Account getAccountByIBAN(String account_iban, Session session) {
+		List<Account> accts = null;
+		Account retAccount = null;
+	      CriteriaBuilder builder = session.getCriteriaBuilder();
+	      CriteriaQuery<Account> query = builder.createQuery(Account.class);
+	      Root<Account> root = query.from(Account.class);
+	      query.select(root).where(builder.equal(root.get("account_iban"), account_iban));;
+	      Query<Account> queryacct = session.createQuery(query);
+	      retAccount = queryacct.getSingleResult();
+	      return retAccount;
+	}
+	
+	public static void updateAccount(Account account, Session session) {
+	      boolean isError = false;
+	      String errorMessage="";
+          try {
+      		transaction = session.beginTransaction();
+      		//transaction.begin();
+      		session.save(account);
+          	transaction.commit();
+          	isError = false;
+          } catch (Exception e) {
+              if (transaction != null) {
+                transaction.rollback();
+              }
+              errorMessage=e.getLocalizedMessage(); //e.getMessage();
+              isError = true;
+          } finally {
+        	  	if(isError)
+        	  		System.out.println("** Write ERROR ** "+errorMessage+"Account ID:"+account.getId()+"  IBAN:"+account.getAccount_iban());
+          }
 	}
 }

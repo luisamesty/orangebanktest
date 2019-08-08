@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 7 ago. 2019 18:36:54 by Hibernate Tools 3.5.0.Final -->
+<!-- Generated 8 ago. 2019 13:57:20 by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
     <class name="com.orange.spring.model.Account" table="ACCOUNT">
         <id name="id" type="int">
@@ -16,6 +16,9 @@
         </property>
         <property name="balance" type="java.math.BigDecimal">
             <column name="BALANCE" />
+        </property>
+        <property name="initbalance" type="java.math.BigDecimal">
+            <column name="INITBALANCE" />
         </property>
     </class>
 </hibernate-mapping>

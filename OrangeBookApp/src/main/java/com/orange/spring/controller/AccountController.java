@@ -25,14 +25,14 @@ public class AccountController {
 	
 	  /*--- (GET ALL) get all accounts---*/
 	   @GetMapping("/account")
-	   public ResponseEntity<List<Account>> list() {
+	   public ResponseEntity<List<Account>> listAccounts() {
 	      List<Account> accounts = accountService.listAccount();
 	      return ResponseEntity.ok().body(accounts);
 	   }
 	   
 	  /*---(POST) Add new account---*/
 	   @PostMapping("/account")
-	   public ResponseEntity<?> save(@RequestBody Account account) {
+	   public ResponseEntity<?> saveAccount(@RequestBody Account account) {
 		  // New Validation By ID
 		  Account account2 = null;
 		  if (account.getId() != 0) {
@@ -59,14 +59,15 @@ public class AccountController {
 	  
 	  /*---(GET 1)Get an account by id---*/
 	  @GetMapping("/account/{id}")
-	  public ResponseEntity<Account> get(@PathVariable("id") int id) {
-	     Account account = accountService.getAccountById(id);
+	  public ResponseEntity<Account> getAccountById(@PathVariable("id") Long id) {
+		 int intid = id.intValue();
+	     Account account = accountService.getAccountById(intid);
 	     return ResponseEntity.ok().body(account);
 	  }
 
 	   /*---(PUT) Update an account by id---*/
 	   @PutMapping("/account/{id}")
-	   public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody Account account) {
+	   public ResponseEntity<?> updateAccount(@PathVariable("id") Long id, @RequestBody Account account) {
 		  // New Validation By ID
 		  Account account2 = null;
 		  if (account.getId() != 0) {
@@ -86,7 +87,7 @@ public class AccountController {
 	   
 	   /*---(DEL) Delete an account id---*/
 	   @DeleteMapping("/account/{id}")
-	   public ResponseEntity<?> delete(@PathVariable("id") int id) {
+	   public ResponseEntity<?> deleteAccount(@PathVariable("id") int id) {
 		  // New Validation By ID
 		   if (accountService.getAccountById(id) == null) {
 				  //System.out.println("** ERROR, EXIST Account ::::: "+account2.toString());

@@ -114,13 +114,18 @@ public class InitDBTables {
 		BigDecimal BDbalance = new BigDecimal(balance);
 		BDbalance = BDbalance.setScale(2, BigDecimal.ROUND_UP);
 		System.out.println("balance="+BDbalance);
-
+		//Get init balance (SAME BALANCE ON JSON FILE)
+		double initbalance = (double) trObject.get("balance");	
+		BigDecimal BDinitbalance = new BigDecimal(initbalance);
+		BDbalance = BDinitbalance.setScale(2, BigDecimal.ROUND_UP);
+		System.out.println("initbalance="+BDinitbalance);
 		// Account 
 		@SuppressWarnings("null")
 		Account account = new Account();
 		account.setId(id);
 		account.setAccount_iban(account_iban);
 		account.setBalance(BDbalance);
+		account.setInitbalance(BDinitbalance);
 		account.setName(name);
 		// ADD TO ARRAY
 		accounts.add(account);

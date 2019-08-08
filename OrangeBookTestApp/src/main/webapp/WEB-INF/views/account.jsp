@@ -86,7 +86,8 @@
 		<th width="80">Account ID</th>
 		<th width="120">Account Name</th>
 		<th width="120">Account IBAN</th>
-		<th width="100">Balance</th>
+		<th width="100">Initial Balance</th>
+		<th width="100">Current Balance</th>
 		<th width="60">Edit</th>
 		<th width="60">Delete</th>
 	</tr>
@@ -95,6 +96,7 @@
 			<td>${account.id}</td>
 			<td>${account.name}</td>
 			<td>${account.account_iban}</td>
+			<td>${account.initbalance}</td>
 			<td>${account.balance}</td>
 			<td><a href="<c:url value='/account/edit/${account.id}' />" >Edit</a></td>
 			<td><a href="<c:url value='/account/remove/${account.id}' />" >Delete</a></td>

@@ -27,6 +27,7 @@ public class Account {
 	String account_iban;
 	
 	BigDecimal balance;
+	BigDecimal initbalance;
 	
 	public int getId() {
 		return id;
@@ -52,9 +53,17 @@ public class Account {
 	public void setBalance(BigDecimal balance) {
 		this.balance = balance;
 	}
+	public BigDecimal getInitbalance() {
+		return initbalance;
+	}
+	public void setInitbalance(BigDecimal initbalance) {
+		this.initbalance = initbalance;
+	}
 	@Override
 	public String toString() {
-		return "Account [id=" + id + ", name=" + name + ", account_iban=" + account_iban + ", balance=" + balance + "]";
+		return "Account [id=" + id + ", name=" + name + ", account_iban=" + account_iban + ", balance=" + balance
+				+ ", initbalance=" + initbalance + "]";
 	}
+
 
 }
