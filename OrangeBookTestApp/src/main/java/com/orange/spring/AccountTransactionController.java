@@ -20,14 +20,9 @@ public class AccountTransactionController {
 	public void setAccountTransactionService(AccountTransactionService acctrser){
 		this.accounttransactionService = acctrser;
 	}
-	
-	@RequestMapping(value = "/transactions", method = RequestMethod.GET)
-	public String listAccounts(Model model) {
-		model.addAttribute("transaction", new AccountTransaction());
-		model.addAttribute("listTransactions", this.accounttransactionService.listTransaction());
-		return "transaction";
-	}
-	
+	//  **********************************************
+	//  *************  ALL TRANSACTIONS **************
+	//  **********************************************
 	//For add and update account transaction both
 	@RequestMapping(value= "/transaction/add", method = RequestMethod.POST)
 	public String addTransaction(@ModelAttribute("transaction") AccountTransaction actr){
@@ -40,4 +35,50 @@ public class AccountTransactionController {
 		}
 		return "redirect:/transactions";
 	}
+	
+	@RequestMapping(value = "/transactions", method = RequestMethod.GET)
+	public String listTransactions(Model model) {
+		model.addAttribute("transaction", new AccountTransaction());
+		model.addAttribute("listTransactions", this.accounttransactionService.listTransaction());
+		return "transaction";
+	}
+	
+	//  *********************************************************
+	//  *************  SEARCH TRANSACTIONS BY IBAN **************
+	//  *********************************************************
+	//For add and update account transaction both
+	@RequestMapping(value= "/transaction/search", method = RequestMethod.POST)
+	public String searchTransaction(@ModelAttribute("transaction") AccountTransaction actr){
+
+		return "redirect:/tr_search";
+	}
+	
+	// tr_search By IBAN  ( listTransactionsByIBAN )
+	@RequestMapping(value = "/tr_search", method = RequestMethod.GET)
+	public String listTransactionsByIBAN(Model model) {
+		model.addAttribute("transactionsrc", new AccountTransaction());
+		model.addAttribute("listTransactionsByIBAN", this.accounttransactionService.listTransaction());
+		return "transaction";
+	}
+	
+	//  **************************************************************
+	//  *************  SEARCH TRANSACTIONS BY REFERENCE **************
+	//  **************************************************************
+	
+	//For add and update account transaction both
+	@RequestMapping(value= "/transaction/status", method = RequestMethod.POST)
+	public String statusTransaction(@ModelAttribute("transaction") AccountTransaction actr){
+
+		return "redirect:/tr_status";
+	}
+	
+	// tr_search By REF  ( listTransactionsByREF )
+	@RequestMapping(value = "/tr_status", method = RequestMethod.GET)
+	public String llistTransactionsByREF(Model model) {
+		model.addAttribute("transactionref", new AccountTransaction());
+		model.addAttribute("listTransactionsByREF", this.accounttransactionService.listTransaction());
+		return "transaction";
+	}
+	
+
 }

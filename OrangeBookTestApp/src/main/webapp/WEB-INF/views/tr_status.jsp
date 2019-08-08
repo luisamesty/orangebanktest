@@ -14,12 +14,12 @@
 </head>
 <body>
 <h1>
-	Add a Transaction
+	Search Transaction By REFERENCE
 </h1>
 
-<c:url var="addAction2" value="/transaction/add" ></c:url>
+<c:url var="addAction4" value="/transaction/status" ></c:url>
 
-<form:form action="${addAction2}" commandName="transaction">
+<form:form action="${addAction4}" commandName="transactionref">
   <table>
 	<tr>
 		<td>
@@ -41,47 +41,18 @@
 			<form:input path="account_iban" />
 		</td>
 	</tr>
-	<tr>
-		<td>
-			<form:label path="trfecha">
-				<spring:message text="Fecha"/>
-			</form:label>
-		</td>
-		<td>
-			<form:input path="trfecha" />
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<form:label path="tramount">
-				<spring:message text="Monto"/>
-			</form:label>
-		</td>
-		<td>
-			<form:input path="tramount" />
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<form:label path="trfee">
-				<spring:message text="Fee"/>
-			</form:label>
-		</td>
-		<td>
-			<form:input path="trfee" />
-		</td>
-	</tr>
+
 
 	<tr>
 		<td colspan="2">
 			<input type="submit"
-				value="<spring:message text="Add Transaction"/>" />
+				value="<spring:message text="Transaction STATUS"/>" />
 		</td>
   </table>	
 </form:form>
 <br>
-<h3>Transaction List  (ALL Transactions)</h3>
-<c:if test="${!empty listTransactions}">
+<h3>Transaction List by REFERENCE</h3>
+<c:if test="${!empty listTransactionsByREF}">
 	<table class="tg">
 	<tr>
 		<th width="120">Account IBAN</th>
@@ -91,7 +62,7 @@
 		<th width="60">Fee</th>
 		<th width="60">TR Status</th>
 	</tr>
-	<c:forEach items="${listTransactions}" var="transaction">
+	<c:forEach items="${listTransactionsByREF}" var="transactionref">
 		<tr>
 			<td>${transaction.account_iban}</td>
 			<td>${transaction.treference}</td>

@@ -14,12 +14,12 @@
 </head>
 <body>
 <h1>
-	Add a Transaction
+	Search Transaction By IBAN
 </h1>
 
-<c:url var="addAction2" value="/transaction/add" ></c:url>
+<c:url var="addAction3" value="/transaction/search" ></c:url>
 
-<form:form action="${addAction2}" commandName="transaction">
+<form:form action="${addAction3}" commandName="transactionsrc">
   <table>
 	<tr>
 		<td>
@@ -31,57 +31,17 @@
 			<form:input path="treference" />
 		</td> 
 	</tr>
-	<tr>
-		<td>
-			<form:label path="account_iban">
-				<spring:message text="IBAN"/>
-			</form:label>
-		</td>
-		<td>
-			<form:input path="account_iban" />
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<form:label path="trfecha">
-				<spring:message text="Fecha"/>
-			</form:label>
-		</td>
-		<td>
-			<form:input path="trfecha" />
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<form:label path="tramount">
-				<spring:message text="Monto"/>
-			</form:label>
-		</td>
-		<td>
-			<form:input path="tramount" />
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<form:label path="trfee">
-				<spring:message text="Fee"/>
-			</form:label>
-		</td>
-		<td>
-			<form:input path="trfee" />
-		</td>
-	</tr>
 
 	<tr>
 		<td colspan="2">
 			<input type="submit"
-				value="<spring:message text="Add Transaction"/>" />
+				value="<spring:message text="Search Transaction"/>" />
 		</td>
   </table>	
 </form:form>
 <br>
-<h3>Transaction List  (ALL Transactions)</h3>
-<c:if test="${!empty listTransactions}">
+<h3>Transaction List By IBAN (ASC/DESC)</h3>
+<c:if test="${!empty listTransactionsByIBAN}">
 	<table class="tg">
 	<tr>
 		<th width="120">Account IBAN</th>
@@ -91,7 +51,7 @@
 		<th width="60">Fee</th>
 		<th width="60">TR Status</th>
 	</tr>
-	<c:forEach items="${listTransactions}" var="transaction">
+	<c:forEach items="${listTransactionsByIBAN}" var="transactionsrc">
 		<tr>
 			<td>${transaction.account_iban}</td>
 			<td>${transaction.treference}</td>
