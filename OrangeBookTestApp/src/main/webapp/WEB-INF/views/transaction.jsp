@@ -71,7 +71,16 @@
 			<form:input path="trfee" />
 		</td>
 	</tr>
-
+	<tr>
+		<td>
+			<form:label path="trchannel">
+				<spring:message text="Channel"/>
+			</form:label>
+		</td>
+		<td>
+			<form:input path="trchannel" />
+		</td>
+	</tr>
 	<tr>
 		<td colspan="2">
 			<input type="submit"
@@ -90,6 +99,7 @@
 		<th width="60">Amount</th>
 		<th width="60">Fee</th>
 		<th width="60">TR Status</th>
+		<th width="60">CHannel</th>
 	</tr>
 	<c:forEach items="${listTransactions}" var="transaction">
 		<tr>
@@ -99,6 +109,7 @@
 			<td>${transaction.tramount}</td>
 			<td>${transaction.trfee}</td>
 			<td>${transaction.trstatus}</td>
+			<td>${transaction.trchannel}</td>
 		</tr>
 	</c:forEach>
 	</table>

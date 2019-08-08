@@ -50,15 +50,17 @@
 		<th width="60">Amount</th>
 		<th width="60">Fee</th>
 		<th width="60">TR Status</th>
+		<th width="60">CHannel</th>
 	</tr>
 	<c:forEach items="${listTransactionsByIBAN}" var="transactionsrc">
 		<tr>
-			<td>${transaction.account_iban}</td>
-			<td>${transaction.treference}</td>
-			<td>${transaction.trfecha}</td>
-			<td>${transaction.tramount}</td>
-			<td>${transaction.trfee}</td>
-			<td>${transaction.trstatus}</td>
+			<td>${transactionsrc.account_iban}</td>
+			<td>${transactionsrc.treference}</td>
+			<td>${transactionsrc.trfecha}</td>
+			<td>${transactionsrc.tramount}</td>
+			<td>${transactionsrc.trfee}</td>
+			<td>${transactionsrc.trstatus}</td>
+			<td>${transactionsrc.trchannel}</td>
 		</tr>
 	</c:forEach>
 	</table>

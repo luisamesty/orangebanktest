@@ -19,7 +19,7 @@
 
 <c:url var="addAction4" value="/transaction/status" ></c:url>
 
-<form:form action="${addAction4}" commandName="transaction">
+<form:form action="${addAction4}" commandName="transactionref">
   <table>
 	<tr>
 		<td>
@@ -31,23 +31,24 @@
 			<form:input path="treference" />
 		</td> 
 	</tr>
-	<tr>
-		<td>
-			<form:label path="account_iban">
-				<spring:message text="IBAN"/>
-			</form:label>
-		</td>
-		<td>
-			<form:input path="account_iban" />
-		</td>
-	</tr>
+<!-- 	<tr> -->
+<!-- 		<td> -->
+<%-- 			<form:label path="account_iban"> --%>
+<%-- 				<spring:message text="IBAN"/> --%>
+<%-- 			</form:label> --%>
+<!-- 		</td> -->
+<!-- 		<td> -->
+<%-- 			<form:input path="account_iban" /> --%>
+<!-- 		</td> -->
+<!-- 	</tr> -->
 
 
 	<tr>
 		<td colspan="2">
 			<input type="submit"
-				value="<spring:message text="Transaction STATUS"/>" />
+				value="<spring:message text="Search Transactions"/>" />
 		</td>
+	</tr>
   </table>	
 </form:form>
 <br>
@@ -61,15 +62,17 @@
 		<th width="60">Amount</th>
 		<th width="60">Fee</th>
 		<th width="60">TR Status</th>
+		<th width="60">CHannel</th>
 	</tr>
-	<c:forEach items="${listTransactionsByREF}" var="transaction">
+	<c:forEach items="${listTransactionsByREF}" var="transactionref">
 		<tr>
-			<td>${transaction.account_iban}</td>
-			<td>${transaction.treference}</td>
-			<td>${transaction.trfecha}</td>
-			<td>${transaction.tramount}</td>
-			<td>${transaction.trfee}</td>
-			<td>${transaction.trstatus}</td>
+			<td>${transactionref.account_iban}</td>
+			<td>${transactionref.treference}</td>
+			<td>${transactionref.trfecha}</td>
+			<td>${transactionref.tramount}</td>
+			<td>${transactionref.trfee}</td>
+			<td>${transactionref.trstatus}</td>
+			<td>${transactionref.trchannel}</td>
 		</tr>
 	</c:forEach>
 	</table>

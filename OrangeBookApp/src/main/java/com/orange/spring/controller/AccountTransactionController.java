@@ -53,7 +53,7 @@ public class AccountTransactionController {
 	   @PutMapping("/transaction/put/{id}")
 	   public ResponseEntity<?> updateTransaction(@PathVariable("id") int id, @RequestBody AccountTransaction accounttransaction) {
 		   System.out.println("the json value of Account Transaction is :::::: "+accounttransaction);
-		   accounttransactionService.updateTransaction(id, accounttransaction);
+		   accounttransactionService.updateTransaction(accounttransaction);
 	      return ResponseEntity.ok().body("Account transaction has been updated successfully.");
 	   }
 	   

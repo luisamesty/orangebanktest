@@ -26,7 +26,7 @@ public class AccountController {
 	  /*--- (GET ALL) get all accounts---*/
 	   @GetMapping("/account")
 	   public ResponseEntity<List<Account>> list() {
-	      List<Account> accounts = accountService.list();
+	      List<Account> accounts = accountService.listAccount();
 	      return ResponseEntity.ok().body(accounts);
 	   }
 	   
@@ -36,7 +36,7 @@ public class AccountController {
 		  // New Validation By ID
 		  Account account2 = null;
 		  if (account.getId() != 0) {
-			  account2 = accountService.get(account.getId());
+			  account2 = accountService.getAccountById(account.getId());
 			  if (account2 != null) {
 				  //System.out.println("** ERROR, EXIST Account ::::: "+account2.toString());
 				  return ResponseEntity.ok().body("** ERROR ** EXIST Account. NO Account has been saved with ID:" + account.getId());
@@ -53,14 +53,14 @@ public class AccountController {
 			  }
 		  }
 		  // OJO Validation
-		  int id = accountService.save(account);
-	      return ResponseEntity.ok().body("New Account has been saved with ID:" + id);
+		 accountService.addAccount(account);
+	      return ResponseEntity.ok().body("New Account has been saved with ID:" + account.getId());
 	  }
 	  
 	  /*---(GET 1)Get an account by id---*/
 	  @GetMapping("/account/{id}")
 	  public ResponseEntity<Account> get(@PathVariable("id") int id) {
-	     Account account = accountService.get(id);
+	     Account account = accountService.getAccountById(id);
 	     return ResponseEntity.ok().body(account);
 	  }
 
@@ -70,17 +70,17 @@ public class AccountController {
 		  // New Validation By ID
 		  Account account2 = null;
 		  if (account.getId() != 0) {
-			  account2 = accountService.get(account.getId());
+			  account2 = accountService.getAccountById(account.getId());
 			  if (id != account2.getId()) {
 				  return ResponseEntity.ok().body("** ERROR ** Account and ID Missmatch. NO Account has been updated with ID:" + (id) +" / "+account.getId()); 
 			  }
-			  account2 = accountService.get(account.getId());
+			  account2 = accountService.getAccountById(account.getId());
 			  if (account2 == null) {
 				  //System.out.println("** ERROR, EXIST Account ::::: "+account2.toString());
 				  return ResponseEntity.ok().body("** ERROR ** Account DO NOT EXIST. NO Account has been updated with ID:" + account.getId());
 			  }
 		  }
-		  accountService.update(id, account);
+		  accountService.updateAccount(account2);
 	      return ResponseEntity.ok().body("Account has been updated successfully.");
 	   }
 	   
@@ -88,11 +88,11 @@ public class AccountController {
 	   @DeleteMapping("/account/{id}")
 	   public ResponseEntity<?> delete(@PathVariable("id") int id) {
 		  // New Validation By ID
-		   if (accountService.get(id) == null) {
+		   if (accountService.getAccountById(id) == null) {
 				  //System.out.println("** ERROR, EXIST Account ::::: "+account2.toString());
 				  return ResponseEntity.ok().body("** ERROR ** Account DO NOT EXIST. NO Account has been deleted with ID:" + id);
 		  }
-		  accountService.delete(id);
+		  accountService.deleteAccount(id);
 	      return ResponseEntity.ok().body("Account has been deleted successfully.");
 	   }
 }

@@ -6,43 +6,63 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.orange.spring.dao.AccountDao;
 import com.orange.spring.dao.AccountTransactionDao;
 import com.orange.spring.model.AccountTransaction;
-import com.orange.spring.model.TransactionId;
 
 @Service
 @Transactional(readOnly = true)
 public class AccountTransactionServiceImpl implements AccountTransactionService  {
 
-	@Autowired
-	private AccountTransactionDao accounttransactionDao;
-	
-	@Transactional
+	private AccountTransactionDao accounttransactionDAO;
+
+	public AccountTransactionDao getAccounttransactionDAO() {
+		return accounttransactionDAO;
+	}
+
+	public void setAccounttransactionDAO(AccountTransactionDao accounttransactionDAO) {
+		this.accounttransactionDAO = accounttransactionDAO;
+	}
+
 	@Override
+	@Transactional
 	public int addTransaction(AccountTransaction accounttransaction) {
-		return accounttransactionDao.addTransaction(accounttransaction);
+		return accounttransactionDAO.addTransaction(accounttransaction);
 	}
 
 	@Override
+	@Transactional
 	public AccountTransaction getTransaction(int id) {
-		return accounttransactionDao.getTransaction(id);
+		return accounttransactionDAO.getTransactionById(id);
 	}
 
 	@Override
+	@Transactional
 	public List<AccountTransaction> listTransaction() {
-		return accounttransactionDao.listTransaction();
+		return accounttransactionDAO.listTransaction();
 	}
 
-	@Transactional
 	@Override
-	public void updateTransaction(int id, AccountTransaction accounttransaction) {
-		accounttransactionDao.updateTransaction(id, accounttransaction);
-	}
-
 	@Transactional
-	@Override
 	public void deleteTransaction(int id) {
-		accounttransactionDao.deleteTransaction(id);
+		accounttransactionDAO.deleteTransaction(id);
+	}
+
+	@Override
+	@Transactional
+	public void updateTransaction(AccountTransaction accounttransaction) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<AccountTransaction> listTransactionsByIBAN(String account_iban, String ASC_DESC) {
+		return accounttransactionDAO.listTransactionsByIBAN(account_iban, ASC_DESC);
+	}
+
+	@Override
+	public List<AccountTransaction> listTransactionsByREF(String treference) {
+		return accounttransactionDAO.listTransactionsByREF(treference);
 	}
 
 }

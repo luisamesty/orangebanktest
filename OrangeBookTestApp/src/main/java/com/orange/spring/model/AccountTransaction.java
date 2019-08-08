@@ -25,6 +25,8 @@ public class AccountTransaction {
 	BigDecimal trfee;
 	String trdescription;
 	String trstatus;
+	String trchannel;
+	
 	public int getId() {
 		return id;
 	}
@@ -70,6 +72,12 @@ public class AccountTransaction {
 	public String getTrstatus() {
 		return trstatus;
 	}
+	public String getTrchannel() {
+		return trchannel;
+	}
+	public void setTrchannel(String trchannel) {
+		this.trchannel = trchannel;
+	}
 	public void setTrstatus(String trstatus) {
 		this.trstatus = trstatus;
 	}
@@ -77,9 +85,7 @@ public class AccountTransaction {
 	public String toString() {
 		return "AccountTransaction [id=" + id + ", account_iban=" + account_iban + ", treference=" + treference
 				+ ", trfecha=" + trfecha + ", tramount=" + tramount + ", trfee=" + trfee + ", trdescription="
-				+ trdescription + ", trstatus=" + trstatus + "]";
+				+ trdescription + ", trstatus=" + trstatus + ", trchannel=" + trchannel + "]";
 	}
-
-
 
 }

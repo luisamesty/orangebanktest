@@ -7,7 +7,8 @@
 			"trfecha":"2019-07-16T16:55:42.000Z",
 			"tramount":193.38,
 			"trfee":3.18,
-			"trdescription":"Restaurant payment"
+			"trdescription":"Restaurant payment",
+			"trchannel" : "CLIENT"
 			}
 	},
     {
@@ -18,7 +19,8 @@
 			"trfecha":"2019-07-16T16:55:42.000Z",
 			"tramount":893.38,
 			"trfee":5.35,
-			"trdescription":"Dept Store payment"
+			"trdescription":"Dept Store payment",
+			"trchannel" : "CLIENT"
 			}
 	},
     {
@@ -29,7 +31,8 @@
 			"trfecha":"2019-07-16T16:55:42.000Z",
 			"tramount":1193.38,
 			"trfee":2.00,
-			"trdescription":"Restaurant payment"
+			"trdescription":"Restaurant payment",
+			"trchannel" : "CLIENT"
 			}
 	},
     {
@@ -40,7 +43,8 @@
 			"trfecha":"2019-07-16T16:55:42.000Z",
 			"tramount":1893.38,
 			"trfee":2.00,
-			"trdescription":"Dept Store payment"
+			"trdescription":"Dept Store payment",
+			"trchannel" : "CLIENT"
 			}
 	}
 ]

@@ -22,7 +22,7 @@ public class HomeController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String list(Model model) {
 
-		List<Account> accounts = accountService.list();
+		List<Account> accounts = accountService.listAccount();
 		System.out.println("traza:"+accounts.toString());
 		model.addAttribute("cuentas", accounts);
 		model.addAttribute("cuenta", new Account());

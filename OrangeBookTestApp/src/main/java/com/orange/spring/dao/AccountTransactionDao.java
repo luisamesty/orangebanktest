@@ -15,6 +15,12 @@ public interface AccountTransactionDao {
     // Get all the records
     List<AccountTransaction> listTransaction();
  
+	// Get records by IBAN 
+    List<AccountTransaction> listTransactionsByIBAN(String account_iban, String ASC_DESC);
+	
+    // Get Records by Reference
+	List<AccountTransaction> listTransactionsByREF(String treference);
+	
     // Update the record
     void updateTransaction(AccountTransaction accounttransaction);
  

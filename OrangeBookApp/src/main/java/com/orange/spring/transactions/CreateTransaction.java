@@ -119,19 +119,21 @@ public class CreateTransaction {
 		String trdescription = (String) trObject.get("trdescription");	
 		System.out.println("trdescription="+trdescription);
 		// status
-		String trstatus = "** Por revisar ***";
+		String trstatus = "** OK ***";
+		// tr channel
+		String trchannel = (String) trObject.get("trchannel");
 		// AccountTransaction 
 		@SuppressWarnings("null")
 		AccountTransaction acctr = new AccountTransaction();
 		acctr.setId(id);
 		acctr.setAccount_iban(account_iban);
-		acctr.setTReference(treference);
-		acctr.setTrFecha(trfecha);
-		acctr.setTrAmount(BDamount);
-		acctr.setTrFee(BDfee);
+		acctr.setTreference(treference);
+		acctr.setTrfecha(trfecha);
+		acctr.setTramount(BDamount);
+		acctr.setTrfee(BDfee);
 		acctr.setTrdescription(trdescription);
 		acctr.setTrstatus(trstatus);
-		
+		acctr.setTrchannel(trchannel);
 		// ADD TO ARRAY
 		acctransactions.add(acctr);
 	}
@@ -196,7 +198,7 @@ public class CreateTransaction {
                 isError = true;
             } finally {
             	if(isError)
-            		System.out.println("** ERROR ** "+errorMessage+" ID:"+acctr.getId()+" REF:"+acctr.getTReference()+"  IBAN:"+acctr.getAccount_iban());
+            		System.out.println("** ERROR ** "+errorMessage+" ID:"+acctr.getId()+" REF:"+acctr.getTreference()+"  IBAN:"+acctr.getAccount_iban());
             }
         }
        	// Session close

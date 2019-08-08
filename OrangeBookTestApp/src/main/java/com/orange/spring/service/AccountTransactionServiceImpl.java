@@ -55,4 +55,14 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
 		
 	}
 
+	@Override
+	public List<AccountTransaction> listTransactionsByIBAN(String account_iban, String ASC_DESC) {
+		return accounttransactionDAO.listTransactionsByIBAN(account_iban, ASC_DESC);
+	}
+
+	@Override
+	public List<AccountTransaction> listTransactionsByREF(String treference) {
+		return accounttransactionDAO.listTransactionsByREF(treference);
+	}
+
 }

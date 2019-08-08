@@ -12,6 +12,10 @@ public interface AccountTransactionService {
 
 	List<AccountTransaction> listTransaction();
 
+	List<AccountTransaction> listTransactionsByIBAN(String account_iban, String ASC_DESC);
+	
+	List<AccountTransaction> listTransactionsByREF(String treference);
+	
 	void updateTransaction(AccountTransaction accounttransaction);
 
 	void deleteTransaction(int id);

@@ -56,9 +56,11 @@ public class AccountTransactionController {
 	// tr_search By IBAN  ( listTransactionsByIBAN )
 	@RequestMapping(value = "/tr_search", method = RequestMethod.GET)
 	public String listTransactionsByIBAN(Model model) {
+		String account_iban = "";
+		String ASC_DES="A";	// A: ASCEND D: DESCEND
 		model.addAttribute("transactionsrc", new AccountTransaction());
-		model.addAttribute("listTransactionsByIBAN", this.accounttransactionService.listTransaction());
-		return "transaction";
+		model.addAttribute("listTransactionsByIBAN", this.accounttransactionService.listTransactionsByIBAN(account_iban, ASC_DES));
+		return "tr_search";
 	}
 	
 	//  **************************************************************
@@ -72,13 +74,13 @@ public class AccountTransactionController {
 		return "redirect:/tr_status";
 	}
 	
-	// tr_search By REF  ( listTransactionsByREF )
+	// tr_status By REF  ( listTransactionsByREF )
 	@RequestMapping(value = "/tr_status", method = RequestMethod.GET)
 	public String llistTransactionsByREF(Model model) {
 		model.addAttribute("transactionref", new AccountTransaction());
-		model.addAttribute("listTransactionsByREF", this.accounttransactionService.listTransaction());
-		return "transaction";
+		String treference="12345A";
+		model.addAttribute("listTransactionsByREF", this.accounttransactionService.listTransactionsByREF(treference));
+		return "tr_status";
 	}
 	
-
 }

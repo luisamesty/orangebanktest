@@ -2,7 +2,6 @@ package com.orange.spring.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,43 +9,51 @@ import com.orange.spring.dao.AccountDao;
 import com.orange.spring.model.Account;
 
 @Service
-@Transactional(readOnly = true)
-public class AccountServiceImpl implements AccountService  {
+public class AccountServiceImpl implements AccountService {
 
-	@Autowired
-	private AccountDao accountDao;
+	private AccountDao accountDAO;
 	
+	public void setAccountDAO(AccountDao accountDAO) {
+		this.accountDAO = accountDAO;
+	}
+
+	@Override
 	@Transactional
-	@Override
-	public int save(Account account) {
-		return accountDao.save(account);
+	public void addAccount(Account account) {
+		this.accountDAO.addAccount(account);
 	}
 
 	@Override
-	public Account get(int id) {
-		return accountDao.get(id);
-	}
-
-	@Override
-	public List<Account> list() {
-		return accountDao.list();
-	}
-
 	@Transactional
-	@Override
-	public void update(int id, Account account) {
-		accountDao.update(id, account);
+	public void updateAccount(Account account) {
+		this.accountDAO.updateAccount(account);
 	}
-
+	@Override
 	@Transactional
-	@Override
-	public void delete(int id) {
-		accountDao.delete(id);
+	public List<Account> listAccount() {
+		return this.accountDAO.listAccount();
 	}
 
 	@Override
+	@Transactional
+	public Account getAccountById(int id) {
+		this.accountDAO.getAccountById(id);
+		return null;
+	}
+
+	@Override
+	@Transactional
+	public void deleteAccount(int id) {
+		this.accountDAO.deleteAccount(id);
+	}
+
+	@Override
+	@Transactional
 	public Account getByIBAN(String account_iban) {
-		return accountDao.getByIBAN(account_iban);
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+
 
 }

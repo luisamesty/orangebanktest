@@ -42,6 +42,7 @@ public class AccountTransactionDaoImpl implements AccountTransactionDao {
 	@Override
 	public List<AccountTransaction> listTransaction() {
 		Session session = this.sessionFactory.getCurrentSession();
+		// HQL All Transactions
 		List<AccountTransaction> accountsTRList = session.createQuery("from AccountTransaction").list();
 		for(AccountTransaction p : accountsTRList){
 			logger.info("AccountTransaction List::"+p);
@@ -64,6 +65,64 @@ public class AccountTransactionDaoImpl implements AccountTransactionDao {
 			session.delete(accounttransaction);
 		}
 		logger.info("Account Transaction deleted successfully, Account details="+accounttransaction);
+	}
+
+	// Get records by IBAN 
+	@SuppressWarnings("null")
+	@Override
+	public List<AccountTransaction> listTransactionsByIBAN(String account_iban, String ASC_DESC) {
+		Session session = this.sessionFactory.getCurrentSession();
+		// <List<AccountTransaction> accountsTRList = session.createQuery("from AccountTransaction").list();
+		// HQL Build from parameters
+		Query query = null;
+		if (account_iban != null && !account_iban.isEmpty()  ) {
+			query = session.createQuery("from AccountTransaction where account_iban = :codeiban  order by tramount :ascdes ");
+			query.setParameter("codeiban", account_iban);
+			if (ASC_DESC.compareToIgnoreCase("D")== 0 || ASC_DESC.compareToIgnoreCase("DESC")== 0 ) {
+				query.setParameter("ascdes", "DESC");
+			} else { 
+				query.setParameter("ascdes", "ASC");
+				ASC_DESC="ASC";
+			}
+		} else {
+			query = session.createQuery("from AccountTransaction "); //order by tramount :ascdes ");
+			account_iban="";
+			ASC_DESC="ASC";
+			
+		}
+		// Get Transactions as QUERY
+		List<AccountTransaction> accountsTRList = query.list();
+		// LOG
+		logger.info("listTransactionsByIBAN: account_iban="+account_iban+"  "+ASC_DESC+"  "+query.getQueryString());
+		for(AccountTransaction p : accountsTRList){
+			logger.info("AccountTransaction List::"+p);
+		}
+		return accountsTRList;
+	}
+
+	// Get Records by REFERENCE
+	@SuppressWarnings("null")
+	@Override
+	public List<AccountTransaction> listTransactionsByREF(String treference) {
+		Session session = this.sessionFactory.getCurrentSession();
+		//List<AccountTransaction> accountsTRList = session.createQuery("from AccountTransaction").list();
+		// HQL Build from parameters
+		Query query = null;
+		if (treference != null && !treference.isEmpty()  ) {
+			query = session.createQuery("from AccountTransaction where treference = :trref  order by tramount ASC ");
+			query.setParameter("trref", treference);
+		} else {
+			query = session.createQuery("from AccountTransaction order by tramount ASC ");
+			treference ="";
+		}
+		// Get Transactions as QUERY
+		List<AccountTransaction> accountsTRList = query.list();
+		// LOG
+		logger.info("listTransactionsByREF: treference="+treference+"  "+query.getQueryString());
+		for(AccountTransaction p : accountsTRList){
+			logger.info("AccountTransaction List::"+p);
+		}
+		return accountsTRList;
 	}
 		
 }
