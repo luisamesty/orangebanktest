@@ -11,9 +11,11 @@ import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-import com.orange.spring.model.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.orange.spring.model.Account;
+
 
 @Repository
 public class AccountDaoImpl implements AccountDao {
@@ -24,6 +26,7 @@ public class AccountDaoImpl implements AccountDao {
 	@PersistenceContext 
 	EntityManager em;
 	// OJO
+	
 	@Override
 	public void addAccount(Account account) {
 		Session session = sessionFactory.getCurrentSession();
@@ -41,7 +44,7 @@ public class AccountDaoImpl implements AccountDao {
         }
 		sessionFactory.getCurrentSession().save(account);
 	}
-
+	
 	@Override
 	public void updateAccount(Account account) {
 		Session session = sessionFactory.getCurrentSession();
@@ -58,7 +61,7 @@ public class AccountDaoImpl implements AccountDao {
       	  		System.out.println("** Account UPDATE ERROR ** "+errorMessage+"Account ID:"+account.getId()+"  IBAN:"+account.getAccount_iban());
         }
 	}
-
+	
 	@Override
 	public List<Account> listAccount() {
 		 Session session = sessionFactory.getCurrentSession();
@@ -76,7 +79,7 @@ public class AccountDaoImpl implements AccountDao {
 	      return queryacct.getResultList();
 
 	}
-
+	
 	@Override
 	public Account getAccountById(int id) {
 		System.out.println("Traza : "+id);
@@ -92,14 +95,14 @@ public class AccountDaoImpl implements AccountDao {
 	      else 
 	    	  return retAccount;
 	}
-
+	
 	@Override
 	public void deleteAccount(int id) {
 		Session session = sessionFactory.getCurrentSession();
 	      Account account = session.byId(Account.class).load(id);
 	      session.delete(account);
 	}
-
+	
 	@Override
 	public Account getByIBAN(String account_iban) {
 		
@@ -113,6 +116,6 @@ public class AccountDaoImpl implements AccountDao {
 	    retAccount = queryacct.getSingleResult();
 	    return retAccount;
 	}
-	
-	
+
+
 }

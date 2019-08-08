@@ -25,14 +25,14 @@ public class AccountController {
 	
 	  /*--- (GET ALL) get all accounts---*/
 	   @GetMapping("/account")
-	   public ResponseEntity<List<Account>> listAccounts() {
+	   public ResponseEntity<List<Account>> list() {
 	      List<Account> accounts = accountService.listAccount();
 	      return ResponseEntity.ok().body(accounts);
 	   }
 	   
 	  /*---(POST) Add new account---*/
 	   @PostMapping("/account")
-	   public ResponseEntity<?> saveAccount(@RequestBody Account account) {
+	   public ResponseEntity<?> save(@RequestBody Account account) {
 		  // New Validation By ID
 		  Account account2 = null;
 		  if (account.getId() != 0) {
@@ -53,21 +53,21 @@ public class AccountController {
 			  }
 		  }
 		  // OJO Validation
-		 accountService.addAccount(account);
+		  accountService.addAccount(account);
 	      return ResponseEntity.ok().body("New Account has been saved with ID:" + account.getId());
 	  }
 	  
 	  /*---(GET 1)Get an account by id---*/
 	  @GetMapping("/account/{id}")
-	  public ResponseEntity<Account> getAccountById(@PathVariable("id") Long id) {
-		 int intid = id.intValue();
+	  public ResponseEntity<Account> get(@PathVariable("id") long id) {
+		  int intid = (int) id;
 	     Account account = accountService.getAccountById(intid);
 	     return ResponseEntity.ok().body(account);
 	  }
 
 	   /*---(PUT) Update an account by id---*/
 	   @PutMapping("/account/{id}")
-	   public ResponseEntity<?> updateAccount(@PathVariable("id") Long id, @RequestBody Account account) {
+	   public ResponseEntity<?> update(@PathVariable("id") long id, @RequestBody Account account) {
 		  // New Validation By ID
 		  Account account2 = null;
 		  if (account.getId() != 0) {
@@ -81,7 +81,7 @@ public class AccountController {
 				  return ResponseEntity.ok().body("** ERROR ** Account DO NOT EXIST. NO Account has been updated with ID:" + account.getId());
 			  }
 		  }
-		  accountService.updateAccount(account2);
+		  accountService.updateAccount(account);
 	      return ResponseEntity.ok().body("Account has been updated successfully.");
 	   }
 	   

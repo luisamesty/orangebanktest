@@ -2,6 +2,7 @@ package com.orange.spring.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -9,10 +10,12 @@ import com.orange.spring.dao.AccountDao;
 import com.orange.spring.model.Account;
 
 @Service
-public class AccountServiceImpl implements AccountService {
+@Transactional(readOnly = true)
+public class AccountServiceImpl implements AccountService  {
 
+	@Autowired
 	private AccountDao accountDAO;
-	
+
 	public void setAccountDAO(AccountDao accountDAO) {
 		this.accountDAO = accountDAO;
 	}
@@ -28,19 +31,19 @@ public class AccountServiceImpl implements AccountService {
 	public void updateAccount(Account account) {
 		this.accountDAO.updateAccount(account);
 	}
+
 	@Override
 	@Transactional
 	public List<Account> listAccount() {
 		return this.accountDAO.listAccount();
 	}
-
+	
 	@Override
 	@Transactional
 	public Account getAccountById(int id) {
-		this.accountDAO.getAccountById(id);
-		return null;
+		return this.accountDAO.getAccountById(id);
 	}
-
+	
 	@Override
 	@Transactional
 	public void deleteAccount(int id) {
@@ -50,9 +53,9 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	@Transactional
 	public Account getByIBAN(String account_iban) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.accountDAO.getByIBAN(account_iban);
 	}
+
 
 
 

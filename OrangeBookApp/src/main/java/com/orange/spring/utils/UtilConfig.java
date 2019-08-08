@@ -38,7 +38,7 @@ public class UtilConfig {
 	 * @return
 	 * @throws IOException
 	 */
-	
+	@Deprecated
 	public SessionFactory getSessionFactory() throws IOException {
 	    if (sessionFactory == null) {
     	  System.out.println("Sesion nueva.. creando sesion "); 

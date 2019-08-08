@@ -6,63 +6,59 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.orange.spring.dao.AccountDao;
 import com.orange.spring.dao.AccountTransactionDao;
 import com.orange.spring.model.AccountTransaction;
+import com.orange.spring.model.TransactionId;
 
 @Service
 @Transactional(readOnly = true)
 public class AccountTransactionServiceImpl implements AccountTransactionService  {
 
-	private AccountTransactionDao accounttransactionDAO;
-
-	public AccountTransactionDao getAccounttransactionDAO() {
-		return accounttransactionDAO;
-	}
-
-	public void setAccounttransactionDAO(AccountTransactionDao accounttransactionDAO) {
-		this.accounttransactionDAO = accounttransactionDAO;
-	}
+	@Autowired
+	private AccountTransactionDao accounttransactionDao;
 
 	@Override
-	@Transactional
 	public int addTransaction(AccountTransaction accounttransaction) {
-		return accounttransactionDAO.addTransaction(accounttransaction);
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
-	@Transactional
 	public AccountTransaction getTransaction(int id) {
-		return accounttransactionDAO.getTransactionById(id);
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	@Transactional
 	public List<AccountTransaction> listTransaction() {
-		return accounttransactionDAO.listTransaction();
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	@Transactional
-	public void deleteTransaction(int id) {
-		accounttransactionDAO.deleteTransaction(id);
+	public List<AccountTransaction> listTransactionsByIBAN(String account_iban, String ASC_DESC) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	@Transactional
+	public List<AccountTransaction> listTransactionsByREF(String treference) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public void updateTransaction(AccountTransaction accounttransaction) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public List<AccountTransaction> listTransactionsByIBAN(String account_iban, String ASC_DESC) {
-		return accounttransactionDAO.listTransactionsByIBAN(account_iban, ASC_DESC);
+	public void deleteTransaction(int id) {
+		// TODO Auto-generated method stub
+		
 	}
+	
 
-	@Override
-	public List<AccountTransaction> listTransactionsByREF(String treference) {
-		return accounttransactionDAO.listTransactionsByREF(treference);
-	}
 
 }

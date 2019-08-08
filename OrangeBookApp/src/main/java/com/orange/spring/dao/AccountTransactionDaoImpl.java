@@ -19,18 +19,17 @@ public class AccountTransactionDaoImpl implements AccountTransactionDao {
 
 	@Autowired
 	private SessionFactory sessionFactory;
-	
+
 	@Override
 	public int addTransaction(AccountTransaction accounttransaction) {
 		sessionFactory.getCurrentSession().save(accounttransaction);
 	      return accounttransaction.getId();
 	}
-	
+
 	@Override
 	public AccountTransaction getTransactionById(int id) {
 		return sessionFactory.getCurrentSession().get(AccountTransaction.class, id);
 	}
-	
 
 	@Override
 	public List<AccountTransaction> listTransaction() {
@@ -46,16 +45,85 @@ public class AccountTransactionDaoImpl implements AccountTransactionDao {
 	      return query.getResultList();
 	}
 
+	// Get records by IBAN 
+	@SuppressWarnings("null")
 	@Override
 	public List<AccountTransaction> listTransactionsByIBAN(String account_iban, String ASC_DESC) {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = this.sessionFactory.getCurrentSession();
+		List<AccountTransaction> accountsTRList = null;
+		// HQL Build from parameters
+	    CriteriaBuilder builder = session.getCriteriaBuilder();
+	    CriteriaQuery<AccountTransaction> query = builder.createQuery(AccountTransaction.class);
+	    Root<AccountTransaction> root = query.from(AccountTransaction.class);
+	    query.select(root);
+	    // Restriction AND Order By id
+	    //query.orderBy(builder.asc(root.get("id")));
+	    if (account_iban != null && !account_iban.isEmpty()  ) {
+	    	// account_iban
+	    	query.where(builder.equal(root.get("account_iban"), account_iban));
+			if (ASC_DESC.compareToIgnoreCase("D")== 0 || ASC_DESC.compareToIgnoreCase("DESC")== 0 ) {
+				query.orderBy(builder.desc(root.get("tramount"))); 
+			} else { 
+				query.orderBy(builder.asc(root.get("tramount"))); 
+			}
+	    } else {
+	    	query.orderBy(builder.asc(root.get("tramount"))); 
+	    }
+	    //
+	    Query<AccountTransaction> querytr = session.createQuery(query);
+	    accountsTRList = querytr.getResultList();
+		// LOG
+		System.out.println("listTransactionsByIBAN: account_iban="+account_iban+"  "+ASC_DESC);
+		for(AccountTransaction p : accountsTRList){
+			System.out.println("AccountTransaction List::"+p);
+		}
+		return accountsTRList;
+
 	}
 
+	// Get Records by REFERENCE
+	@SuppressWarnings("null")
 	@Override
 	public List<AccountTransaction> listTransactionsByREF(String treference) {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = this.sessionFactory.getCurrentSession();
+		List<AccountTransaction> accountsTRList = null;
+		// HQL Build from parameters
+	    CriteriaBuilder builder = session.getCriteriaBuilder();
+	    CriteriaQuery<AccountTransaction> query = builder.createQuery(AccountTransaction.class);
+	    Root<AccountTransaction> root = query.from(AccountTransaction.class);
+	    query.select(root);
+	    // Restriction AND Order By id
+	    //query.orderBy(builder.asc(root.get("id")));
+		if (treference != null && !treference.isEmpty()  ) {
+	    	query.where(builder.equal(root.get("treference"), treference));
+		}
+		query.orderBy(builder.asc(root.get("tramount"))); 
+	    Query<AccountTransaction> querytr = session.createQuery(query);
+	    accountsTRList = querytr.getResultList();
+		// LOG
+		System.out.println("listTransactionsByREF: treference="+treference+  " (ASC)");
+		for(AccountTransaction p : accountsTRList){
+			System.out.println("AccountTransaction List::"+p);
+		}
+		return accountsTRList;
+		
+//		// HQL Build from parameters DEPRECATED
+//		Query query = null;
+//		if (treference != null && !treference.isEmpty()  ) {
+//			query = session.createQuery("from AccountTransaction where treference = :trref  order by tramount ASC ");
+//			query.setParameter("trref", treference);
+//		} else {
+//			query = session.createQuery("from AccountTransaction order by tramount ASC ");
+//			treference ="";
+//		}
+//		// Get Transactions as QUERY
+//		List<AccountTransaction> accountsTRList = query.list();
+//		// LOG
+//		System.out.println("listTransactionsByREF: treference="+treference+"  "+query.getQueryString());
+//		for(AccountTransaction p : accountsTRList){
+//			System.out.println("AccountTransaction List::"+p);
+//		}
+
 	}
 
 	@Override
@@ -78,5 +146,6 @@ public class AccountTransactionDaoImpl implements AccountTransactionDao {
 		AccountTransaction accounttransaction = session.byId(AccountTransaction.class).load(id);
 	      session.delete(accounttransaction);
 	}
+	
 
 }

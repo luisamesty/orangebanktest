@@ -1,27 +1,27 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 7 ago. 2019 18:37:37 by Hibernate Tools 3.5.0.Final -->
+<!-- Generated 4 ago. 2019 12:43:36 by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
     <class name="com.orange.spring.model.AccountTransaction" table="ACCOUNTTRANSACTION">
-        <id name="id" type="int">
+        <id name="id" type="java.lang.Long">
             <column name="ID" />
             <generator class="assigned" />
         </id>
         <property name="account_iban" type="java.lang.String">
             <column name="ACCOUNT_IBAN" />
         </property>
-        <property name="treference" type="java.lang.String" access="field">
-            <column name="TREFERENCE" />
+        <property name="reference" type="java.lang.String">
+            <column name="REFERENCE" />
         </property>
-        <property name="trfecha" type="java.lang.String" access="field">
-            <column name="TRFECHA" />
+        <property name="date" type="java.sql.Timestamp">
+            <column name="DATE" />
         </property>
-        <property name="tramount" type="java.math.BigDecimal" access="field">
-            <column name="TRAMOUNT" />
+        <property name="amount" type="java.math.BigDecimal">
+            <column name="AMOUNT" />
         </property>
-        <property name="trfee" type="java.math.BigDecimal" access="field">
-            <column name="TRFEE" />
+        <property name="fee" type="java.math.BigDecimal">
+            <column name="FEE" />
         </property>
         <property name="trdescription" type="java.lang.String">
             <column name="TRDESCRIPTION" />
