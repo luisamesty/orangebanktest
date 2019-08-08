@@ -70,6 +70,7 @@ public class AccountController {
 	   public ResponseEntity<?> update(@PathVariable("id") long id, @RequestBody Account account) {
 		  // New Validation By ID
 		  Account account2 = null;
+		  account = accountService.getAccountById(account.getId());
 		  if (account.getId() != 0) {
 			  account2 = accountService.getAccountById(account.getId());
 			  if (id != account2.getId()) {

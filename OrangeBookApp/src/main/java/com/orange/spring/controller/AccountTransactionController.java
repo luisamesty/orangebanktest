@@ -66,6 +66,6 @@ public class AccountTransactionController {
 				  return ResponseEntity.ok().body("** ERROR ** Account Transaction DO NOT EXIST. NO transaction has been deleted with ID:" + id);
 		  }
 		  accounttransactionService.deleteTransaction(id);
-	      return ResponseEntity.ok().body("Account Transaction has been deleted successfully.");
+	      return ResponseEntity.ok().body("Account Transaction has been deleted successfully. ID="+id);
 	   }
 }

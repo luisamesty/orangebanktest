@@ -6,11 +6,13 @@ Return to Main: [README.md] (https://github.com/luisamesty/orangebanktest/blob/m
 ### Local, Remote or microsevice  Postgresql Database Instance.
 Local or Remote Postgresql Database Instance, must be installed and service running.
 Local IP configuration must be available on pg_hba.con file,
-in order to accept request from the IP address of the Test PC.
-Database must be created:
-name:  orangeapi
-owner: postgres
-Tables will be created on first runnig of the APP.
+in order to accept request from the IP address of the Test PC and Docker containers.
+</pre>
+### <B>The Database must be created (Very Iportant):</b>
+<pre>
+<b><u>name:</u>  orangeapi</b>
+<b><u>owner:</u> postgres</b>
+Tables will be created on first runnig of OrangeBookApp on local eclipse o microservice container.
 Tables used by App:
     account
     accounttransaction
@@ -50,14 +52,14 @@ Tables:
 Two SQL sripts are provided on sql directory of OrangeBookApp project, 
 for additional Database settings. 
 They must be run on this order:
-    accounts_init_db.sql
-    transactions_init_db.sql
+    <b>accounts_init_db.sql</b>
+    <b>transactions_init_db.sql</b>
     (*) Next App release will be avoid this step.
 </pre>
-## Initial Data Base Data
+## Initial DB Data
 <pre>
-OrangeBookApp requires soma initial data to be setup before running transaction tests.
-New Accounts must be created, <b>accounts_init_db.sql</b> script provides sample initial accounts values. 
+OrangeBookApp requires some initial data to be setup before running transaction tests.
+New Accounts can be created, <b>accounts_init_db.sql</b> script provides sample initial accounts values. 
 INSERT INTO public.account(
 	id, account_iban, balance, name)
 	VALUES 
@@ -69,12 +71,13 @@ INSERT INTO public.account(
 </pre>
 <pre>
 Additional Java Class is provided for Initial Data Base:
-    InitDBTables.java       Provides Java code for same purpose.
-    HibernateUtil.java      Provides local Hibernate DB session.
+    <b>InitDBTables.java</b>       Provides Java code for same purpose.
+    <b>HibernateUtil.java</b>      Provides local Hibernate DB session.
 This classes uses json files provided on <b>json</b> directory of main app. 
 A json parser reader is modelled in order to read this files:
     Account.json
     Transaction.json
+This file can be executed as a java progran under eclipse environment.
 </pre>
 
 Return to Main: [README.md](https://github.com/luisamesty/orangebanktest/blob/master/README.md)

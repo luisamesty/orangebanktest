@@ -15,36 +15,45 @@ import com.orange.spring.model.TransactionId;
 public class AccountTransactionServiceImpl implements AccountTransactionService  {
 
 	@Autowired
-	private AccountTransactionDao accounttransactionDao;
+	private AccountTransactionDao accounttransactionDAO;
 
+	public AccountTransactionDao getAccounttransactionDAO() {
+		return accounttransactionDAO;
+	}
+	
+	public void setAccounttransactionDAO(AccountTransactionDao accounttransactionDAO) {
+		this.accounttransactionDAO = accounttransactionDAO;
+	}
+	
 	@Override
+	@Transactional
 	public int addTransaction(AccountTransaction accounttransaction) {
-		// TODO Auto-generated method stub
-		return 0;
+		return accounttransactionDAO.addTransaction(accounttransaction);
 	}
 
 	@Override
+	@Transactional
 	public AccountTransaction getTransaction(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return accounttransactionDAO.getTransactionById(id);
 	}
 
 	@Override
+	@Transactional
 	public List<AccountTransaction> listTransaction() {
-		// TODO Auto-generated method stub
-		return null;
+		return accounttransactionDAO.listTransaction();
 	}
 
+
 	@Override
+	@Transactional
 	public List<AccountTransaction> listTransactionsByIBAN(String account_iban, String ASC_DESC) {
-		// TODO Auto-generated method stub
-		return null;
+		return accounttransactionDAO.listTransactionsByIBAN(account_iban, ASC_DESC);
 	}
 
 	@Override
+	@Transactional
 	public List<AccountTransaction> listTransactionsByREF(String treference) {
-		// TODO Auto-generated method stub
-		return null;
+		return accounttransactionDAO.listTransactionsByREF(treference);
 	}
 
 	@Override

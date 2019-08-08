@@ -25,7 +25,8 @@ Apps:
         V0.17.6
     Virtual Box.
         Version 6.0
-
+    Google Chrome Web browser.
+        Versión 75.0.3770.142 (Build oficial) (64 bits)
 
 </pre>
 Return to Main: [README.md](https://github.com/luisamesty/orangebanktest/blob/master/README.md)

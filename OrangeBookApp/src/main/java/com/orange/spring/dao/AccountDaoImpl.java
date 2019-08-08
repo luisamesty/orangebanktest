@@ -70,6 +70,7 @@ public class AccountDaoImpl implements AccountDao {
 	      CriteriaQuery<Account> query = builder.createQuery(Account.class);
 	      Root<Account> root = query.from(Account.class);
 	      query.select(root);
+	      query.orderBy(builder.asc(root.get("id")));
 	      Query<Account> queryacct = session.createQuery(query);
 	      if (queryacct == null) {
 	    		System.out.println("** Account LIST ERROR ** ");
