@@ -3,6 +3,7 @@ package com.orange.spring.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -51,14 +52,16 @@ public class AccountTransactionController {
 		  Response resp = new  Response();
 		  AccountTransaction acctr = new AccountTransaction();
 		  List<Response> responses =  new ArrayList<Response>(); 
+		  JSONObject retJsonObject = new JSONObject();
 		  // Check Null or Empty
 		  if (plReference == null || plReference.isEmpty() || plChannel==null || plChannel .isEmpty()) {
 			  // Invalid Reference
 			  resp = new  Response();
 			  resp.setRseference("XXXXXXXXX");
-			  resp.setRsstatus("IVALID");
+			  resp.setRsstatus("INVALID");
 			  responses.clear();
 			  responses.add(resp);
+			  retJsonObject = resp.retJsonResponseReferenceOnly(resp);
 		  } else {
 			  // Return all Transactions that meet
 			  List<AccountTransaction> acctrans = accounttransactionService.listTransactionsByREF(plReference);
@@ -73,23 +76,27 @@ public class AccountTransactionController {
 						  resp.setRsamount(acctr.getTramount());
 						  resp.setRsstatus(acctr.getTrstatus());
 						  responses.add(resp);
+						  retJsonObject = resp.retJsonResponseReferenceAmount(resp);
+						  break;
 					  }
 				  } else {
 					  resp = new  Response();
 					  resp.setRseference(plReference);
-					  resp.setRsstatus("IVALID");
+					  resp.setRsstatus("INVALID");
 					  responses.clear();
 					  responses.add(resp);
+					  retJsonObject = resp.retJsonResponseReferenceOnly(resp);
 				  }
 			  } else {
 				  resp = new  Response();
 				  resp.setRseference(plReference);
-				  resp.setRsstatus("IVALID");
+				  resp.setRsstatus("INVALID");
 				  responses.clear();
 				  responses.add(resp);
+				  retJsonObject = resp.retJsonResponseReferenceOnly(resp);
 			  }
 		  }
-	     return ResponseEntity.ok().body(responses);
+	     return ResponseEntity.ok().body(retJsonObject);
 	  }
 	  
 	  /*--- (GET 1) Get an account transaction by id---*/
