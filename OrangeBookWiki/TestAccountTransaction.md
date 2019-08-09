@@ -70,38 +70,39 @@ JSON Data: (Not required)
 <pre>
 Using Postman. 
 In Sample Data base init only few account transaction were created. 
-So additional transaction no. 64 can be tested.
+So additional transactions can be tested.
 POSTMAN REQUEST: <b>POST</b>
-POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/post
+POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/add
+SETTINGS: Body - Raw - JSON (application/json)
 JSON Data:
-{
-        "id": 64,
-        "account_iban": "ES9820385778983000760236",
-        "amount": 2.00,
-        "fee": 2.00,
-        "trdescription": "Dept Store payment",
-        "trstatus": "** Por revisar ***",
-        "reference": "00000B",
-        "date": "2019-07-16T16:55:42.000Z"
+ {
+		"account_iban": "ES9820385778983000760234",
+    	"treference":"12346B",
+		"trfecha":"2019-07-16T19:58:42.000Z",
+		"tramount":2000.00,
+		"trfee":2.00,
+		"trdescription":"Dept Store payment",
+		"trchannel" : "CLIENT"
 }
-<u>Result message:</u> <b>Estado HTTP 415 – Tipo de medio no soportado</b>
-** To be solved
+<u>Result message:</u> <b>New Account Transaction has been saved with ID:176 Status:SETTLED</b>
+
 </pre>
-### Read ONE Account Transaction(ID=61)
+### Read ONE Account Transaction(ID=176)
 <pre>
 POSTMAN REQUEST: <b>GET</b>
-POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/get/61
+POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/get/176
 JSON Data: (Not required)
 <u>Result message:</u> 
 {
-    "id": 61,
-    "account_iban": "ES9820385778983000760236",
-    "amount": 5.35,
-    "fee": 5.35,
+    "id": 176,
+    "account_iban": "ES9820385778983000760234",
+    "treference": "12346B",
+    "trfecha": "2019-07-16T19:58:42.000Z",
+    "tramount": 2000.00,
+    "trfee": 2.00,
     "trdescription": "Dept Store payment",
-    "trstatus": "** Por revisar ***",
-    "reference": "12345B",
-    "date": "2019-07-16T16:55:42.000Z"
+    "trstatus": "SETTLED",
+    "trchannel": "CLIENT"
 }
 </pre>
 ### Update Account Transaction (ID=63)
@@ -122,15 +123,5 @@ JSON Data:
 </pre>
 <u>Result message:</u> <b>Estado HTTP 415 – Tipo de medio no soportado</b>
 <b>** To be solved</b>
-### Delete Account Transaction (ID=63)
-<pre>
-POSTMAN REQUEST: <b>DELETE</b>
-POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/del/63
-JSON Data: (Not required)
-<u>Result messages:</u> 
-<b>Account Transaction has been deleted successfully..</b>
-<u>Error message whe Accoount ID is not found:</u>
-<b>** ERROR ** Account Transaction DO NOT EXIST. NO transaction has been deleted with ID:63</b>
-</pre>
 
 Return to Main: [README.md](https://github.com/luisamesty/orangebanktest/blob/master/README.md)

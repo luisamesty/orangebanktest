@@ -1,5 +1,6 @@
 package com.orange.spring.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -12,6 +13,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.orange.spring.model.Account;
 import com.orange.spring.model.AccountTransaction;
 
 @Repository
@@ -22,6 +24,56 @@ public class AccountTransactionDaoImpl implements AccountTransactionDao {
 
 	@Override
 	public int addTransaction(AccountTransaction accounttransaction) {
+
+		// Variables
+		BigDecimal newBalance = BigDecimal.ZERO;
+		String treference = "";
+		String errorMessage="";
+		String trstatus = "";
+		Account account = null;
+		String account_iban =accounttransaction.getAccount_iban();
+		// Get Account From IBAN Transaction
+		if ( account_iban !=null && !account_iban.isEmpty() ) {
+			Session session = sessionFactory.getCurrentSession();
+		    CriteriaBuilder builder = session.getCriteriaBuilder();
+		    CriteriaQuery<Account> query = builder.createQuery(Account.class);
+		    Root<Account> root = query.from(Account.class);
+		    query.select(root).where(builder.equal(root.get("account_iban"), account_iban));;
+		    Query<Account> queryacct = session.createQuery(query);
+		    account = queryacct.getSingleResult();
+		} else {
+			account=null;
+		}
+		// Verify Account BY IBAN
+		if (account != null) {
+            // Account VALID and Balance OK
+			if (account.getBalance().compareTo(accounttransaction.getTramount() ) >= 0) {
+				// Update Balance
+				newBalance = account.getBalance().subtract(accounttransaction.getTramount());
+				// 
+				trstatus ="SETTLED";
+			} else {
+	            // Account VALID and Balance NOT VALID
+				trstatus ="PENDING";
+				newBalance = account.getBalance().subtract(accounttransaction.getTramount());
+				newBalance = newBalance.subtract(accounttransaction.getTrfee());
+			}
+			// Final Account Updates
+			account.setBalance(newBalance);
+			//
+		} else {
+			// ACCOUNT INVALID
+			trstatus ="INVALID";
+    		System.out.println("** TRANSACTION ERROR ACOUNT INVALID** "+errorMessage+" ID:"+accounttransaction.getId()+" REF:"+accounttransaction.getTreference()+"  IBAN:"+accounttransaction.getAccount_iban());
+		}
+		// Verify reference if not  put TR ID
+		treference = accounttransaction.getTreference();
+		if (treference == null || treference.isEmpty() )
+			treference = String.format ("%10s", accounttransaction.getId());
+		// Final Transaction Updates
+		accounttransaction.setTrstatus(trstatus);
+		accounttransaction.setTreference(treference);
+	    // Writes Transaction
 		sessionFactory.getCurrentSession().save(accounttransaction);
 	      return accounttransaction.getId();
 	}
