@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.orange.spring.model.AccountTransaction;
 import com.orange.spring.service.AccountTransactionService;
 
@@ -31,24 +32,20 @@ public class AccountTransactionController {
 	   }
 		
 	   /*--- (POST) Add new account transaction---*/
-	   @PostMapping("/transaction/post")
+	   @PostMapping(value="/transaction/add" , consumes = "application/json", produces = "application/json")
 	   public ResponseEntity<?> addTransaction(@RequestBody AccountTransaction accounttransaction) {
 		  System.out.println("the json value of Account Transaction is :::::: "+accounttransaction);
 		  int id = accounttransactionService.addTransaction(accounttransaction);
 	      return ResponseEntity.ok().body("New Account Transaction has been saved with ID:" + id);
 	  }
-	   
+
 	  /*--- (GET 1) Get an account transaction by id---*/
 	  @GetMapping("/transaction/get/{id}")
 	  public ResponseEntity<AccountTransaction> getTransaction(@PathVariable("id") int id) {
 		  AccountTransaction accounttransaction = accounttransactionService.getTransaction(id);
 	     return ResponseEntity.ok().body(accounttransaction);
 	  }
-//	  public int getTransactionByRefIban(String account_iban, String reference) {
-//		  int tr_id=(int) null;
-//		  
-//		  return tr_id;
-//	  }
+
 	   /*--- (PUT) Update an account transaction by id---*/
 	   @PutMapping("/transaction/put/{id}")
 	   public ResponseEntity<?> updateTransaction(@PathVariable("id") int id, @RequestBody AccountTransaction accounttransaction) {
@@ -56,7 +53,7 @@ public class AccountTransactionController {
 		   accounttransactionService.updateTransaction(accounttransaction);
 	      return ResponseEntity.ok().body("Account transaction has been updated successfully.");
 	   }
-	   
+ 
 	   /*--- (DEL) Delete an account transaction id---*/
 	   @DeleteMapping("/transaction/del/{id}")
 	   public ResponseEntity<?> deleteTransaction(@PathVariable("id") int id) {
