@@ -79,5 +79,13 @@ A json parser reader is modelled in order to read this files:
     Transaction.json
 This file can be executed as a java progran under eclipse environment.
 </pre>
+### Reset Data Base.
+<pre>
+When it is neccessary to start over a new App test. Database "orangeapi" can be set to initial sattus.
+Both tables AccountTransaction and Account, must be truncated and start again with java programas and scripts.
+Only sequence numbers for records will start with last id sequences.
+Also tables can be droped, but in this case OrangeBookApp.war App must be re-started and initial sql script 
+executed in order to set tables properly to start again.
+
 
 Return to Main: [README.md](https://github.com/luisamesty/orangebanktest/blob/master/README.md)

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 9 ago. 2019 7:40:09 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.orange.spring.model.AccountTransaction" table="ACCOUNTTRANSACTION">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="account_iban" type="java.lang.String">
+            <column name="ACCOUNT_IBAN" />
+        </property>
+        <property name="treference" type="java.lang.String">
+            <column name="TREFERENCE" />
+        </property>
+        <property name="trfecha" type="java.lang.String">
+            <column name="TRFECHA" />
+        </property>
+        <property name="tramount" type="java.math.BigDecimal">
+            <column name="TRAMOUNT" />
+        </property>
+        <property name="trfee" type="java.math.BigDecimal">
+            <column name="TRFEE" />
+        </property>
+        <property name="trdescription" type="java.lang.String">
+            <column name="TRDESCRIPTION" />
+        </property>
+        <property name="trstatus" type="java.lang.String">
+            <column name="TRSTATUS" />
+        </property>
+        <property name="trchannel" type="java.lang.String">
+            <column name="TRCHANNEL" />
+        </property>
+    </class>
+</hibernate-mapping>

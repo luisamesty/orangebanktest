@@ -115,12 +115,12 @@ public class CreateTransaction {
 		//Get amount 
 		double tramount = (double) trObject.get("tramount");	
 		BigDecimal BDamount = new BigDecimal(tramount);
-		BDamount = BDamount.setScale(2, BigDecimal.ROUND_UP);
+		BDamount = BDamount.setScale(2, BigDecimal.ROUND_DOWN);
 		System.out.println("tramount="+BDamount);
 		//Get fee 
 		double trfee = (double) trObject.get("trfee");	
 		BigDecimal BDfee = new BigDecimal(trfee);
-		BDamount = BDfee.setScale(2, BigDecimal.ROUND_UP);
+		BDfee = BDfee.setScale(2, BigDecimal.ROUND_DOWN);
 		System.out.println("trfee="+BDfee);
 		//Get description 
 		String trdescription = (String) trObject.get("trdescription");	
@@ -182,17 +182,17 @@ public class CreateTransaction {
         // RECORDS Account Array
     	System.out.println("GRABANDO ARREGLO DE TRANSACCIONES .....");
        	for (int i=0 ; i < acctransactions.size(); i++) {
+			// Init Vars
+			newBalance = BigDecimal.ZERO;
+			treference = "";
+			errorMessage="";
+			trstatus = "";
     		// Get i Account Transaction
        		AccountTransaction acctr = acctransactions.get(i);
        		// Get Account 
        		// System.out.println("Traza cuenta TRANSANCCION ...:"+acctr.getAccount_iban());
 			account = getAccountByIBAN(acctr.getAccount_iban(), session);
        		// System.out.println("Traza cuenta TCUENTA ...:"+account.getAccount_iban());
-			// Init Vars
-			newBalance = BigDecimal.ZERO;
-			treference = "";
-			errorMessage="";
-			trstatus = "";
 			// Verify Account BY IBAN
 			if (account != null) {
 	            // Account VALID and Balance OK
@@ -205,12 +205,14 @@ public class CreateTransaction {
 		            // Account VALID and Balance NOT VALID
 					trstatus ="PENDING";
 					newBalance = account.getBalance().subtract(acctr.getTramount());
+					newBalance = newBalance.subtract(acctr.getTrfee());
 				}
 				// Final Account Updates
 				account.setBalance(newBalance);
 				//
 			} else {
 				// ACCOUNT INVALID
+				isError = true;
 				trstatus ="INVALID";
         		System.out.println("** TRANSACTION ERROR ACOUNT INVALID** "+errorMessage+" ID:"+acctr.getId()+" REF:"+acctr.getTreference()+"  IBAN:"+acctr.getAccount_iban());
 			}
@@ -260,7 +262,11 @@ public class CreateTransaction {
 	      Root<Account> root = query.from(Account.class);
 	      query.select(root).where(builder.equal(root.get("account_iban"), account_iban));;
 	      Query<Account> queryacct = session.createQuery(query);
-	      retAccount = queryacct.getSingleResult();
+	      try {
+	    	  retAccount = queryacct.getSingleResult();
+	      } catch (Exception e) {
+  	  		System.out.println("** ERROR ** INVALID Account  IBAN:"+account_iban);
+	      }
 	      return retAccount;
 	}
 	
@@ -280,8 +286,12 @@ public class CreateTransaction {
               errorMessage=e.getLocalizedMessage(); //e.getMessage();
               isError = true;
           } finally {
-        	  	if(isError)
-        	  		System.out.println("** Write ERROR ** "+errorMessage+"Account ID:"+account.getId()+"  IBAN:"+account.getAccount_iban());
+        	  	if(isError) {
+        	  		if (account!= null)
+        	  			System.out.println("** Write ERROR ** "+errorMessage+"Account ID:"+account.getId()+"  IBAN:"+account.getAccount_iban());
+        	  		else
+        	  			System.out.println("** Write ERROR ** "+errorMessage+"Account IBAN INVALID");
+        	  	}
           }
 	}
 }

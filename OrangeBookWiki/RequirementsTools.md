@@ -15,7 +15,7 @@ Apps:
         Website: https://www.getpostman.com
     Visual Studio Code.
         Versión 1.36.1 (1.36.1)
-        For Wiki Md files.
+        For editing Wiki Md files.
     Docker desktop for Mac OS.
         Version 2.1.0.0
         Engine 19.03.1
