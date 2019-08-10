@@ -28,8 +28,8 @@ public class AccountServiceImpl implements AccountService  {
 
 	@Override
 	@Transactional
-	public void updateAccount(Account account) {
-		this.accountDAO.updateAccount(account);
+	public void updateAccount(int id, Account account) {
+		this.accountDAO.updateAccount(id, account);
 	}
 
 	@Override

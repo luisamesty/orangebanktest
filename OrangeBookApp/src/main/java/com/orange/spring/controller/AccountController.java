@@ -67,22 +67,8 @@ public class AccountController {
 
 	   /*---(PUT) Update an account by id---*/
 	   @PutMapping("/account/{id}")
-	   public ResponseEntity<?> update(@PathVariable("id") long id, @RequestBody Account account) {
-		  // New Validation By ID
-		  Account account2 = null;
-		  account = accountService.getAccountById(account.getId());
-		  if (account.getId() != 0) {
-			  account2 = accountService.getAccountById(account.getId());
-			  if (id != account2.getId()) {
-				  return ResponseEntity.ok().body("** ERROR ** Account and ID Missmatch. NO Account has been updated with ID:" + (id) +" / "+account.getId()); 
-			  }
-			  account2 = accountService.getAccountById(account.getId());
-			  if (account2 == null) {
-				  //System.out.println("** ERROR, EXIST Account ::::: "+account2.toString());
-				  return ResponseEntity.ok().body("** ERROR ** Account DO NOT EXIST. NO Account has been updated with ID:" + account.getId());
-			  }
-		  }
-		  accountService.updateAccount(account);
+	   public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody Account account) {
+		  accountService.updateAccount(id, account);
 	      return ResponseEntity.ok().body("Account has been updated successfully.");
 	   }
 	   

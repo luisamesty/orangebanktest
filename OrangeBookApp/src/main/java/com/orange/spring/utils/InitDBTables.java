@@ -4,11 +4,20 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
 import org.hibernate.HibernateException;
+import org.hibernate.NonUniqueResultException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -27,20 +36,20 @@ import com.orange.spring.utils.HibernateUtil;
 @RestController
 public class InitDBTables {
 	
-    public static Session session = null;
+    public static Session initDBSession =  HibernateUtil.getSessionFactory().openSession();
     
     public static Transaction transaction = null;
-    public static ArrayList<Account> accounts = new ArrayList(); 
+    public static ArrayList<Account> accounts = new ArrayList<Account>(); 
 
     @Autowired
 	public static AccountServiceImpl accountService;
 	@PersistenceContext
 	static EntityManager em;
 	
-    @SuppressWarnings("unchecked")
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 		
-    	// Init DB Tables
+    	
+    	// Initialize DB Tables
     	initDBTables();
     	
     	// Accounts File
@@ -151,87 +160,188 @@ public class InitDBTables {
 	private static void saveAccountArray() {
 		
 		Account account= null;
+		int id = 0;
 
-    	// UtilConfig - Hibernate Conection 
-    	UtilConfig uconf = new UtilConfig();
-    	boolean isError = false;
-    	// Session open
-    	try {
-			//session = uconf.getSessionFactoryB().openSession();
-			session = HibernateUtil.getSessionFactory().openSession();
-		} catch (HibernateException e1) {
-			e1.printStackTrace();
-		}
     	// RECORDS Account Array
     	System.out.println("GRABANDO ARREGLO DE CUENTAS .....");
     	for (int i=0 ; i < accounts.size(); i++) {
     		// Get i Account
     		account = accounts.get(i);
-            // Verify IF exists 
-        	System.out.println(account.toString());
-    		// HIBERNATE 
-            try {
-        		transaction = session.beginTransaction();
-        		//transaction.begin();
-        		session.save(account);
-            	transaction.commit();
-            	isError = false;
-            } catch (Exception e) {
-                if (transaction != null) {
-                  transaction.rollback();
-                  isError = true;
-                }
-            } finally {
-            	if (isError )
-            		System.out.println("** ERROR * Account already exists ID:"+account.getId()+"  IBAN:"+account.getAccount_iban());
-            }
-        }
-    	// Session close
-        if (session != null) {
-          session.close();
-        }
+    		id = account.getId();
+        	boolean isFound = false;
+        	isFound = getByIBAN(account.getAccount_iban());
+            // Verify IF exists same account_iban
+      		if (isFound) {
+      			// Create a New Account
+      			updateAccount(id, account);
+      		} else {
+      			// Create a New Account
+        		saveAccount(account);		
+      		}
+
+    	}
+
 	}
 	
-
-
 	
+//	public void update(long id, Book book) {
+//		Session session = sessionFactory.getCurrentSession();
+//	      Book book2 = session.byId(Book.class).load(id);
+//	      book2.setTitle(book.getTitle());
+//	      book2.setAuthor(book.getAuthor());
+//	      session.flush();
+//	}
+	
+	/**
+	 * updateAccount Update Name, IBAN and Initial Balance
+	 * @param id
+	 * @param account
+	 */
+	private static void updateAccount(int id, Account account) {
+		
+  	  boolean isError = false;
+	      try {
+	    	Session locSession = HibernateUtil.getSessionFactory().openSession();
+	    	transaction = locSession.beginTransaction();	    	
+	  		Account account2 = locSession.byId(Account.class).load(id);
+	  		account2.setAccount_iban(account.getAccount_iban());
+	  		account2.setName(account.getName());
+	  		account2.setInitbalance(account.getInitbalance());
+	  		account2.setBalance(account.getBalance());
+	  		locSession.flush();
+	  		transaction.commit();
+	      	isError = false;
+	      } catch (Exception e) {
+	    	  isError = true;
+	      } finally {
+		      	if (isError )
+		      		System.out.println("** updateAccount() ERROR ** ID:"+account.getId()+"  IBAN:"+account.getAccount_iban());
+		      	else
+		      		System.out.println("** updateAccount() Account SUCCESFULLY UPDATED ID:"+account.getId()+"  IBAN:"+account.getAccount_iban());
+	      }
+	}
+
+	/**
+	 * saveAccount Creates a new Account with initial values on JSON File
+	 * @param account
+	 */
+	private static void saveAccount(Account account) {
+		
+    	  boolean isError = false;
+	      try {
+	    	Session locSession = HibernateUtil.getSessionFactory().openSession();
+	  		transaction = locSession.beginTransaction();
+	  		locSession.save(account);
+	  		locSession.flush();
+	      	transaction.commit();
+	      	isError = false;
+	      } catch (Exception e) {
+	            isError = true;
+	      } finally {
+	      	if (isError )
+	      		System.out.println("** saveAccount() ERROR ** ID:"+account.getId()+"  IBAN:"+account.getAccount_iban());
+	      	else
+	      		System.out.println("** saveAccount() Account SUCCESFULLY INCLUDED ID:"+account.getId()+"  IBAN:"+account.getAccount_iban());
+	      }
+	}
+	
+	/**
+	 * getByIBAN Returns true if account exists with this IBAN
+	 * @param account_iban
+	 * @return
+	 */
+	private static boolean getByIBAN(String account_iban) {
+		
+		Account retAccount = null;
+		if ( account_iban !=null && !account_iban.isEmpty() ) {
+			Session locSession = HibernateUtil.getSessionFactory().openSession();
+		    CriteriaBuilder builder = locSession.getCriteriaBuilder();
+		    CriteriaQuery<Account> query = builder.createQuery(Account.class);
+		    Root<Account> root = query.from(Account.class);
+		    query.select(root).where(builder.equal(root.get("account_iban"), account_iban.trim()));;
+		    Query<Account> queryacct = locSession.createQuery(query);
+		    try {
+		    	retAccount = queryacct.getSingleResult();
+		    	
+		    	List<Account> results = queryacct.getResultList();
+		        if (results.isEmpty()) 
+		        	retAccount = null;
+		        else if (results.size() >= 1) 
+		        	retAccount = results.get(0);
+		    } catch (NoResultException e ) {
+		    	retAccount = null;
+		    } catch (NonUniqueResultException e2 ) {
+		    	retAccount = null;	
+		    } finally {
+	      	// Session close
+	          if (initDBSession != null) {
+	        	  locSession.close();
+	          }
+		    }
+		} 
+		if (retAccount== null ) {
+			System.out.println(account_iban+" *** NO ENCONTRO ***");
+			return false;
+		} else {
+			System.out.println(account_iban+" *** SI ENCONTRO ***");
+			return true;
+		}
+	}
+
+	/**
+	 * initDBTables : Updates Tables Models
+	 */
 	private static void  initDBTables() {
 		
 		
     	// HIBERNATE 
-        try {
-        	// UtilConfig - HIBER CONN 
+//        try {
+//        	// UtilConfig - HIBER CONN 
         	String sqlString = "";
         	Query<?> query= null;
-        	//System.out.println( "postgresql.driver:"+props.getProperty("postgresql.driver"));
-        	session = HibernateUtil.getSessionFactory().openSession();
-        	transaction = session.beginTransaction();
-        	
+//        	//System.out.println( "postgresql.driver:"+props.getProperty("postgresql.driver"));
+//        	
         	// ALTER TABLE Account
-//        	sqlString="ALTER TABLE public.account DROP CONSTRAINT IF EXISTS account_iban ";
-//        	query=session.createNativeQuery(sqlString);
-//        	query.executeUpdate();
-//        	transaction.commit();
-//        	sqlString="ALTER TABLE public.account " + 
-//        			"ADD CONSTRAINT account_iban UNIQUE (account_iban) ";
-//        	query=session.createNativeQuery(sqlString);
-//        	query.executeUpdate();
-//        	transaction.commit();
+        	Session locSession = HibernateUtil.getSessionFactory().openSession();
+        	try {
+            	transaction = locSession.beginTransaction();
+	        	sqlString="ALTER TABLE public.account DROP CONSTRAINT account_iban ";
+	        	query=initDBSession.createNativeQuery(sqlString);
+	        	query.executeUpdate();
+		  		locSession.flush();
+		      	transaction.commit();	        	
+        	} catch (Exception e)  {
+        		System.out.println("** ERROR * CONSTRAINT account_iban not exists ");
+        	}
+        	//
+        	try {
+            	transaction = locSession.beginTransaction();
+            	sqlString="ALTER TABLE public.account " + 
+            			"ADD CONSTRAINT account_iban UNIQUE (account_iban) ";
+            	query=initDBSession.createNativeQuery(sqlString);
+            	query.executeUpdate();
+		  		locSession.flush();
+		      	transaction.commit();	        	
+        	} catch (Exception e)  {
+        		System.out.println("** ERROR * CONSTRAINT account_iban already exists ");
+        	}
+        	//
+
         	
-//        	// ALTER TABLE AccountTransaction
+        	//        	// ALTER TABLE AccountTransaction
 //        	// AccountTransaction UNIQUE KEY reference + account_iban
 //        	sqlString="ALTER TABLE public.accounttransaction DROP CONSTRAINT IF EXISTS accounttransaction_reference ";
-//        	query=session.createNativeQuery(sqlString);
+//        	query=initDBSession.createNativeQuery(sqlString);
 //        	query.executeUpdate();
 //        	transaction.commit();
 //        	sqlString="ALTER TABLE public.accounttransaction  " + 
 //        			"ADD CONSTRAINT accounttransaction_reference UNIQUE (reference, account_iban)";
-//        	query=session.createNativeQuery(sqlString);
+//        	query=initDBSession.createNativeQuery(sqlString);
 //        	query.executeUpdate();
 //        	transaction.commit();
 //        	// AccountTransaction Foreign KEY account_iban on Account Table
 //        	sqlString="ALTER TABLE public.accounttransaction DROP CONSTRAINT IF EXISTS accounttransaction_accountiban ";
-//        	query=session.createNativeQuery(sqlString);
+//        	query=initDBSession.createNativeQuery(sqlString);
 //        	query.executeUpdate();
 //        	transaction.commit();
 //        	sqlString="ALTER TABLE public.accounttransaction  " + 
@@ -239,44 +349,44 @@ public class InitDBTables {
 //        			"REFERENCES public.account (account_iban) MATCH SIMPLE " + 
 //        			"ON UPDATE NO ACTION " + 
 //        			"ON DELETE NO ACTION ";
-//        	query=session.createNativeQuery(sqlString);
+//        	query=initDBSession.createNativeQuery(sqlString);
 //        	query.executeUpdate();
 //        	transaction.commit();
         	
         	// FUTURE INIT IMPROVEMETS
         	// DELETE RECORD FROM accounttransaction table 
-        	//Query<?> query1 = session.createQuery("DELETE FROM AccountTransaction");
+        	//Query<?> query1 = initDBSession.createQuery("DELETE FROM AccountTransaction");
             //query1.executeUpdate();
-            //session.flush();
+            //initDBSession.flush();
             
 //        	// DELETE RECORD FROM account table 
-//        	Query<?> query2 = session.createQuery("DELETE FROM Account");
+//        	Query<?> query2 = initDBSession.createQuery("DELETE FROM Account");
 //            query2.executeUpdate();
-//            session.flush();
+//            initDBSession.flush();
             
             // FUTURE INIT IMPROVEMETS
             // UPDATE account_id_seq SEQUENCE to 1
-        	//Query<?> query11 = session.createQuery("SELECT setval('account_id_seq', 1, true)");
+        	//Query<?> query11 = initDBSession.createQuery("SELECT setval('account_id_seq', 1, true)");
             //query11.executeUpdate();
-            //session.flush();
+            //initDBSession.flush();
             // UPDATE account_id_seq SEQUENCE to 1
-        	//Query<?> query21 = session.createQuery("SELECT setval('account_id_seq', 1, true)");
+        	//Query<?> query21 = initDBSession.createQuery("SELECT setval('account_id_seq', 1, true)");
             //query21.executeUpdate();
-            //session.flush();
+            //initDBSession.flush();
             
             // transaction.commit();
             //uconf.shutdown();
 
-        } catch (Exception e) {
-            if (transaction != null) {
-              transaction.rollback();
-            }
-            e.printStackTrace();
-        } finally {
-            if (session != null) {
-              session.close();
-            }
-        }
+//        } catch (Exception e) {
+//            if (transaction != null) {
+//              transaction.rollback();
+//            }
+//            e.printStackTrace();
+//        } finally {
+//            if (initDBSession != null) {
+//              initDBSession.close();
+//            }
+//        }
 		
 	}
 
@@ -292,18 +402,18 @@ public class InitDBTables {
 //       	// UtilConfig - Hibernate Conection 
 //       	UtilConfig uconf = new UtilConfig();
 //       	//Properties props = uconf.getProperties();
-//       	session = uconf.getSessionFactoryB().openSession();
+//       	initDBSession = uconf.getSessionFactoryB().openSession();
 //           // RECORDS Account Array
 //       	System.out.println("GRABANDO ARREGLO DE CUENTAS .....");
 //       	for (int i=0 ; i < accounts.size(); i++) {
-//       		transaction = session.beginTransaction();
+//       		transaction = initDBSession.beginTransaction();
 //       		//transaction.begin();
 //       		// Get i Account
 //       		Account account = accounts.get(i);
 //               System.out.println(account.toString());
 //               // Save account Future Try Catch
 //               //try {
-//               	session.save(account);
+//               	initDBSession.save(account);
 //               	transaction.commit();
 //               //} catch( javax.persistence.PersistenceException  ex) {
 //               //	if(ex.getCause() instanceof org.hibernate.exception.ConstraintViolationException)
@@ -318,8 +428,8 @@ public class InitDBTables {
 //           }
 //           e.printStackTrace();
 //       } finally {
-//           if (session != null) {
-//             session.close();
+//           if (initDBSession != null) {
+//             initDBSession.close();
 //           }
 //       }
 //

@@ -11,7 +11,7 @@ public interface AccountDao {
     public void addAccount(Account account);
  
     // Update the record
-    public void updateAccount(Account account);
+    public void updateAccount(int id, Account account);
 
     // Get all the records
     public List<Account> listAccount();

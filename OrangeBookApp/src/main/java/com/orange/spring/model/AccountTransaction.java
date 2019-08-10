@@ -13,7 +13,7 @@ import javax.persistence.Table;
 public class AccountTransaction {
 	@OrderBy 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
 	String account_iban;
 	String treference;
