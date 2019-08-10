@@ -5,7 +5,7 @@
 			"account_iban": "ES9820385778983000760236",
 			"treference":"12345A",
 			"trfecha":"2019-07-16T16:55:42.000Z",
-			"tramount":493.38,
+			"tramount":-493.38,
 			"trfee":1.00,
 			"trdescription":"Restaurant payment",
 			"trchannel" : "CLIENT"
@@ -17,7 +17,7 @@
 			"account_iban": "ES9820385778983000760236",
 	    	"treference":"12345B",
 			"trfecha":"2019-07-16T18:55:42.000Z",
-			"tramount":893.38,
+			"tramount":-893.38,
 			"trfee":1.15,
 			"trdescription":"Dept Store payment",
 			"trchannel" : "CLIENT"
@@ -29,7 +29,7 @@
 			"account_iban": "ES9820385778983000760236",
 			"treference":"12346A",
 			"trfecha":"2019-07-16T19:55:42.000Z",
-			"tramount":1193.38,
+			"tramount":-1193.38,
 			"trfee":2.00,
 			"trdescription":"Restaurant payment",
 			"trchannel" : "CLIENT"
@@ -41,7 +41,7 @@
 			"account_iban": "ES9820385778983000760236",
 	    	"treference":"12346B",
 			"trfecha":"2019-07-16T19:58:42.000Z",
-			"tramount":1893.38,
+			"tramount":-1893.38,
 			"trfee":2.00,
 			"trdescription":"Dept Store payment",
 			"trchannel" : "CLIENT"
@@ -53,7 +53,7 @@
 			"account_iban": "ES9820385778983000760234",
 	    	"treference":"92346B",
 			"trfecha":"2019-07-16T19:58:42.000Z",
-			"tramount":500.38,
+			"tramount":-500.38,
 			"trfee":2.00,
 			"trdescription":"Dept Store payment",
 			"trchannel" : "CLIENT"
@@ -65,7 +65,7 @@
 			"account_iban": "ES9820385778983000760234",
 	    	"treference":"92346B",
 			"trfecha":"2019-07-16T19:58:42.000Z",
-			"tramount":310.00,
+			"tramount":-310.00,
 			"trfee":2.00,
 			"trdescription":"Dept Store payment",
 			"trchannel" : "CLIENT"
@@ -77,7 +77,7 @@
 			"account_iban": "ES9820385778983000700000",
 	    	"treference":"82346B",
 			"trfecha":"2019-07-16T19:58:42.000Z",
-			"tramount":200.25,
+			"tramount":-200.25,
 			"trfee":2.00,
 			"trdescription":"Dept Store payment",
 			"trchannel" : "CLIENT"

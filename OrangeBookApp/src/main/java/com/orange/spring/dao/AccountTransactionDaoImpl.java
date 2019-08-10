@@ -3,12 +3,15 @@ package com.orange.spring.dao;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.hibernate.NonUniqueResultException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -27,55 +30,109 @@ public class AccountTransactionDaoImpl implements AccountTransactionDao {
 
 		// Variables
 		BigDecimal newBalance = BigDecimal.ZERO;
+		BigDecimal netTRAmount =  BigDecimal.ZERO;
 		String treference = "";
 		String errorMessage="";
 		String trstatus = "";
 		Account account = null;
+		boolean isError = false;
 		String account_iban =accounttransaction.getAccount_iban();
-		// Get Account From IBAN Transaction
+		// Verify Reference
+		// get Account From IBAN
 		if ( account_iban !=null && !account_iban.isEmpty() ) {
 			Session session = sessionFactory.getCurrentSession();
 		    CriteriaBuilder builder = session.getCriteriaBuilder();
 		    CriteriaQuery<Account> query = builder.createQuery(Account.class);
 		    Root<Account> root = query.from(Account.class);
-		    query.select(root).where(builder.equal(root.get("account_iban"), account_iban));;
+		    query.select(root).where(builder.equal(root.get("account_iban"), account_iban.trim()));;
 		    Query<Account> queryacct = session.createQuery(query);
-		    account = queryacct.getSingleResult();
-		} else {
+		    try {
+		    	List<Account> results = queryacct.getResultList();
+		        if (results.isEmpty()) {
+		        	account = null;
+		        	isError = true;
+		        } else if (results.size() >= 1) { 
+		        	account = results.get(0);
+		        }
+		    } catch (NoResultException e ) {
+		    	account = null;
+		    	isError = true;
+		    } catch (NonUniqueResultException e2 ) {
+		    	account = null;
+		    	isError = true;
+		    } 
+		}  else {
 			account=null;
+			isError = true;
+			errorMessage = "** TRANSACTION ERROR ACOUNT INVALID** "+errorMessage+" REF:"+accounttransaction.getTreference()+"  IBAN:"+accounttransaction.getAccount_iban();
+    		System.out.println(errorMessage);
 		}
+//		// Get Account From IBAN Transaction
+//		if ( account_iban !=null && !account_iban.isEmpty() ) {
+//			Session session = sessionFactory.getCurrentSession();
+//		    CriteriaBuilder builder = session.getCriteriaBuilder();
+//		    CriteriaQuery<Account> query = builder.createQuery(Account.class);
+//		    Root<Account> root = query.from(Account.class);
+//		    query.select(root).where(builder.equal(root.get("account_iban"), account_iban));;
+//		    Query<Account> queryacct = session.createQuery(query);
+//		    account = queryacct.getSingleResult();
+//		} else {
+//			account=null;
+//			isError = true;
+//			errorMessage = "** TRANSACTION ERROR ACOUNT INVALID** "+errorMessage+" REF:"+accounttransaction.getTreference()+"  IBAN:"+accounttransaction.getAccount_iban();
+//    		System.out.println(errorMessage);
+//		}
 		// Verify Account BY IBAN
-		if (account != null) {
+		if (!isError) {
             // Account VALID and Balance OK
-			if (account.getBalance().compareTo(accounttransaction.getTramount() ) >= 0) {
+			// ADDITIONS
+			if (accounttransaction.getTramount().compareTo(BigDecimal.ZERO) >= 0) {
+				netTRAmount = accounttransaction.getTramount().subtract(accounttransaction.getTrfee());
 				// Update Balance
-				newBalance = account.getBalance().subtract(accounttransaction.getTramount());
+				newBalance = account.getBalance().add(netTRAmount);
 				// 
-				trstatus ="SETTLED";
+				trstatus ="OK";
+			// DEDUCTIONS
 			} else {
-	            // Account VALID and Balance NOT VALID
-				trstatus ="PENDING";
-				newBalance = account.getBalance().subtract(accounttransaction.getTramount());
-				newBalance = newBalance.subtract(accounttransaction.getTrfee());
+				netTRAmount = accounttransaction.getTramount().negate();
+				netTRAmount = netTRAmount.add(accounttransaction.getTrfee());
+				System.out.println("** TRANSACTION netTRAmount="+netTRAmount+" Account Balance "+account.getBalance() );
+				if (account.getBalance().compareTo(netTRAmount) >= 0) {
+					// Update Balance
+					newBalance = account.getBalance().subtract(netTRAmount);
+					// 
+					errorMessage ="OK";
+				} else {
+					// TRANSACTION INVALID
+					isError = true;
+					errorMessage = "** TRANSACTION ERROR - BELLOW BALANCE ** "+errorMessage+" REF:"+accounttransaction.getTreference()+"  IBAN:"+accounttransaction.getAccount_iban();
+	        		System.out.println();
+				}					
 			}
 			// Final Account Updates
 			account.setBalance(newBalance);
 			//
-		} else {
-			// ACCOUNT INVALID
-			trstatus ="INVALID";
-    		System.out.println("** TRANSACTION ERROR ACOUNT INVALID** "+errorMessage+" ID:"+accounttransaction.getId()+" REF:"+accounttransaction.getTreference()+"  IBAN:"+accounttransaction.getAccount_iban());
 		}
-		// Verify reference if not  put TR ID
-		treference = accounttransaction.getTreference();
-		if (treference == null || treference.isEmpty() )
-			treference = String.format ("%10s", accounttransaction.getId());
-		// Final Transaction Updates
-		accounttransaction.setTrstatus(trstatus);
-		accounttransaction.setTreference(treference);
-	    // Writes Transaction
-		sessionFactory.getCurrentSession().save(accounttransaction);
-	    return accounttransaction.getId();
+		if (!isError) {
+			// Verify reference if not  put TR ID
+			treference = accounttransaction.getTreference();
+			if (treference == null || treference.isEmpty() )
+				treference = String.format ("%10s", accounttransaction.getId());
+			// Final Transaction Updates
+			accounttransaction.setTrstatus(errorMessage);
+			accounttransaction.setTreference(treference);
+			try {
+				// Writes Transaction
+				sessionFactory.getCurrentSession().save(accounttransaction);
+				return accounttransaction.getId();
+			} catch (ConstraintViolationException e) {
+				errorMessage = "** TRANSACTION ERROR - CONSTRAIN VIOLATION ** REFERENCE="+accounttransaction.getTreference();
+				accounttransaction.setTrstatus(errorMessage);
+				return 0;
+			} 
+		} else {
+			return 0;
+		}
 	}
 
 	@Override

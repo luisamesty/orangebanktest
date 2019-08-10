@@ -24,12 +24,9 @@ import org.json.simple.parser.ParseException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.orange.spring.dao.AccountDao;
-import com.orange.spring.dao.AccountDaoImpl;
 import com.orange.spring.model.Account;
 import com.orange.spring.model.AccountTransaction;
 import com.orange.spring.utils.HibernateUtil;
-import com.orange.spring.utils.UtilConfig;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -169,6 +166,7 @@ public class CreateTransaction {
     	Account account = null;
     	boolean isError = false;
     	BigDecimal newBalance = BigDecimal.ZERO;
+    	BigDecimal netTRAmount = BigDecimal.ZERO;
     	String treference = "";
     	String trstatus = "";
     	String errorMessage="";
@@ -190,22 +188,34 @@ public class CreateTransaction {
     		// Get i Account Transaction
        		AccountTransaction acctr = acctransactions.get(i);
        		// Get Account 
-       		// System.out.println("Traza cuenta TRANSANCCION ...:"+acctr.getAccount_iban());
-			account = getAccountByIBAN(acctr.getAccount_iban(), session);
-       		// System.out.println("Traza cuenta TCUENTA ...:"+account.getAccount_iban());
-			// Verify Account BY IBAN
+       		// Verify Account BY IBAN
+       		account = getAccountByIBAN(acctr.getAccount_iban(), session);
+       		// Verify is OK
 			if (account != null) {
 	            // Account VALID and Balance OK
-				if (account.getBalance().compareTo(acctr.getTramount() ) >= 0) {
+				// ADDITIONS
+				if (acctr.getTramount().compareTo(BigDecimal.ZERO) >= 0) {
+					netTRAmount = acctr.getTramount().subtract(acctr.getTrfee());
 					// Update Balance
-					newBalance = account.getBalance().subtract(acctr.getTramount());
+					newBalance = account.getBalance().add(netTRAmount);
 					// 
-					trstatus ="SETTLED";
+					trstatus ="OK";
+				// DEDUCTIONS
 				} else {
-		            // Account VALID and Balance NOT VALID
-					trstatus ="PENDING";
-					newBalance = account.getBalance().subtract(acctr.getTramount());
-					newBalance = newBalance.subtract(acctr.getTrfee());
+					netTRAmount = acctr.getTramount().negate();
+					netTRAmount = netTRAmount.add(acctr.getTrfee());
+					System.out.println("** TRANSACTION netTRAmount="+netTRAmount+" Account Balance "+account.getBalance() );
+					if (account.getBalance().compareTo(netTRAmount) >= 0) {
+						// Update Balance
+						newBalance = account.getBalance().subtract(netTRAmount);
+						// 
+						trstatus ="OK";
+					} else {
+						// TRANSACTION INVALID
+						isError = true;
+						trstatus ="INVALID";
+		        		System.out.println("** TRANSACTION ERROR - BELLOW BALANCE ** "+errorMessage+" ID:"+acctr.getId()+" REF:"+acctr.getTreference()+"  IBAN:"+acctr.getAccount_iban());
+					}					
 				}
 				// Final Account Updates
 				account.setBalance(newBalance);
@@ -216,39 +226,41 @@ public class CreateTransaction {
 				trstatus ="INVALID";
         		System.out.println("** TRANSACTION ERROR ACOUNT INVALID** "+errorMessage+" ID:"+acctr.getId()+" REF:"+acctr.getTreference()+"  IBAN:"+acctr.getAccount_iban());
 			}
-			// Verify reference if not  put TR ID
-			treference = acctr.getTreference();
-			if (treference == null || treference.isEmpty() )
-				treference = String.format ("%10s", acctr.getId());
-			// Final Transaction Updates
-			acctr.setTrstatus(trstatus);
-			acctr.setTreference(treference);
-			// TR Before Write to table
-        	System.out.println(acctr.toString());
-    		// HIBERNATE 
-            try {
-        		transaction = session.beginTransaction();
-        		//transaction.begin();
-        		session.save(acctr);
-            	transaction.commit();
-            	isError = false;
-            } catch (Exception e) {
-                if (transaction != null) {
-                  transaction.rollback();
-                }
-                errorMessage=e.getLocalizedMessage(); //e.getMessage();
-                isError = true;
-            } finally {
-            	if(isError)
-            		System.out.println("** WRITE ERROR ** "+errorMessage+" ID:"+acctr.getId()+" REF:"+acctr.getTreference()+"  IBAN:"+acctr.getAccount_iban());
-            }
-            // UPDATE BALANCE
-            if (!isError) {
-            	// Update Account Balance STATUS REFERENCE
-            	updateAccount(account, session);
-            }
-        }
-       	// Session close
+			if (!isError) {
+				// Verify reference if not  put TR ID
+				treference = acctr.getTreference();
+				if (treference == null || treference.isEmpty() )
+					treference = String.format ("%10s", acctr.getId());
+				// Final Transaction Updates
+				acctr.setTrstatus(trstatus);
+				acctr.setTreference(treference);
+				// TR Before Write to table
+	        	System.out.println(acctr.toString());
+	    		// HIBERNATE 
+	            try {
+	        		transaction = session.beginTransaction();
+	        		//transaction.begin();
+	        		session.save(acctr);
+	            	transaction.commit();
+	            	isError = false;
+	            } catch (Exception e) {
+	                if (transaction != null) {
+	                  transaction.rollback();
+	                }
+	                errorMessage=e.getLocalizedMessage(); //e.getMessage();
+	                isError = true;
+	            } finally {
+	            	if(isError)
+	            		System.out.println("** TRANSACTION WRITE ERROR ** "+errorMessage+" ID:"+acctr.getId()+" REF:"+acctr.getTreference()+"  IBAN:"+acctr.getAccount_iban());
+	            }
+	            // UPDATE BALANCE
+	            if (!isError) {
+	            	// Update Account Balance STATUS REFERENCE
+	            	updateAccount(account, session);
+	            }
+			}
+       	}
+		// Session close
         if (session != null) {
           session.close();
         }

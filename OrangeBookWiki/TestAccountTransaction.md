@@ -3,81 +3,129 @@ Return to Main: [README.md] (https://github.com/luisamesty/orangebanktest/blob/m
 ## <b>TEST Account Transaction API</b>
 <pre>
 Account Transaction API is used for inserting and validating transactions.
-As mentioned Account Transaction Table holds transaction information as Date, Reference, IBAN, Amount, Fee and Status.
+As mentioned Account Transaction Table holds transaction information as Date,
+Reference, IBAN, Amount, Fee and Status.
 It is the entity to validate transactions.
 Test can be executed locally on Eclipse environment. 
 In order to be allset, OrangeBookApp.war must be running
-on Local Apache TOMCAT, and ready to accept request on <b>http://localhost:8080</b> . If running on a container IP address must be different.
+on Local Apache TOMCAT, and ready to accept request on:
+ <b>http://localhost:8080</b> . 
+ If running as a microservice on a container, IP address must be changed.
 </pre>
 
+## <b>ASUMPTIONS</b>
+<pre>
+FEES are not well defined, if they are positive or negative.
+Payload process is for registering Deducting and Addition transactions.
+I am asumming:
+<b>- FEES: </b>
+FEES are Allways, positive values and amount is deducted from balance.
+<b>- Payload logic: </b>
+Transaction is recorded and Amount plus and fee value considered.
+Amount is positive: (Positive Amount value) - (fee) is added.
+Amount is negative: (Positive Amount value) + (fee) value is deducted.
 
-### <b>READ All Account Transactions</b>
+## <b>READ All Account Transactions</b>
 
-If I previously execute the java program with the transactions in the Transaccion.json file, the validated transactions can be read.</br>
-<center>Actions:</center>
+If Iyou previously execute the java program with the transactions in the <b>Transaccion.json</b>
+file, the validated transactions can be read.</br>
+<center><b>Actions:</b></center>
 <pre><pre>
 POSTMAN REQUEST: <b>GET</b>
 POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/get/
 JSON Data: (Not required)
 </pre>
-<center>Results:</center>
+<center><b>Results:</b></center>
 <pre>
 <u>Result message:</u> 
 [
     {
-        "id": 90,
+        "id": 1,
         "account_iban": "ES9820385778983000760236",
         "treference": "12345A",
         "trfecha": "2019-07-16T16:55:42.000Z",
-        "tramount": 3.19,
-        "trfee": 3.18,
+        "tramount": 493.37,
+        "trfee": 1.00,
         "trdescription": "Restaurant payment",
         "trstatus": "SETTLED",
         "trchannel": "CLIENT"
     },
     {
-        "id": 91,
+        "id": 2,
         "account_iban": "ES9820385778983000760236",
         "treference": "12345B",
-        "trfecha": "2019-07-16T16:55:42.000Z",
-        "tramount": 5.35,
-        "trfee": 5.35,
+        "trfecha": "2019-07-16T18:55:42.000Z",
+        "tramount": 893.37,
+        "trfee": 1.14,
         "trdescription": "Dept Store payment",
-        "trstatus": "SETTLED",
+        "trstatus": "PENDING",
         "trchannel": "CLIENT"
     },
     {
-        "id": 92,
+        "id": 3,
         "account_iban": "ES9820385778983000760236",
         "treference": "12346A",
-        "trfecha": "2019-07-16T16:55:42.000Z",
-        "tramount": 2.00,
+        "trfecha": "2019-07-16T19:55:42.000Z",
+        "tramount": 1193.38,
         "trfee": 2.00,
         "trdescription": "Restaurant payment",
+        "trstatus": "PENDING",
+        "trchannel": "CLIENT"
+    },
+    {
+        "id": 4,
+        "account_iban": "ES9820385778983000760236",
+        "treference": "12346B",
+        "trfecha": "2019-07-16T19:58:42.000Z",
+        "tramount": 1893.38,
+        "trfee": 2.00,
+        "trdescription": "Dept Store payment",
+        "trstatus": "PENDING",
+        "trchannel": "CLIENT"
+    },
+    {
+        "id": 5,
+        "account_iban": "ES9820385778983000760234",
+        "treference": "92346B",
+        "trfecha": "2019-07-16T19:58:42.000Z",
+        "tramount": 500.37,
+        "trfee": 2.00,
+        "trdescription": "Dept Store payment",
         "trstatus": "SETTLED",
         "trchannel": "CLIENT"
     },
     {
-        "id": 93,
-        "account_iban": "ES9820385778983000760236",
-        "treference": "12346B",
-        "trfecha": "2019-07-16T16:55:42.000Z",
-        "tramount": 2.00,
+        "id": 6,
+        "account_iban": "ES9820385778983000760234",
+        "treference": "92346B",
+        "trfecha": "2019-07-16T19:58:42.000Z",
+        "tramount": 310.00,
         "trfee": 2.00,
         "trdescription": "Dept Store payment",
         "trstatus": "SETTLED",
+        "trchannel": "CLIENT"
+    },
+    {
+        "id": 7,
+        "account_iban": "ES9820385778983000700000",
+        "treference": "82346B",
+        "trfecha": "2019-07-16T19:58:42.000Z",
+        "tramount": 200.25,
+        "trfee": 2.00,
+        "trdescription": "Dept Store payment",
+        "trstatus": "INVALID",
         "trchannel": "CLIENT"
     }
 ]
 </pre></pre>
 
-### <b>Create Account Transaction</b>
+## <b>Create Account Transaction</b>
 <pre><pre>
 Using Postman. 
 In Sample Data base init only few account transaction were created. 
 So additional transactions can be tested.
 </pre>
-<center>Actions:</center>
+<center><b>Actions:</b></center>
 <pre>
 POSTMAN REQUEST: <b>POST</b>
 POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/add
@@ -93,15 +141,15 @@ JSON Data:
 	"trchannel" : "CLIENT"
 }
 </pre>
-<center>Results:</center>
+<center><b><b>Results:</b></b></center>
 <pre>
 <u>Result message:</u> <b>New Account Transaction has been saved with ID:176 Status:SETTLED</b>
 
 </pre></pre>
 
-### <b>Read ONE Account Transaction(ID=176)</b></br>
+## <b>Read ONE Account Transaction(ID=176)</b></br>
 Retrieves one register giving the ID key.
-<center>Actions:</center>
+<center><b>Actions:</b></center>
 <pre><pre>
 POSTMAN REQUEST: <b>GET</b>
 POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/get/176
@@ -123,13 +171,13 @@ JSON Data: (Not required)
 }
 </pre></pre>
 
-### <b>Transaction STATUS</b>
+## <b>Transaction STATUS</b>
 
 <pre><pre>
 This endpoint, based on the payload and some business rules, will return the status and additional information
 for a specific transaction.
 </pre>
-<center>Actions:</center>
+<center><b>Actions:</b></center>
 <pre>
 POSTMAN REQUEST: <b>POST</b>
 POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/getstatus
@@ -149,13 +197,13 @@ JSON Data:
 }
 </pre></pre>
 
-### <b>Business Rules (A)</b>
+## <b>Business Rules (A)</b>
 <pre><pre>
 Given: A transaction that is not stored in our system
 When: I check the status from any channel
 Then: The system returns the status 'INVALID'
 </pre>
-<center>Actions:</center>
+<center><b>Actions:</b></center>
 <pre>
 POSTMAN REQUEST: <b>POST</b>
 POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/getstatus
@@ -176,7 +224,7 @@ JSON Data:
 ]
 </pre></pre>
 
-### <b>Business Rules (B)</b>
+## <b>Business Rules (B)</b>
 <pre><pre>
 Given: A transaction that is stored in our system
 When: I check the status from CLIENT or ATM channel
@@ -184,7 +232,7 @@ And the transaction date is before today
 Then: The system returns the status 'SETTLED'
 And the amount substracting the fee.
 </pre>
-<center>Actions:</center>
+<center><b>Actions:</b></center>
 <pre>
 POSTMAN REQUEST: <b>POST</b>
 POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/getstatus
@@ -197,7 +245,7 @@ JSON Data:
 
 </pre></pre>
 
-### Business Rules (C)
+## Business Rules (C)
 Given: A transaction that is stored in our system
 When: I check the status from INTERNAL channel
 And the transaction date is before today
@@ -216,7 +264,7 @@ JSON Data:
 
 </pre></pre>
 
-### Business Rules (D)
+## Business Rules (D)
 Given: A transaction that is stored in our system
 When: I check the status from CLIENT or ATM channel
 And the transaction date is equals to today
@@ -242,7 +290,7 @@ JSON Data:
 </pre></pre>
 
 
-### Business Rules (E)
+## Business Rules (E)
 Given: A transaction that is stored in our system
 When: I check the status from INTERNAL channel
 And the transaction date is equals to today
@@ -269,7 +317,7 @@ JSON Data:
 }
 </pre></pre>
 
-### Business Rules (F)
+## Business Rules (F)
 Given: A transaction that is stored in our system
 When: I check the status from CLIENT channel
 And the transaction date is greater than today
@@ -294,7 +342,7 @@ JSON Data:
 }
 </pre></pre>
 
-### Business Rules (G)
+## Business Rules (G)
 Given: A transaction that is stored in our system
 When: I check the status from ATM channel
 And the transaction date is greater than today
@@ -319,7 +367,7 @@ JSON Data:
 }
 </pre></pre>
 
-### Business Rules (H)
+## Business Rules (H)
 Given: A transaction that is stored in our system
 When: I check the status from INTERNAL channel
 And the transaction date is greater than today

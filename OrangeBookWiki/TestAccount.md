@@ -5,11 +5,15 @@ Return to Main: [README.md] (https://github.com/luisamesty/orangebanktest/blob/m
 This test has to be run on <b>OrangeBookApp.war</b> APP.
 Account API is used for CRUD accounts.
 As mentioned Account Table holds account information as Name, IBAN, initial balance and current balance.
-It is the entity to validate transaction on iban code and balance.
-These tests haven't been requested on the Code Challenge, but i think it was neccesary for transaction validation and also for me to begin with building the APP in order to be familiarized with Test Challenge Requirements. 
+It is the entity to validate transactions on iban code and balance.
+These tests haven't been requested on the Code Challenge, but i think it was neccesary for transaction
+ validation and also for me, to begin with building the APP in order to be familiarized with Test Challenge 
+ Requirements. 
 Test can be executed locally on Eclipse environment. 
 In order to be allset, OrangeBookApp.war must be running
-on Local Apache TOMCAT, and ready to accept request on <b>http://localhost:8080</b>. If running on a container IP address must be different.
+on Local Apache TOMCAT, and ready to accept request on:
+<b>http://localhost:8080</b>. 
+If running as a microservice on a container, IP address must be changed.
 </pre>
 ## <b>READ All Accounts</b>
 <pre><pre>

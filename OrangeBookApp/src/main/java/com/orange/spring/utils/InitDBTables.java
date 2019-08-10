@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.hibernate.HibernateException;
 import org.hibernate.NonUniqueResultException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -183,15 +181,6 @@ public class InitDBTables {
 
 	}
 	
-	
-//	public void update(long id, Book book) {
-//		Session session = sessionFactory.getCurrentSession();
-//	      Book book2 = session.byId(Book.class).load(id);
-//	      book2.setTitle(book.getTitle());
-//	      book2.setAuthor(book.getAuthor());
-//	      session.flush();
-//	}
-	
 	/**
 	 * updateAccount Update Name, IBAN and Initial Balance
 	 * @param id
@@ -293,66 +282,6 @@ public class InitDBTables {
 	 */
 	private static void  initDBTables() {
 		
-		
-    	// HIBERNATE 
-//        try {
-//        	// UtilConfig - HIBER CONN 
-        	String sqlString = "";
-        	Query<?> query= null;
-//        	//System.out.println( "postgresql.driver:"+props.getProperty("postgresql.driver"));
-//        	
-        	// ALTER TABLE Account
-        	Session locSession = HibernateUtil.getSessionFactory().openSession();
-        	try {
-            	transaction = locSession.beginTransaction();
-	        	sqlString="ALTER TABLE public.account DROP CONSTRAINT account_iban ";
-	        	query=initDBSession.createNativeQuery(sqlString);
-	        	query.executeUpdate();
-		  		locSession.flush();
-		      	transaction.commit();	        	
-        	} catch (Exception e)  {
-        		System.out.println("** ERROR * CONSTRAINT account_iban not exists ");
-        	}
-        	//
-        	try {
-            	transaction = locSession.beginTransaction();
-            	sqlString="ALTER TABLE public.account " + 
-            			"ADD CONSTRAINT account_iban UNIQUE (account_iban) ";
-            	query=initDBSession.createNativeQuery(sqlString);
-            	query.executeUpdate();
-		  		locSession.flush();
-		      	transaction.commit();	        	
-        	} catch (Exception e)  {
-        		System.out.println("** ERROR * CONSTRAINT account_iban already exists ");
-        	}
-        	//
-
-        	
-        	//        	// ALTER TABLE AccountTransaction
-//        	// AccountTransaction UNIQUE KEY reference + account_iban
-//        	sqlString="ALTER TABLE public.accounttransaction DROP CONSTRAINT IF EXISTS accounttransaction_reference ";
-//        	query=initDBSession.createNativeQuery(sqlString);
-//        	query.executeUpdate();
-//        	transaction.commit();
-//        	sqlString="ALTER TABLE public.accounttransaction  " + 
-//        			"ADD CONSTRAINT accounttransaction_reference UNIQUE (reference, account_iban)";
-//        	query=initDBSession.createNativeQuery(sqlString);
-//        	query.executeUpdate();
-//        	transaction.commit();
-//        	// AccountTransaction Foreign KEY account_iban on Account Table
-//        	sqlString="ALTER TABLE public.accounttransaction DROP CONSTRAINT IF EXISTS accounttransaction_accountiban ";
-//        	query=initDBSession.createNativeQuery(sqlString);
-//        	query.executeUpdate();
-//        	transaction.commit();
-//        	sqlString="ALTER TABLE public.accounttransaction  " + 
-//        			"ADD CONSTRAINT accounttransaction_accountiban FOREIGN KEY (account_iban) " + 
-//        			"REFERENCES public.account (account_iban) MATCH SIMPLE " + 
-//        			"ON UPDATE NO ACTION " + 
-//        			"ON DELETE NO ACTION ";
-//        	query=initDBSession.createNativeQuery(sqlString);
-//        	query.executeUpdate();
-//        	transaction.commit();
-        	
         	// FUTURE INIT IMPROVEMETS
         	// DELETE RECORD FROM accounttransaction table 
         	//Query<?> query1 = initDBSession.createQuery("DELETE FROM AccountTransaction");
@@ -390,48 +319,4 @@ public class InitDBTables {
 		
 	}
 
-	
-//	/**
-//	 * saveAccountArray
-//	 * Saves to DB Account Array
-//	 */
-//	private static void saveAccountArray() {
-//		
-//   	// HIBERNATE 
-//       try {
-//       	// UtilConfig - Hibernate Conection 
-//       	UtilConfig uconf = new UtilConfig();
-//       	//Properties props = uconf.getProperties();
-//       	initDBSession = uconf.getSessionFactoryB().openSession();
-//           // RECORDS Account Array
-//       	System.out.println("GRABANDO ARREGLO DE CUENTAS .....");
-//       	for (int i=0 ; i < accounts.size(); i++) {
-//       		transaction = initDBSession.beginTransaction();
-//       		//transaction.begin();
-//       		// Get i Account
-//       		Account account = accounts.get(i);
-//               System.out.println(account.toString());
-//               // Save account Future Try Catch
-//               //try {
-//               	initDBSession.save(account);
-//               	transaction.commit();
-//               //} catch( javax.persistence.PersistenceException  ex) {
-//               //	if(ex.getCause() instanceof org.hibernate.exception.ConstraintViolationException)
-//               //		System.out.println("** DUPLICATE ** "+account.toString());
-//               //}
-//       	}
-//       	//uconf.shutdown();
-//			// Account 
-//       } catch (Exception e) {
-//           if (transaction != null) {
-//             transaction.rollback();
-//           }
-//           e.printStackTrace();
-//       } finally {
-//           if (initDBSession != null) {
-//             initDBSession.close();
-//           }
-//       }
-//
-//	}
 }

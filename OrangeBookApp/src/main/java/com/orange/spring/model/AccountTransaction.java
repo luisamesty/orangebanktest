@@ -1,6 +1,8 @@
 package com.orange.spring.model;
 
 import java.math.BigDecimal;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,14 +17,24 @@ public class AccountTransaction {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
+	
 	String account_iban;
+	
+	@Column(unique = true)
 	String treference;
+	
 	String trfecha;
+	
 	BigDecimal tramount;
+	
 	BigDecimal trfee;
+	
 	String trdescription;
+	
 	String trstatus;
+	
 	String trchannel;
+	
 	public int getId() {
 		return id;
 	}
