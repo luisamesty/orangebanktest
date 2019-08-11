@@ -111,7 +111,7 @@ public class Response {
 			netAmount = netAmount.subtract(response.getRsfee());
 		} else {
 			netAmount = response.getRsamount().negate();
-			netAmount = netAmount.subtract(response.getRsfee());
+			netAmount = netAmount.add(response.getRsfee());
 		}
 		// Verify Date Condition
 		if (dateCondition < 0) {
@@ -138,7 +138,7 @@ public class Response {
 			netAmount = netAmount.subtract(response.getRsfee());
 		} else {
 			netAmount = response.getRsamount().negate();
-			netAmount = netAmount.subtract(response.getRsfee());
+			netAmount = netAmount.add(response.getRsfee());
 		}
 		// 
 		json.put("reference", response.getRseference());

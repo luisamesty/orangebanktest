@@ -59,9 +59,9 @@ POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/add
 SETTINGS: Body - Raw - JSON (application/json)
 JSON Data:
  {
-	"reference":"912345678910",
+	"reference":"20190711",
 	"account_iban": "ES9820385778983000760234",
-	"fecha":"2019-07-16T19:58:42.000Z",
+	"fecha":"2019-07-11T19:58:42.000Z",
 	"amount":-500.38,
 	"fee":2.00,
 	"description":"Dept Store payment"
@@ -70,7 +70,7 @@ JSON Data:
 <center><b><b>Results:</b></b></center>
 <pre>
 <u>Result message:</u>
- <b>New Account Transaction has been saved with ID:1 Status:OK</b>
+ <b>New Account Transaction has been saved with ID: XXXX Status:OK</b>
 <u>Result message with Same reference:</u>
  <b>** ERROR Account Transaction not SAVED *** Status:** TRANSACTION ERROR REFERENCE EXISTS ** REF:912345678910</b>
 <u>Result message with Wrong Account:</u>
@@ -100,16 +100,16 @@ POSTMAN REQUEST: <b>POST</b>
 POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/getstatus
 JSON Data:
 {
-    "reference": "912345678910",
-    "channel": ""
+    "reference": "20190711",
+    "channel": "XXXXXXX"
 }
 </pre>
 <center>Result:</center>
 <pre>
 <u>Result message when transaction is found:</u> 
 {
-    "reference": "912345678910",
-    "amount": -500.38,
+    "reference": "20190711",
+    "amount": 500.38,
     "fee": 2.00,
     "status": "SETTLED"
 }
@@ -127,7 +127,7 @@ POSTMAN REQUEST: <b>POST</b>
 POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/getstatus
 JSON Data:
 {
-    "reference": "912345678910-1",
+    "reference": "20190711-1",
     "channel": "CLIENT"
 }
 </pre>
@@ -135,8 +135,8 @@ JSON Data:
 <pre>
 <u>Result message when transaction not found:</u> 
 {
-"reference": "912345678910-1",
-"status": "INVALID"
+    "reference": "20190711-1",
+    "status": "INVALID"
 }
 
 </pre></pre>
@@ -149,16 +149,38 @@ And the transaction date is before today
 Then: The system returns the status 'SETTLED'
 And the amount substracting the fee.
 </pre>
-<center><b>Actions:</b></center>
+<center><b>Action #1:</b></center>
 <pre>
 POSTMAN REQUEST: <b>POST</b>
 POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/getstatus
 JSON Data:
-
+{
+    "reference": "20190711",
+    "channel": "CLIENT"
+}
+<u>Result message #1:</u> 
+{
+    "reference": "20190711",
+    "amount": 502.38,
+    "status": "SETTLED"
+}
 </pre>
-<center>Result:</center>
+<center><b>Action #2:</b></center>
 <pre>
-<u>Result message:</u> 
+POSTMAN REQUEST: <b>POST</b>
+POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/getstatus
+JSON Data:
+{
+    "reference": "20190711",
+    "channel": "ATM"
+}
+
+<u>Result message #2:</u> 
+{
+    "reference": "20190711",
+    "amount": 502.38,
+    "status": "SETTLED"
+}
 
 </pre></pre>
 
@@ -173,12 +195,19 @@ And the fee
 POSTMAN REQUEST: <b>POST</b>
 POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/getstatus
 JSON Data:
-
+{
+    "reference": "20190711",
+    "channel": "INTERNAL"
+}
 </pre>
-
 <pre>
-<u>Result message when transaction not found:</u> 
-
+<u>Result message:</u> 
+{
+    "reference": "20190711",
+    "amount": 500.38,
+    "fee": 2.00,
+    "status": "SETTLED"
+}
 </pre></pre>
 
 ## Business Rules (D)
@@ -188,21 +217,31 @@ And the transaction date is equals to today
 Then: The system returns the status 'PENDING'
 And the amount substracting the fee
 <pre><pre>
+Transaction:
+{
+	"reference":"20190811",
+	"account_iban": "ES9820385778983000760234",
+	"date":"2019-08-11T19:58:42.000Z",
+	"amount":-300.20,
+	"fee":2.00,
+	"description":"Dept Store payment"
+}
+</pre>
 POSTMAN REQUEST: <b>POST</b>
 POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/getstatus
 JSON Data:
 {
-"reference":"12345A",
-"channel":"ATM"
+    "reference": "20190811",
+    "channel": "ATM"
 }
 </pre>
 
 <pre>
 <u>Result message when transaction not found:</u> 
 {
-"reference":"12345A",
-"status":"PENDING",
-"amount":190.20
+    "reference": "20190811",
+    "amount": 302.20,
+    "status": "PENDING"
 }
 </pre></pre>
 
@@ -219,7 +258,7 @@ POSTMAN REQUEST: <b>POST</b>
 POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/getstatus
 JSON Data:
 {
-"reference":"12345A",
+"reference":"20190811",
 "channel":"INTERNAL"
 }
 </pre>
@@ -227,10 +266,10 @@ JSON Data:
 <pre>
 <u>Result message when transaction not found:</u> 
 {
-"reference":"12345A",
-"status":"PENDING",
-"amount":193.38,
-"fee":3.18
+    "reference": "20190811",
+    "amount": 300.20,
+    "fee": 2.00,
+    "status": "PENDING"
 }
 </pre></pre>
 
@@ -241,11 +280,21 @@ And the transaction date is greater than today
 Then: The system returns the status 'FUTURE'
 And the amount substracting the fee
 <pre><pre>
+Transaction:
+{
+	"reference":"20190816",
+	"account_iban": "ES9820385778983000760234",
+	"date":"2019-08-16T19:58:42.000Z",
+	"amount":-250.40,
+	"fee":2.00,
+	"description":"Dept Store payment"
+}
+</pre>
 POSTMAN REQUEST: <b>POST</b>
 POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/getstatus
 JSON Data:
 {
-"reference":"12345A",
+"reference":"20190816",
 "channel":"CLIENT"
 }
 </pre>
@@ -253,9 +302,9 @@ JSON Data:
 <pre>
 <u>Result message when transaction not found:</u> 
 {
-"reference":"12345A",
-"status":"FUTURE",
-"amount":190.20
+    "reference": "20190816",
+    "amount": 252.40,
+    "status": "FUTURE"
 }
 </pre></pre>
 
@@ -270,7 +319,7 @@ POSTMAN REQUEST: <b>POST</b>
 POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/getstatus
 JSON Data:
 {
-"reference":"12345A",
+"reference":"20190816",
 "channel":"ATM"
 }
 </pre>
@@ -278,9 +327,9 @@ JSON Data:
 <pre>
 <u>Result message when transaction not found:</u> 
 {
-"reference":"12345A",
-"status":"PENDING",
-"amount":190.20
+    "reference": "20190816",
+    "amount": 252.40,
+    "status": "PENDING"
 }
 </pre></pre>
 
@@ -296,7 +345,7 @@ POSTMAN REQUEST: <b>POST</b>
 POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/getstatus
 JSON Data:
 {
-"reference":"12345A",
+"reference":"20190816",
 "channel":"INTERNAL"
 }
 </pre>
@@ -304,10 +353,10 @@ JSON Data:
 <pre>
 <u>Result message when transaction not found:</u> 
 {
-"reference":"12345A",
-"status":"FUTURE",
-"amount":193.38,
-"fee":3.18
+    "reference": "20190816",
+    "amount": 250.40,
+    "fee": 2.00,
+    "status": "FUTURE"
 }
 </pre></pre>
 
