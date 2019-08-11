@@ -3,12 +3,286 @@ The goal of this code challenge is to create a microservice using Java and any f
 appropriate.</br>
 Return to Main: </br>
 [README.md] (https://github.com/luisamesty/orangebanktest/blob/master/README.md)
-## FINAL TESTS
+## <b>FINAL TESTS</b>
 <pre>
 OnangeBookApp must be tested as required on Challenge Test.
-In order to accomplish these tests, different methods and tools, will be used.
+On this chapter i will write te TEST as they were made by me running the APP with real data.
 
-... UNDER Development ...
+## <b>ASUMPTIONS</b>
+<pre>
+FEES are not well defined, if they are positive or negative.
+Payload process is for registering Deducting and Addition transactions.
+I am asumming:
+<b>- FEES: </b>
+FEES are Allways, positive values and amount is deducted from balance.
+<b>- Payload logic: </b>
+Transaction is recorded and Amount plus and fee value considered.
+Amount is positive: (Positive Amount value) - (fee) is added.
+Amount is negative: (Positive Amount value) + (fee) value is deducted.
+</pre></pre>
+
+## <b>Create Transaction</b>
+<pre><pre>
+This endpoint will receive the transaction information and store it into the system.
+It is IMPORTANT to note that a transaction that leaves the total account balance bellow 0 is not allowed.
+</pre>
+<center><b>Actions:</b></center>
+<pre>
+POSTMAN REQUEST: <b>POST</b>
+POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/add
+SETTINGS: Body - Raw - JSON (application/json)
+JSON Data:
+ {
+	"reference":"912345678910",
+	"account_iban": "ES9820385778983000760234",
+	"fecha":"2019-07-16T19:58:42.000Z",
+	"amount":-500.38,
+	"fee":2.00,
+	"description":"Dept Store payment"
+}
+</pre>
+<center><b><b>Results:</b></b></center>
+<pre>
+<u>Result message:</u>
+ <b>New Account Transaction has been saved with ID:1 Status:OK</b>
+<u>Result message with Same reference:</u>
+ <b>** ERROR Account Transaction not SAVED *** Status:** TRANSACTION ERROR REFERENCE EXISTS ** REF:912345678910</b>
+<u>Result message with Wrong Account:</u>
+ <b>** ERROR Account Transaction not SAVED *** Status:** TRANSACTION ERROR ACOUNT INVALID** REF:912345678910 IBAN:ES9820385778983000760234-9</b>
+<u>Result message from Account:</u>
+    {
+        "id": 2,
+        "name": "Maria Auxiliadora Amesty",
+        "account_iban": "ES9820385778983000760234",
+        "balance": 11497.62,
+        "initbalance": 12000.00
+    },
+
+The new balance is 11497.62 = 12,000.00 - 500.38 - 2.00
+</pre></pre>
+
+
+## <b>Transaction STATUS</b>
+
+<pre><pre>
+This endpoint, based on the payload and some business rules, will return the status and additional information
+for a specific transaction.
+</pre>
+<center><b>Actions:</b></center>
+<pre>
+POSTMAN REQUEST: <b>POST</b>
+POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/getstatus
+JSON Data:
+{
+    "reference": "912345678910",
+    "channel": ""
+}
+</pre>
+<center>Result:</center>
+<pre>
+<u>Result message when transaction is found:</u> 
+{
+    "reference": "912345678910",
+    "amount": -500.38,
+    "fee": 2.00,
+    "status": "SETTLED"
+}
+</pre></pre>
+
+## <b>Business Rules (A)</b>
+<pre><pre>
+Given: A transaction that is not stored in our system
+When: I check the status from any channel
+Then: The system returns the status 'INVALID'
+</pre>
+<center><b>Actions:</b></center>
+<pre>
+POSTMAN REQUEST: <b>POST</b>
+POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/getstatus
+JSON Data:
+{
+    "reference": "912345678910-1",
+    "channel": "CLIENT"
+}
+</pre>
+<center>Result:</center>
+<pre>
+<u>Result message when transaction not found:</u> 
+{
+"reference": "912345678910-1",
+"status": "INVALID"
+}
+
+</pre></pre>
+
+## <b>Business Rules (B)</b>
+<pre><pre>
+Given: A transaction that is stored in our system
+When: I check the status from CLIENT or ATM channel
+And the transaction date is before today
+Then: The system returns the status 'SETTLED'
+And the amount substracting the fee.
+</pre>
+<center><b>Actions:</b></center>
+<pre>
+POSTMAN REQUEST: <b>POST</b>
+POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/getstatus
+JSON Data:
 
 </pre>
+<center>Result:</center>
+<pre>
+<u>Result message:</u> 
+
+</pre></pre>
+
+## Business Rules (C)
+Given: A transaction that is stored in our system
+When: I check the status from INTERNAL channel
+And the transaction date is before today
+Then: The system returns the status 'SETTLED'
+And the amount
+And the fee
+<pre><pre>
+POSTMAN REQUEST: <b>POST</b>
+POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/getstatus
+JSON Data:
+
+</pre>
+
+<pre>
+<u>Result message when transaction not found:</u> 
+
+</pre></pre>
+
+## Business Rules (D)
+Given: A transaction that is stored in our system
+When: I check the status from CLIENT or ATM channel
+And the transaction date is equals to today
+Then: The system returns the status 'PENDING'
+And the amount substracting the fee
+<pre><pre>
+POSTMAN REQUEST: <b>POST</b>
+POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/getstatus
+JSON Data:
+{
+"reference":"12345A",
+"channel":"ATM"
+}
+</pre>
+
+<pre>
+<u>Result message when transaction not found:</u> 
+{
+"reference":"12345A",
+"status":"PENDING",
+"amount":190.20
+}
+</pre></pre>
+
+
+## Business Rules (E)
+Given: A transaction that is stored in our system
+When: I check the status from INTERNAL channel
+And the transaction date is equals to today
+Then: The system returns the status 'PENDING'
+And the amount
+And the fee
+<pre><pre>
+POSTMAN REQUEST: <b>POST</b>
+POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/getstatus
+JSON Data:
+{
+"reference":"12345A",
+"channel":"INTERNAL"
+}
+</pre>
+
+<pre>
+<u>Result message when transaction not found:</u> 
+{
+"reference":"12345A",
+"status":"PENDING",
+"amount":193.38,
+"fee":3.18
+}
+</pre></pre>
+
+## Business Rules (F)
+Given: A transaction that is stored in our system
+When: I check the status from CLIENT channel
+And the transaction date is greater than today
+Then: The system returns the status 'FUTURE'
+And the amount substracting the fee
+<pre><pre>
+POSTMAN REQUEST: <b>POST</b>
+POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/getstatus
+JSON Data:
+{
+"reference":"12345A",
+"channel":"CLIENT"
+}
+</pre>
+
+<pre>
+<u>Result message when transaction not found:</u> 
+{
+"reference":"12345A",
+"status":"FUTURE",
+"amount":190.20
+}
+</pre></pre>
+
+## Business Rules (G)
+Given: A transaction that is stored in our system
+When: I check the status from ATM channel
+And the transaction date is greater than today
+Then: The system returns the status 'PENDING'
+And the amount substracting the fee
+<pre><pre>
+POSTMAN REQUEST: <b>POST</b>
+POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/getstatus
+JSON Data:
+{
+"reference":"12345A",
+"channel":"ATM"
+}
+</pre>
+
+<pre>
+<u>Result message when transaction not found:</u> 
+{
+"reference":"12345A",
+"status":"PENDING",
+"amount":190.20
+}
+</pre></pre>
+
+## Business Rules (H)
+Given: A transaction that is stored in our system
+When: I check the status from INTERNAL channel
+And the transaction date is greater than today
+Then: The system returns the status 'FUTURE'
+And the amount
+And the fee
+<pre><pre>
+POSTMAN REQUEST: <b>POST</b>
+POSTMAN URL: http://localhost:8080/OrangeBookApp/transaction/getstatus
+JSON Data:
+{
+"reference":"12345A",
+"channel":"INTERNAL"
+}
+</pre>
+
+<pre>
+<u>Result message when transaction not found:</u> 
+{
+"reference":"12345A",
+"status":"FUTURE",
+"amount":193.38,
+"fee":3.18
+}
+</pre></pre>
+
 Return to Main: [README.md](https://github.com/luisamesty/orangebanktest/blob/master/README.md)

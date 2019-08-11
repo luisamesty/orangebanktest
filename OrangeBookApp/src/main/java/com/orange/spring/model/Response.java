@@ -10,7 +10,7 @@ public class Response {
 	BigDecimal rsamount;
 	BigDecimal rsfee;
 	String rsstatus;
-	
+	String rsfecha;
 	
 	public Response() {
 		super();
@@ -62,17 +62,27 @@ public class Response {
 	}
 
 
+	public String getRsfecha() {
+		return rsfecha;
+	}
+
+
+	public void setRsfecha(String rsfecha) {
+		this.rsfecha = rsfecha;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Response [rseference=" + rseference + ", rsamount=" + rsamount + ", rsfee=" + rsfee + ", rsstatus="
-				+ rsstatus + "]";
+				+ rsstatus + ", rsfecha=" + rsfecha + "]";
 	}
+
 
 	@SuppressWarnings("unchecked")
 	public JSONObject  retJsonResponseReferenceOnly( Response response) {
 		
 
-		String message;
 		JSONObject json = new JSONObject();
 		json.put("reference", response.getRseference());
 		json.put("status", response.getRsstatus());
@@ -83,19 +93,34 @@ public class Response {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public JSONObject  retJsonResponseReferenceAmount( Response response) {
+	public JSONObject  retJsonResponseReferenceAmount( Response response, String channel) {
 		
 
-		String message;
 		JSONObject json = new JSONObject();
 		json.put("reference", response.getRseference());
-		json.put("status", response.getRsstatus());
-		json.put("amount", response.getRsamount());
-	 	if (response.getRsfee().compareTo(BigDecimal.ZERO) > 0) {
-	 		json.put("amount", response.getRsfee());
-	 	}
-		// message = json.toString();
-		// System.out.println(message);
+		switch (channel) {
+			case "ALL" :
+				json.put("amount", response.getRsamount());
+			 	json.put("fee", response.getRsfee());
+			 	json.put("status","SETTLED");
+				break;		
+			case "CLIENT" :
+				json.put("amount", response.getRsamount());
+			 	json.put("fee", response.getRsfee());
+			 	json.put("status","SETTLED");
+				break;
+			case "ATM" :
+				json.put("amount", response.getRsamount());
+			 	json.put("fee", response.getRsfee());
+			 	json.put("status", response.getRsstatus());
+				break;
+			case "INTERNAL" :
+				json.put("amount", response.getRsamount());
+			 	json.put("fee", response.getRsfee());
+			 	json.put("status", response.getRsstatus());
+				break;
+		}
+		// System.out.println(json.toString());
 		return json;
 		
 	}

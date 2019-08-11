@@ -33,7 +33,7 @@ public class AccountTransactionDaoImpl implements AccountTransactionDao {
 		BigDecimal netTRAmount =  BigDecimal.ZERO;
 		String treference = "";
 		String errorMessage="";
-		String trstatus = "";
+    	String errorMessageAccount = "** TRANSACTION ERROR ACOUNT INVALID** "+" REF:"+accounttransaction.getTreference()+"  IBAN:"+accounttransaction.getAccount_iban();
 		Account account = null;
 		boolean isError = false;
 		String account_iban =accounttransaction.getAccount_iban();
@@ -51,38 +51,62 @@ public class AccountTransactionDaoImpl implements AccountTransactionDao {
 		        if (results.isEmpty()) {
 		        	account = null;
 		        	isError = true;
+		        	errorMessage = errorMessageAccount ;
 		        } else if (results.size() >= 1) { 
 		        	account = results.get(0);
 		        }
 		    } catch (NoResultException e ) {
 		    	account = null;
 		    	isError = true;
-		    } catch (NonUniqueResultException e2 ) {
+	        	errorMessage = errorMessageAccount;
 		    	account = null;
 		    	isError = true;
+	        	errorMessage = errorMessageAccount;
 		    } 
 		}  else {
 			account=null;
 			isError = true;
-			errorMessage = "** TRANSACTION ERROR ACOUNT INVALID** "+errorMessage+" REF:"+accounttransaction.getTreference()+"  IBAN:"+accounttransaction.getAccount_iban();
+			errorMessage = errorMessageAccount;
     		System.out.println(errorMessage);
 		}
-//		// Get Account From IBAN Transaction
-//		if ( account_iban !=null && !account_iban.isEmpty() ) {
-//			Session session = sessionFactory.getCurrentSession();
-//		    CriteriaBuilder builder = session.getCriteriaBuilder();
-//		    CriteriaQuery<Account> query = builder.createQuery(Account.class);
-//		    Root<Account> root = query.from(Account.class);
-//		    query.select(root).where(builder.equal(root.get("account_iban"), account_iban));;
-//		    Query<Account> queryacct = session.createQuery(query);
-//		    account = queryacct.getSingleResult();
-//		} else {
-//			account=null;
-//			isError = true;
-//			errorMessage = "** TRANSACTION ERROR ACOUNT INVALID** "+errorMessage+" REF:"+accounttransaction.getTreference()+"  IBAN:"+accounttransaction.getAccount_iban();
-//    		System.out.println(errorMessage);
-//		}
-		// Verify Account BY IBAN
+		// Return Account Invalid  Error
+		if (isError) {
+			accounttransaction.setTrstatus(errorMessage);
+			return 0;
+		}
+		// VERIFY REFERENCE IF EXISTS
+		treference = accounttransaction.getTreference();
+		if (treference != null && !treference.isEmpty() ) {
+			Session session = this.sessionFactory.getCurrentSession();
+			List<AccountTransaction> accountsTRList = null;
+			// HQL Build from parameters
+		    CriteriaBuilder builder = session.getCriteriaBuilder();
+		    CriteriaQuery<AccountTransaction> query = builder.createQuery(AccountTransaction.class);
+		    Root<AccountTransaction> root = query.from(AccountTransaction.class);
+		    query.select(root);
+		    // Restriction AND Order By reference
+		    //query.orderBy(builder.asc(root.get("id")));
+			if (treference != null && !treference.isEmpty()  ) {
+		    	query.where(builder.equal(root.get("treference"), treference));
+			}
+			query.orderBy(builder.asc(root.get("tramount"))); 
+		    try {
+			    Query<AccountTransaction> querytr = session.createQuery(query);
+			    accountsTRList = querytr.getResultList();
+				// LOG
+				System.out.println("listTransactionsByREF: treference="+treference+  " (ASC)");
+				if (accountsTRList.isEmpty()) {
+					isError = false;
+				} else if (accountsTRList.size() >= 1) { 
+			    	isError = true;
+			    	errorMessage = "** TRANSACTION ERROR REFERENCE EXISTS ** "+" REF:"+accounttransaction.getTreference();
+				}
+		    } catch (NoResultException e ) {
+		    	account = null;
+		    	isError = false;
+		    } 
+		}		
+		// IF NOT ERROR ON account_iban and reference
 		if (!isError) {
             // Account VALID and Balance OK
 			// ADDITIONS
@@ -91,7 +115,7 @@ public class AccountTransactionDaoImpl implements AccountTransactionDao {
 				// Update Balance
 				newBalance = account.getBalance().add(netTRAmount);
 				// 
-				trstatus ="OK";
+				errorMessage ="OK";
 			// DEDUCTIONS
 			} else {
 				netTRAmount = accounttransaction.getTramount().negate();
@@ -125,12 +149,17 @@ public class AccountTransactionDaoImpl implements AccountTransactionDao {
 				// Writes Transaction
 				sessionFactory.getCurrentSession().save(accounttransaction);
 				return accounttransaction.getId();
+			} catch (NonUniqueResultException e2 ) {
+				errorMessage = "** TRANSACTION ERROR - CONSTRAIN VIOLATION ** REFERENCE="+accounttransaction.getTreference();
+				accounttransaction.setTrstatus(errorMessage);
+				return 0;
 			} catch (ConstraintViolationException e) {
 				errorMessage = "** TRANSACTION ERROR - CONSTRAIN VIOLATION ** REFERENCE="+accounttransaction.getTreference();
 				accounttransaction.setTrstatus(errorMessage);
 				return 0;
 			} 
 		} else {
+			accounttransaction.setTrstatus(errorMessage);
 			return 0;
 		}
 	}
@@ -215,23 +244,6 @@ public class AccountTransactionDaoImpl implements AccountTransactionDao {
 			System.out.println("AccountTransaction List::"+p);
 		}
 		return accountsTRList;
-		
-//		// HQL Build from parameters DEPRECATED
-//		Query query = null;
-//		if (treference != null && !treference.isEmpty()  ) {
-//			query = session.createQuery("from AccountTransaction where treference = :trref  order by tramount ASC ");
-//			query.setParameter("trref", treference);
-//		} else {
-//			query = session.createQuery("from AccountTransaction order by tramount ASC ");
-//			treference ="";
-//		}
-//		// Get Transactions as QUERY
-//		List<AccountTransaction> accountsTRList = query.list();
-//		// LOG
-//		System.out.println("listTransactionsByREF: treference="+treference+"  "+query.getQueryString());
-//		for(AccountTransaction p : accountsTRList){
-//			System.out.println("AccountTransaction List::"+p);
-//		}
 
 	}
 

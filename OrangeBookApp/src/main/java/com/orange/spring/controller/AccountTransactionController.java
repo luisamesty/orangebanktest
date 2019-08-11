@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.orange.spring.model.AccountTransaction;
 import com.orange.spring.model.Payload;
+import com.orange.spring.model.PayloadTransaction;
 import com.orange.spring.model.Response;
 import com.orange.spring.service.AccountTransactionService;
 
@@ -35,26 +36,36 @@ public class AccountTransactionController {
 	      return ResponseEntity.ok().body(accounttransactions);
 	   }
 		
-	   /*--- (POST) Add new account transaction---*/
+
 	   @PostMapping(value="/transaction/add" , consumes = "application/json", produces = "application/json")
-	   public ResponseEntity<?> addTransaction(@RequestBody AccountTransaction accounttransaction) {
+	   public ResponseEntity<?> addTransaction(@RequestBody PayloadTransaction payloadTR) {
+		  AccountTransaction accounttransaction = new AccountTransaction();
+		  accounttransaction.setTreference(payloadTR.getReference());
+		  accounttransaction.setAccount_iban(payloadTR.getAccount_iban());
+		  accounttransaction.setTrfecha(payloadTR.getDate());
+		  accounttransaction.setTramount(payloadTR.getAmount());
+		  accounttransaction.setTrfee(payloadTR.getFee());
+		  accounttransaction.setTrdescription(payloadTR.getDescription());
 		  System.out.println("the json value of Account Transaction is :::::: "+accounttransaction);
 		  int id = accounttransactionService.addTransaction(accounttransaction);
-	      return ResponseEntity.ok().body("New Account Transaction has been saved with ID:" + id +"  Status:"+ accounttransaction.getTrstatus());
-	  }
-
+		  if (id > 0)
+			  return ResponseEntity.ok().body("New Account Transaction has been saved with ID:" + id +"  Status:"+ accounttransaction.getTrstatus());
+		  else
+			  return ResponseEntity.ok().body("** ERROR Account Transaction not SAVED ***  Status:"+ accounttransaction.getTrstatus());
+	   }
+	   
 	  /*--- (POST Transaction Status ) Transaction Status ---*/
 	  @SuppressWarnings("null")
 	  @PostMapping(value="/transaction/getstatus", consumes = "application/json", produces = "application/json")
 	  public ResponseEntity<?> getTransactionStatus(@RequestBody Payload payload) {
-		  String plReference = payload.getPlreference();
-		  String plChannel = payload.getPlchannel();
+		  String plReference = payload.getReference();
+		  String plChannel = payload.getChannel();
 		  Response resp = new  Response();
 		  AccountTransaction acctr = new AccountTransaction();
 		  List<Response> responses =  new ArrayList<Response>(); 
 		  JSONObject retJsonObject = new JSONObject();
 		  // Check Null or Empty
-		  if (plReference == null || plReference.isEmpty() || plChannel==null || plChannel .isEmpty()) {
+		  if (plReference == null || plReference.isEmpty()) {
 			  // Invalid Reference
 			  resp = new  Response();
 			  resp.setRseference("XXXXXXXXX");
@@ -73,12 +84,21 @@ public class AccountTransactionController {
 						  acctr = acctrans.get(iac);
 						  resp.setRsamount(acctr.getTramount());
 						  resp.setRseference(acctr.getTreference());
-						  resp.setRsamount(acctr.getTramount());
+						  resp.setRsfee(acctr.getTrfee());
 						  resp.setRsstatus(acctr.getTrstatus());
+						  resp.setRsfecha(acctr.getTrfecha());
 						  responses.add(resp);
-						  retJsonObject = resp.retJsonResponseReferenceAmount(resp);
-						  break;
-					  }
+						  if ( plChannel.compareTo("CLIENT")== 0) {
+							  retJsonObject = resp.retJsonResponseReferenceAmount(resp,plChannel );
+						  }  else if (plChannel.compareTo("ATM")== 0) {
+							  retJsonObject = resp.retJsonResponseReferenceAmount(resp, plChannel);
+						  } else if (plChannel.compareTo("INTERNAL")== 0) {
+							  retJsonObject = resp.retJsonResponseReferenceAmount(resp, plChannel);
+						  } else {
+							  plChannel ="ALL";
+							  retJsonObject = resp.retJsonResponseReferenceAmount(resp, plChannel);
+						  }
+						}
 				  } else {
 					  resp = new  Response();
 					  resp.setRseference(plReference);

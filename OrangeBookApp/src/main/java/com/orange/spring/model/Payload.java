@@ -2,31 +2,26 @@ package com.orange.spring.model;
 
 public class Payload {
 
-	String plreference;
-	String plchannel;
-	
-	
-	public Payload() {
-		this.plchannel="";
-		this.plreference="";
+	String reference;
+	String channel;
+	public String getReference() {
+		return reference;
 	}
-	
-	public String getPlreference() {
-		return plreference;
+	public void setReference(String reference) {
+		this.reference = reference;
 	}
-	public void setPlreference(String plreference) {
-		this.plreference = plreference;
+	public String getChannel() {
+		return channel;
 	}
-	public String getPlchannel() {
-		return plchannel;
-	}
-	public void setPlchannel(String plchannel) {
-		this.plchannel = plchannel;
+	public void setChannel(String channel) {
+		this.channel = channel;
 	}
 	@Override
 	public String toString() {
-		return "Payload [plreference=" + plreference + ", plchannel=" + plchannel + "]";
+		return "Payload [reference=" + reference + ", channel=" + channel + "]";
 	}
 	
+	
+
 	
 }
