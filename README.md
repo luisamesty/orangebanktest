@@ -21,8 +21,8 @@ If any question or suggestion, please write to me:
 - [PostgreSQL Database 9.6](https://github.com/luisamesty/orangebanktest/blob/master/OrangeBookWiki/RequirementsPostgreSQL.md)
 - [Account API TEST](https://github.com/luisamesty/orangebanktest/blob/master/OrangeBookWiki/TestAccount.md)
 - [Account Transaction API TEST](https://github.com/luisamesty/orangebanktest/blob/master/OrangeBookWiki/TestAccountTransaction.md)
-- [WEB TESTS](https://github.com/luisamesty/orangebanktest/blob/master/OrangeBookWiki/TestFinalWeb.md)
-- [FINAL TESTS](https://github.com/luisamesty/orangebanktest/blob/master/OrangeBookWiki/TestFinal.md)
+- [FINAL REQUIRED TESTS](https://github.com/luisamesty/orangebanktest/blob/master/OrangeBookWiki/TestFinal.md)
+- [WEB TESTS (additional)](https://github.com/luisamesty/orangebanktest/blob/master/OrangeBookWiki/TestFinalWeb.md)
 - [Comments](https://github.com/luisamesty/orangebanktest/blob/master/OrangeBookWiki/TestChallengeComments.md)
 ***
 Technologies stack: Java, Spring, Maven, Hibernate, PostgreSQL, JUnit, Log4j, Jetty, Tomcat, HTML, CSS.
