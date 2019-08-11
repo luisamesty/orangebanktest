@@ -12,14 +12,40 @@ On this chapter i will write te TEST as they were made by me running the APP wit
 <pre>
 FEES are not well defined, if they are positive or negative.
 Payload process is for registering Deducting and Addition transactions.
-I am asumming:
+Today Date is not well defined.
+PENDING, SETTLED, FUTURE, INVALID definition.
+</pre>
+<center><b><b>I am asumming:</b></b></center>
+<pre>
+
 <b>- FEES: </b>
 FEES are Allways, positive values and amount is deducted from balance.
 <b>- Payload logic: </b>
 Transaction is recorded and Amount plus and fee value considered.
 Amount is positive: (Positive Amount value) - (fee) is added.
 Amount is negative: (Positive Amount value) + (fee) value is deducted.
+<b>- Payload logic (Allways response positive values): </b>
+When consulting transaction from any channel, responses are allways positive values. I assume that i have to show then allways in postive value, even if they are negative or positive. Considering what it is assumed before, in reference to the fees.
+<b>- Today Date:</b>
+Today Date if taking assumming yyyy-MM-dd 00:00:00.000
+Zero hour.
+<b>- SETTLED:</b> It means that transaction is already applyed before today date.
+<b>- FUTURE:</b> It means that transaction will be applyed after today day. Transactions with date greater than today date.
+<b>- INVALID:</b> It means that transaction reference consulted does not exists.
+<b>- PENDING:</b> It means that transaction was made with today date and will be applyed after today day.
 </pre></pre>
+## <b>Business Logic Table</b>
+| DATE         	| SOURCE   	| STATUS  	| Amount               	| Fee 	|
+|--------------	|----------	|---------	|----------------------	|-----	|
+| Before Today 	| CLIENT   	| SETTLED 	| YES (substract fee)  	| NO  	|
+| Before Today 	| ATM      	| SETTLED 	| YES (substract fee)  	| NO  	|
+| Before Today 	| INTERNAL 	| SETTLED  	| YES                  	| YES  	|
+| Today 	    | CLIENT   	| PENDING 	| YES (substract fee)  	| NO  	|
+| Today 	    | ATM      	| PENDING	| YES (substract fee)  	| NO  	|
+| Today 	    | INTERNAL 	| PENDING  	| YES                  	| YES  	|
+| After Today 	| CLIENT   	| FUTURE	| YES (substract fee)  	| NO  	|
+| After Today 	| ATM      	| PENDING 	| YES (substract fee)  	| NO  	|
+| After Today 	| INTERNAL 	| FUTURE  	| YES                  	| YES  	|
 
 ## <b>Create Transaction</b>
 <pre><pre>

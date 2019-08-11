@@ -1,5 +1,6 @@
 package com.orange.spring.controller;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import com.orange.spring.model.Payload;
 import com.orange.spring.model.PayloadTransaction;
 import com.orange.spring.model.Response;
 import com.orange.spring.service.AccountTransactionService;
+import com.orange.spring.utils.TimeUtil;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -60,6 +62,9 @@ public class AccountTransactionController {
 	  public ResponseEntity<?> getTransactionStatus(@RequestBody Payload payload) {
 		  String plReference = payload.getReference();
 		  String plChannel = payload.getChannel();
+		  TimeUtil timeutil = new TimeUtil();
+		  int dateCondition1 = 0;   // -1 before today - 0 today - 1 after today exact date and time
+		  int dateCondition2 = 0;   // -1 before today - 0 today - 1 after today only dates 
 		  Response resp = new  Response();
 		  AccountTransaction acctr = new AccountTransaction();
 		  List<Response> responses =  new ArrayList<Response>(); 
@@ -72,7 +77,7 @@ public class AccountTransactionController {
 			  resp.setRsstatus("INVALID");
 			  responses.clear();
 			  responses.add(resp);
-			  retJsonObject = resp.retJsonResponseReferenceOnly(resp);
+			  retJsonObject = resp.retJsonResponseInvalid(resp);
 		  } else {
 			  // Return all Transactions that meet
 			  List<AccountTransaction> acctrans = accounttransactionService.listTransactionsByREF(plReference);
@@ -88,15 +93,21 @@ public class AccountTransactionController {
 						  resp.setRsstatus(acctr.getTrstatus());
 						  resp.setRsfecha(acctr.getTrfecha());
 						  responses.add(resp);
+						  // Date condition  (-1,0,1) compare with today exact
+						  dateCondition1 = timeutil.compareStringDateWithToday(acctr.getTrfecha());
+						  // Date condition  (-1,0,1) compare with today only dates
+						  dateCondition2 = timeutil.compareStringDateWithTodayOnlyDates(acctr.getTrfecha());
+						  System.out.println("transaction Date="+acctr.getTrfecha()+" Condicion1:"+dateCondition1);
+						  System.out.println("transaction Date="+acctr.getTrfecha()+" Condicion2:"+dateCondition2);
 						  if ( plChannel.compareTo("CLIENT")== 0) {
-							  retJsonObject = resp.retJsonResponseReferenceAmount(resp,plChannel );
-						  }  else if (plChannel.compareTo("ATM")== 0) {
-							  retJsonObject = resp.retJsonResponseReferenceAmount(resp, plChannel);
+							  retJsonObject = resp.retJsonResponseCLIENT(resp, plChannel, dateCondition2 );
 						  } else if (plChannel.compareTo("INTERNAL")== 0) {
-							  retJsonObject = resp.retJsonResponseReferenceAmount(resp, plChannel);
+							  retJsonObject = resp.retJsonResponseINTERNAL(resp, plChannel, dateCondition2);
+						  }  else if (plChannel.compareTo("ATM")== 0) {
+							  retJsonObject = resp.retJsonResponseATM(resp, plChannel, dateCondition2);
 						  } else {
 							  plChannel ="ALL";
-							  retJsonObject = resp.retJsonResponseReferenceAmount(resp, plChannel);
+							  retJsonObject = resp.retJsonResponseINTERNAL(resp, plChannel, dateCondition2);
 						  }
 						}
 				  } else {
@@ -105,7 +116,7 @@ public class AccountTransactionController {
 					  resp.setRsstatus("INVALID");
 					  responses.clear();
 					  responses.add(resp);
-					  retJsonObject = resp.retJsonResponseReferenceOnly(resp);
+					  retJsonObject = resp.retJsonResponseInvalid(resp);
 				  }
 			  } else {
 				  resp = new  Response();
@@ -113,7 +124,7 @@ public class AccountTransactionController {
 				  resp.setRsstatus("INVALID");
 				  responses.clear();
 				  responses.add(resp);
-				  retJsonObject = resp.retJsonResponseReferenceOnly(resp);
+				  retJsonObject = resp.retJsonResponseInvalid(resp);
 			  }
 		  }
 	     return ResponseEntity.ok().body(retJsonObject);

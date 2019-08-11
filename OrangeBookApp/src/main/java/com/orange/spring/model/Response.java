@@ -80,6 +80,14 @@ public class Response {
 
 
 	@SuppressWarnings("unchecked")
+	public JSONObject  retJsonResponseInvalid( Response response) {
+		JSONObject json = new JSONObject();
+		json.put("reference", response.getRseference());
+		json.put("status", "INVALID");
+		return json;
+	}
+
+	@SuppressWarnings("unchecked")
 	public JSONObject  retJsonResponseReferenceOnly( Response response) {
 		
 
@@ -93,38 +101,118 @@ public class Response {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public JSONObject  retJsonResponseReferenceAmount( Response response, String channel) {
+	public JSONObject  retJsonResponseCLIENT( Response response, String channel, int dateCondition) {
 		
-
 		JSONObject json = new JSONObject();
+		BigDecimal netAmount = BigDecimal.ZERO;
 		json.put("reference", response.getRseference());
-		switch (channel) {
-			case "ALL" :
-				json.put("amount", response.getRsamount());
-			 	json.put("fee", response.getRsfee());
-			 	json.put("status","SETTLED");
-				break;		
-			case "CLIENT" :
-				json.put("amount", response.getRsamount());
-			 	json.put("fee", response.getRsfee());
-			 	json.put("status","SETTLED");
-				break;
-			case "ATM" :
-				json.put("amount", response.getRsamount());
-			 	json.put("fee", response.getRsfee());
-			 	json.put("status", response.getRsstatus());
-				break;
-			case "INTERNAL" :
-				json.put("amount", response.getRsamount());
-			 	json.put("fee", response.getRsfee());
-			 	json.put("status", response.getRsstatus());
-				break;
+		if (response.getRsamount().compareTo(BigDecimal.ZERO) >=0 ) {
+			netAmount = response.getRsamount();
+			netAmount = netAmount.subtract(response.getRsfee());
+		} else {
+			netAmount = response.getRsamount().negate();
+			netAmount = netAmount.subtract(response.getRsfee());
 		}
+		// Verify Date Condition
+		if (dateCondition < 0) {
+			json.put("status","SETTLED");
+		} else if ( dateCondition == 0 ) {
+			json.put("status","PENDING");
+		}  else if ( dateCondition > 0 ) {
+			json.put("status","FUTURE");
+		}
+		json.put("amount", netAmount);
 		// System.out.println(json.toString());
 		return json;
 		
 	}
 	
+	@SuppressWarnings("unchecked")
+	public JSONObject  retJsonResponseATM( Response response, String channel, int dateCondition) {
+		
+		JSONObject json = new JSONObject();
+		BigDecimal netAmount = BigDecimal.ZERO;
+		json.put("reference", response.getRseference());
+		if (response.getRsamount().compareTo(BigDecimal.ZERO) >=0 ) {
+			netAmount = response.getRsamount();
+			netAmount = netAmount.subtract(response.getRsfee());
+		} else {
+			netAmount = response.getRsamount().negate();
+			netAmount = netAmount.subtract(response.getRsfee());
+		}
+		// 
+		json.put("reference", response.getRseference());
+		if (dateCondition < 0) {
+			json.put("status","SETTLED");
+		} else if ( dateCondition == 0 ) {
+			json.put("status","PENDING");
+		}  else if ( dateCondition > 0 ) {
+			json.put("status","PENDING");
+		}
+		json.put("amount", netAmount);
+		// System.out.println(json.toString());
+		return json;
+		
+	}
+
+	@SuppressWarnings("unchecked")
+	public JSONObject  retJsonResponseINTERNAL( Response response, String channel, int dateCondition) {
+		
+		JSONObject json = new JSONObject();
+		BigDecimal netAmount = BigDecimal.ZERO;
+		if (response.getRsamount().compareTo(BigDecimal.ZERO) >=0 ) {
+			netAmount = response.getRsamount();
+		} else {
+			netAmount = response.getRsamount().negate();
+		}
+		json.put("reference", response.getRseference());
+		if (dateCondition < 0) {
+			json.put("status","SETTLED");
+		} else if ( dateCondition == 0 ) {
+			json.put("status","PENDING");
+		}  else if ( dateCondition > 0 ) {
+			json.put("status","FUTURE");
+		}
+		json.put("amount", netAmount);
+	 	json.put("fee", response.getRsfee());
+		// System.out.println(json.toString());
+		return json;
+		
+	}
+
+//	@SuppressWarnings("unchecked")
+//	public JSONObject  retJsonResponseReferenceAmount( Response response, String channel) {
+//		
+//
+//		JSONObject json = new JSONObject();
+//		json.put("reference", response.getRseference());
+//		switch (channel) {
+//			case "ALL" :
+//			 	json.put("status","SETTLED");
+//				json.put("amount", response.getRsamount());
+//			 	json.put("fee", response.getRsfee());
+//				break;		
+//			case "CLIENT" :
+//			 	json.put("status","SETTLED");
+//				json.put("amount", response.getRsamount());
+//			 	json.put("fee", response.getRsfee());
+//				break;
+//			case "ATM" :
+//			 	json.put("status","SETTLED");
+//				json.put("amount", response.getRsamount());
+//			 	json.put("fee", response.getRsfee());
+//				break;
+//			case "INTERNAL" :
+//			 	json.put("status","SETTLED");
+//				json.put("amount", response.getRsamount());
+//			 	json.put("fee", response.getRsfee());
+//				break;
+//		}
+//		// System.out.println(json.toString());
+//		return json;
+//		
+//	}
+//	
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
 	
