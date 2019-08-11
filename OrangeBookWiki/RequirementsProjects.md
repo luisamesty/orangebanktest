@@ -55,6 +55,7 @@ This is another App for testing using an web browser.
 It shares same Database, but for a mistake made for me at the begining it was initially developed on a different version on Hibernate.
 So i have had to handle differences on API classes, that should be the same ones.
 What I should have done from the beginning is to do a plugin project with all the common classes and two projects, a project for the API and another web project for the WEB tests. Sharing the same resources and the same version of Spring, Hibernate and Java.
+Is not comleted. To be finished soon .....
 </pre>
 Return to Main: [README.md](https://github.com/luisamesty/orangebanktest/blob/master/README.md)
 

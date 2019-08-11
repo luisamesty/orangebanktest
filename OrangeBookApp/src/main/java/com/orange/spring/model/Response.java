@@ -1,15 +1,16 @@
 package com.orange.spring.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import org.json.simple.JSONObject;
 
-public class Response {
+public class Response implements Serializable {
 
 	String rseference;
+	String rsstatus;
 	BigDecimal rsamount;
 	BigDecimal rsfee;
-	String rsstatus;
 	String rsfecha;
 	
 	public Response() {
