@@ -1,14 +1,14 @@
 ## Code Challenge - PostgreSQL DATA BASE
 Return to Main: [README.md] (https://github.com/luisamesty/orangebanktest/blob/master/README.md)
 
-## PostgreSQL Database Requirements
+## <b>PostgreSQL Database Requirements</b>
+### <b>Local, Remote or microsevice  Postgresql Database Instance.</b>
 <pre>
-### Local, Remote or microsevice  Postgresql Database Instance.
 Local or Remote Postgresql Database Instance, must be installed and service running.
 Local IP configuration must be available on pg_hba.con file,
 in order to accept request from the IP address of the Test PC and Docker containers.
 </pre>
-### <B>The Database must be created (Very Iportant):</b>
+### <b>The Database must be created (Very Iportant):</b>
 <pre>
 <b><u>name:</u>  orangeapi</b>
 <b><u>owner:</u> postgres</b>
@@ -16,10 +16,16 @@ Tables will be created on first runnig of OrangeBookApp on local eclipse o micro
 Tables used by App:
     account
     accounttransaction
-
-(See d.properties sample   on src/main/resources project's directory) 
 </pre>
-### Hibernate File:  db.properties (Sample used)
+### <b>Configuration tables:</b>
+<pre> 
+On Project Directory: .../src/main/resources
+See <b>db.properties</b>  
+And <b>Hibernate.cfg.xml</b>
+Properties Url, user and password must be adjusted as your Database settings.
+</pre>
+
+### <b>Hibernate File:  db.properties (Sample used)</b>
 <pre>
 # PostgreSQL properties
 postgresql.driver=org.postgresql.Driver
@@ -39,7 +45,16 @@ hibernate.c3p0.acquire_increment=1
 hibernate.c3p0.timeout=1800
 hibernate.c3p0.max_statements=150
 </pre>
-### Initial Data Base Setup.
+### <b>Hibernate.cfg.xml (Sample used)</b>
+<pre>
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://192.168.1.23:5432/orangeapi</property>
+        <property name="hibernate.connection.password">Sofi@2015</property>
+        <property name="hibernate.connection.username">postgres</property>
+</pre>
+### <b>Initial Data Base Setup.</b>
 <pre>
 Database "orangeapi", has to be created using postgresql command lines,
 or any PG Administrator. (Recommended PGAdmin).
@@ -56,9 +71,9 @@ They must be run on this order:
     <b>transactions_init_db.sql</b>
     (*) Next App release will be avoid this step.
 </pre>
-## Initial DB Data
+## <b>Initial DB Data </b>
 <pre>
-OrangeBookApp requires some initial data to be setup before running transaction tests.
+OrangeBookApp requires some initial data to be setup before running transaction tests. This is not strictly necessary bacuse business logic takes care of validations and also accounts can be created using Postmas, as described on <b>Account API Test</b> chapter.
 New Accounts can be created, <b>accounts_init_db.sql</b> script provides sample initial accounts values. 
 INSERT INTO public.account(
 	id, account_iban, balance, name)

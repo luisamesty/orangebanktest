@@ -121,6 +121,7 @@ Update values from a previosly created account. In this case we show account id 
         "account_iban": "ES9820385778983000760230",
         "balance": 10000.00,
         "initbalance": 10000.00
+        
 And will be changed to (New Values):
         "name": "Maria Alejandra Amesty",
         "account_iban": "ES9820385778983000760239",

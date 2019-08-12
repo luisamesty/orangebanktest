@@ -10,7 +10,7 @@ On this chapter i will write te TEST as they were made by me running the APP wit
 
 ## <b>ASUMPTIONS</b>
 <pre>
-FEES are not well defined, if they are positive or negative.
+<b>FEES</b> are not well defined, if they are positive or negative.
 Payload process is for registering Deducting and Addition transactions.
 Today Date is not well defined.
 PENDING, SETTLED, FUTURE, INVALID definition.
@@ -34,7 +34,7 @@ Zero hour.
 <b>- INVALID:</b> It means that transaction reference consulted does not exists.
 <b>- PENDING:</b> It means that transaction was made with today date and will be applyed after today day.
 </pre></pre>
-## <b>Business Logic Table</b>
+## <b>Business Logic Table Resume</b>
 | DATE         	| SOURCE   	| STATUS  	| Amount               	| Fee 	|
 |--------------	|----------	|---------	|----------------------	|-----	|
 | Before Today 	| CLIENT   	| SETTLED 	| YES (substract fee)  	| NO  	|

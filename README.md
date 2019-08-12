@@ -5,7 +5,7 @@ The goal of this code challenge is to create a microserviceTest APP using Java a
 ## <b>Important</b>
 
 It is highly recommended to follow the steps in the order indicated on this page.
-Special attention on PostgreSQL Database, tath has to be created before running APPs. Also Initial scripts for DB setup.
+Special attention on PostgreSQL Database, that has to be created before running APPs. Also Initial scripts for DB setup.
 If any question or suggestion, please write to me:
 <u>luisamesty@gmail.com</u>
 

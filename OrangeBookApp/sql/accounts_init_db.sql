@@ -1,6 +1,6 @@
 -- Account INIT DB
-ALTER TABLE public.account DROP CONSTRAINT IF EXISTS account_iban ;
-ALTER TABLE public.account ADD CONSTRAINT account_iban UNIQUE (account_iban);
+-- ALTER TABLE public.account DROP CONSTRAINT IF EXISTS account_iban ;
+-- ALTER TABLE public.account ADD CONSTRAINT account_iban UNIQUE (account_iban);
 
 INSERT INTO public.account(
 	id, account_iban, balance, name)

@@ -15,7 +15,7 @@ on Local Apache TOMCAT, and ready to accept request on:
 
 ## <b>ASUMPTIONS</b>
 <pre>
-FEES are not well defined, if they are positive or negative.
+<b>FEES</b> are not well defined, if they are positive or negative.
 Payload process is for registering Deducting and Addition transactions.
 I am asumming:
 <b>- FEES: </b>
